@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
 
 
-          SizedBox(height: 20.h),
+          SizedBox(height: 20.h), 
           Padding(padding: EdgeInsets.symmetric(horizontal: 10.w),
           
           child: 
@@ -87,7 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 5.h),
-            Text('I already have an account', style: TextStyle(fontFamily: 'RalewayRegular', fontSize: 13.sp, color: const Color.fromARGB(255, 87, 87, 87))),
+            TextButton(onPressed: () {}, child:  Text('I already have an account', style: TextStyle(fontFamily: 'RalewayRegular', fontSize: 13.sp, color: const Color.fromARGB(255, 87, 87, 87))),),
+           
 
 
             
