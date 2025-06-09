@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
 
       builder: (context, child) => MaterialApp(
-      title: 'Flutter Demo',
+      title: 'E-Commerce',
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     )
