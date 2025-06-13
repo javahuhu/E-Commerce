@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 130.h),
+        SizedBox(height: 80.h),
 
         SizedBox(
           height: 180.h,
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
          SizedBox(height: 40.h),
 
         Container(
-          height: 200.h,
+          height: 225.h,
           width: 325.w,
           decoration: BoxDecoration(
           color: Colors.white,
@@ -73,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
           height: 50.h,
           width: 280.w,
-          child: ElevatedButton(onPressed: () {}, 
+          child: ElevatedButton(
+          onPressed: () => context.go('/createaccount'),
           style: ElevatedButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r))),
           child: Text("Let's Get Started", style: TextStyle(fontFamily: 'RalewayRegular', fontSize: 17.sp),), 
           )),
@@ -87,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 5.h),
-            TextButton(onPressed: () {}, child:  Text('I already have an account', style: TextStyle(fontFamily: 'RalewayRegular', fontSize: 13.sp, color: const Color.fromARGB(255, 87, 87, 87))),),
+            TextButton(onPressed: () => context.go('/createaccount'), child:  Text('I already have an account', style: TextStyle(fontFamily: 'RalewayRegular', fontSize: 13.sp, color: const Color.fromARGB(255, 87, 87, 87))),),
            
 
 
