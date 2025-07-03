@@ -1,15 +1,18 @@
-import 'package:e_commercehybrid/View/forgotpassword.dart';
-import 'package:e_commercehybrid/View/otp.dart';
+import 'package:e_commercehybrid/View/CarouselIntro/carouselslider.dart';
+import 'package:e_commercehybrid/View/ForgotPassword/forgotpassword.dart';
+import 'package:e_commercehybrid/View/ForgotPassword/otp.dart';
+import 'package:e_commercehybrid/View/HomePage.dart/start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'splashscreen.dart';
 import 'package:go_router/go_router.dart';
-import 'View/homescreen.dart';
-import 'View/createaccount.dart';
-import 'View/login.dart';
+import 'View/FrontPage/homescreen.dart';
+import 'View/SignUp/createaccount.dart';
+import 'View/LogIn/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:e_commercehybrid/View/ForgotPassword/changepassword.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +46,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/login',
       builder: (BuildContext context, GoRouterState state) {
-        return const LoginScreen();
+        return LoginScreen();
       },
     ),
 
@@ -54,9 +57,28 @@ final GoRouter _router = GoRouter(
       },
     ),
 
-    GoRoute(path: '/otp',
+    GoRoute(
+      path: '/otp',
+      builder: (BuildContext context, GoRouterState state) {
+        return const OtpScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/changepassword',
+      builder: (BuildContext context, GoRouterState state) {
+        return  ChangepasswordScreen();
+      },
+    ),
+
+    GoRoute(path: '/carousel',
+    builder: (BuildContext context, GoRouterState state) {
+      return CarouselScreen();
+    }),
+
+    GoRoute(path: '/startscreen', 
     builder: (BuildContext context, GoRouterState state){
-      return const OtpScreen();
+      return StartScreen();
     })
   ],
 );

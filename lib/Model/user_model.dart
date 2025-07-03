@@ -40,3 +40,14 @@ class LoginRequest {
   }
 }
 
+class ChangePassword {
+  final String changepassword;
+  final String confirmchangepassword;
+
+  ChangePassword({required this.changepassword, required this.confirmchangepassword});
+
+  ChangePassword copyWith({String? changepassword, String? confirmchangepassword}) {
+    return ChangePassword(changepassword: changepassword ??  this.changepassword, confirmchangepassword: confirmchangepassword ?? this.confirmchangepassword);
+  }
+}
+

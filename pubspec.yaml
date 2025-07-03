@@ -19,6 +19,7 @@ dependencies:
   cloud_firestore: ^5.6.10
   fluttertoast: ^8.2.12
   flutter_otp_text_field: ^1.5.1+1
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +34,12 @@ flutter:
     - assets/shoppingbags.png
     - assets/email.webp
     - assets/testprofile.jpg
+    - assets/changepassword.webp
+    - assets/bucket.png
+    - assets/carousel1.png
+    - assets/carousel2.jpg
+    - assets/carousel3.png
+    - assets/carousel4.jpg
 
 
     - assets/fonts/RalewayBlack.ttf

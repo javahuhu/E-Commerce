@@ -1,20 +1,22 @@
+import 'package:e_commercehybrid/ViewModel/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../ViewModel/user_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+class LoginScreen extends ConsumerWidget{
+   LoginScreen({super.key});
 
-class _LoginScreenState extends State<LoginScreen> {
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController loginusername = TextEditingController();
   final TextEditingController loginpassword = TextEditingController();
+  final obscureprovider = StateProvider<bool>((ref) => true);
+  
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Color(0xFF9775FA),
 
@@ -87,6 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
                               ),
+
+                              onChanged: (value) => ref.read(userLoginProvider.notifier).updateLoginUsername(value),
                             ),
                           ),
 
@@ -96,7 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               vertical: 15.h,
                             ),
                             child: TextFormField(
+                              obscureText: ref.watch(obscureprovider),
                               controller: loginpassword,
+                              style: TextStyle(fontSize: 18.sp),
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 labelStyle: TextStyle(
@@ -115,7 +121,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
+
+                                suffixIcon: IconButton(
+                                icon: Icon(ref.watch(obscureprovider)? Icons.visibility : Icons.visibility_off, size: 22.sp, color: Colors.black,),
+                                onPressed: () => ref.read(obscureprovider.notifier).state ^= true)
                               ),
+
+                              
+
+                              onChanged: (value) => ref.read(userLoginProvider.notifier).updateLoginPassword(value),
                             ),
                           ),
 
@@ -150,7 +164,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 300.w,
                               height: 40.h,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                 final loginUsername = ref.watch(userLoginProvider).username;
+                                 final loginPassword = ref.watch(userLoginProvider).password;
+
+                                 loginAccount(context, loginUsername, loginPassword);
+
+                                 
+                                },
                                 style: ElevatedButton.styleFrom(
                                   shadowColor: Colors.transparent,
                                   splashFactory: NoSplash.splashFactory,

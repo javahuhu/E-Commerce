@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../ViewModel/user_view_model.dart';
-import '../ViewModel/register_view_model.dart';
+import '../../ViewModel/user_view_model.dart';
+import '../../ViewModel/register_view_model.dart';
 
 class CreateaccountScreen extends ConsumerWidget {
   CreateaccountScreen({super.key});
@@ -39,6 +39,7 @@ class CreateaccountScreen extends ConsumerWidget {
             ),
           ),
 
+       
           Column(
             children: [
               Padding(
@@ -101,9 +102,11 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: 'Username',
+                              icon: Icon(Icons.person, size: 32.sp, color: Colors.black,),
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
+                                
                               ),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -141,6 +144,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: "Email",
+                              icon: Icon(Icons.email_rounded, size: 32.sp, color: Colors.black,),
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -184,6 +188,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: "Password",
+                              icon: Icon(Icons.key_rounded, size: 32.sp, color: Colors.black,),
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -225,6 +230,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: 'Confirm Password',
+                              icon: Icon(Icons.password_rounded, size: 32.sp, color: Colors.black,),
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -275,19 +281,19 @@ class CreateaccountScreen extends ConsumerWidget {
                               ),
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
-                                  final email = ref.watch(userProvider).email;
-                                  final password = ref
+                                  final createEmail = ref.watch(userProvider).email;
+                                  final createPassword = ref
                                       .watch(userProvider)
                                       .password;
-                                  final username = ref
+                                  final createUsername = ref
                                       .watch(userProvider)
                                       .username;
 
                                   await registerAccount(
                                     context,
-                                    email,
-                                    password,
-                                    username,
+                                    createEmail,
+                                    createPassword,
+                                    createUsername,
                                   );
                                 }
                               },

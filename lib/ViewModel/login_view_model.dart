@@ -1,56 +1,52 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-Future<void> registerAccount(
+Future<void> loginAccount(
   BuildContext context,
-  String createEmail,
-  String createPassword,
-  String createUsername,
+  username,
+  String password,
 ) async {
   try {
     QuerySnapshot query = await FirebaseFirestore.instance
         .collection('Users')
-        .where('Username', isEqualTo: createUsername)
+        .where('Username', isEqualTo: username)
+        .limit(1)
         .get();
 
-    if (query.docs.isNotEmpty) {
+    if (query.docs.isEmpty) {
       Fluttertoast.showToast(
-        msg: 'Username already used',
+        msg: 'Username not found',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.redAccent,
         textColor: Colors.white,
       );
-
       return;
     }
-
-    final userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: createEmail, password: createPassword);
-
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(userCredential.user!.uid)
-        .set({'Username':createUsername, 'Email': createEmail});
-
-    Fluttertoast.showToast(
-      msg: 'Registered Successfully',
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.lightGreenAccent,
-      textColor: Colors.white,
-    );
 
     if (context.mounted) {
       context.go('/login');
     }
+
+    var userDoc = query.docs.first;
+    String email = userDoc['Email'];
+    String userId = userDoc.id;
+
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+
+    if (userCredential.user != null && userCredential.user!.uid == userId) {
+      if (context.mounted) {
+        context.go('/carousel');
+      }
+    }
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'email-already-in-use') {
+    if (e.code == 'wrong-password') {
       Fluttertoast.showToast(
-        msg: 'Email is already in use.',
+        msg: 'Incorrect Password',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.redAccent,
@@ -58,7 +54,7 @@ Future<void> registerAccount(
       );
     } else {
       Fluttertoast.showToast(
-        msg: 'Registration Failed',
+        msg: 'Login Failed Wrong Username or Password',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.redAccent,
