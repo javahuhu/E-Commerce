@@ -139,11 +139,10 @@ class LoginScreen extends ConsumerWidget{
                               padding: EdgeInsets.only(right: 15.w),
                               child: TextButton(
                                 onPressed: () => context.go('/forgotpassword'),
-                                style: TextButton.styleFrom(
-                                  elevation: 0.0,
-                                  splashFactory: NoSplash.splashFactory,
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
+                                style: ButtonStyle(
+                                  overlayColor: WidgetStatePropertyAll(Colors.transparent),
+                                  shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                                  elevation: WidgetStatePropertyAll(0)
                                 ),
                                 child: Text(
                                   'Forgot Password?',
@@ -169,6 +168,10 @@ class LoginScreen extends ConsumerWidget{
                                  final loginPassword = ref.watch(userLoginProvider).password;
 
                                  loginAccount(context, loginUsername, loginPassword);
+
+                                 if(formKey.currentState!.validate()) {
+                                  
+                                 }
 
                                  
                                 },

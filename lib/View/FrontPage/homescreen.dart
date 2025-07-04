@@ -114,6 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 5.h),
                         TextButton(
                           onPressed: () => context.go('/login'),
+
+                          style: ButtonStyle(
+                            shadowColor: WidgetStatePropertyAll(
+                              Colors.transparent,
+                            ),
+                            overlayColor: WidgetStatePropertyAll(Colors.transparent),
+                            elevation: WidgetStatePropertyAll(0)
+                          ),
+
                           child: Text(
                             'I already have an account',
                             style: TextStyle(

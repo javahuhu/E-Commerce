@@ -2,6 +2,7 @@ import 'package:e_commercehybrid/View/CarouselIntro/carouselslider.dart';
 import 'package:e_commercehybrid/View/ForgotPassword/forgotpassword.dart';
 import 'package:e_commercehybrid/View/ForgotPassword/otp.dart';
 import 'package:e_commercehybrid/View/HomePage.dart/start.dart';
+import 'package:e_commercehybrid/View/Profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,6 +80,10 @@ final GoRouter _router = GoRouter(
     GoRoute(path: '/startscreen', 
     builder: (BuildContext context, GoRouterState state){
       return StartScreen();
+    }),
+    GoRoute(path: '/profile',
+     builder: (BuildContext context, GoRouterState state){
+      return ProfileScreen();
     })
   ],
 );

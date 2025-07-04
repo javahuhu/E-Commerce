@@ -20,6 +20,7 @@ dependencies:
   fluttertoast: ^8.2.12
   flutter_otp_text_field: ^1.5.1+1
   carousel_slider: ^5.1.1
+  smooth_page_indicator: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,26 @@ flutter:
     - assets/carousel2.jpg
     - assets/carousel3.png
     - assets/carousel4.jpg
+    - assets/homeicon.png
+    - assets/homeactive.png
+    - assets/bookicon.png
+    - assets/bookactive.png
+    - assets/shoppingicon.png
+    - assets/shoppingactive.png
+    - assets/hearticon.png
+    - assets/heartactive.png
+    - assets/noprofile.png
+    - assets/filter.png
+    
+    - assets/promo1.jpg
+    - assets/promo2.jpg
+    - assets/promo3.jpg
+    - assets/promo4.jpg
+    - assets/sampleitem.jpeg
+    - assets/sampleitem2.jpeg
+    - assets/sampleitem3.jpeg
+    - assets/sampleitem4.jpg
+    - assets/sampleitem5.jpg
 
 
     - assets/fonts/RalewayBlack.ttf

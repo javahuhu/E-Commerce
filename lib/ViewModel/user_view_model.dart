@@ -23,6 +23,9 @@ class UserViewModel extends StateNotifier<User> {
   }
 }
 
+
+
+
 final userProvider = StateNotifierProvider<UserViewModel, User>((ref) {
   return UserViewModel();
 });
@@ -45,6 +48,9 @@ class LoginRequestModel extends StateNotifier<LoginRequest> {
       StateNotifierProvider<LoginRequestModel, LoginRequest>((ref) {
         return LoginRequestModel();
       });
+
+
+
 
 //Change Password  View Model
 class ChangePasswordModel extends StateNotifier<ChangePassword> {
