@@ -55,6 +55,54 @@ class ProfileScreen extends ConsumerWidget {
     },
   ];
 
+  final List<Map<String, dynamic>> orderbtn = [
+    {"text": 'Pay'},
+
+    {"text": 'Recieved'},
+
+    {"text": 'Review'},
+  ];
+
+  final List<Map<String, String>> newitems = [
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+    {
+      "newimg": 'assets/sampleitem2.jpeg',
+      "description": 'Lorem ipsum dolor sit amet consectetur.',
+    },
+  ];
+
+  final List<Map<String, dynamic>> popularimg = [
+    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
+    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
+    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
+    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
+    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
+    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
+  ];
+
   final selectIndexProvider = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
 
@@ -102,7 +150,7 @@ class ProfileScreen extends ConsumerWidget {
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
+                              backgroundColor: Color(0xFFFF9F9F),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadiusGeometry.circular(
                                   50.r,
@@ -113,8 +161,8 @@ class ProfileScreen extends ConsumerWidget {
                               'My Activity',
                               style: TextStyle(
                                 fontFamily: 'RalewayRegular',
-                                fontSize: 15.sp,
-                                color: Colors.white,
+                                fontSize: 16.sp,
+                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -165,6 +213,7 @@ class ProfileScreen extends ConsumerWidget {
                         fontFamily: 'RalewayRegular',
                         fontSize: 22.sp,
                         color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -174,15 +223,13 @@ class ProfileScreen extends ConsumerWidget {
                   height: 62.w,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(left: 25.w),
+                    padding: EdgeInsets.symmetric(horizontal: 25.w),
                     separatorBuilder: (_, __) => SizedBox(width: 15.w),
                     itemCount: recentimg.length,
                     itemBuilder: (context, index) {
                       final recent = recentimg[index];
                       return GestureDetector(
-                        onTap: () {
-                          ref.read(selectIndexProvider.notifier).state = index;
-                        },
+                        onTap: () {},
                         child: Container(
                           height: 60.w,
                           width: 60.w,
@@ -206,99 +253,390 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
 
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SafeArea(
-                    child: Container(
-                      height: 50.h,
-                      padding: EdgeInsets.all(12),
-                      margin: EdgeInsets.symmetric(horizontal: 24.w),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF9775FA),
-                        borderRadius: BorderRadius.circular(24.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFF9775FA).withValues(alpha: 0.3),
-                            offset: Offset(0, 10),
-                            blurRadius: 20,
-                          ),
-                        ],
-                      ),
-
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: navicons.asMap().entries.map((entry) {
-                          int index = entry.key;
-                          var item = entry.value;
-
-                          return GestureDetector(
-                            onTap: () {
-                              ref.read(selectnavIndex.notifier).state = index;
-
-                              if (ref.watch(selectnavIndex) == 0) {
-                                context.go('/startscreen');
-                              }
-
-                              if (ref.watch(selectnavIndex) == 1) {
-                                context.go('/');
-                              }
-
-                              if (ref.watch(selectnavIndex) == 2) {
-                                context.go('/');
-                              }
-
-                              if (ref.watch(selectnavIndex) == 3) {
-                                context.go('/profile');
-                              }
-
-                              if (ref.watch(selectnavIndex) == 4) {
-                                context.go('/profile');
-                              }
-                            },
-
-                            child: item['type'] == 'profile'
-                                ? Container(
-                                    height: 35.w,
-                                    width: 35.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(
-                                        100.r,
-                                      ),
-                                      border: Border.all(
-                                        color:
-                                            ref.watch(selectnavIndex) == index
-                                            ? Colors.white
-                                            : Color(0xFF9775FA),
-                                        width: 2.5.w,
-                                      ),
-                                    ),
-
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadiusGeometry.circular(100.r),
-                                      child: Image.asset(
-                                        item['iconsdefault'],
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(
-                                    height: 25.h,
-                                    width: 25.w,
-                                    child: Image.asset(
-                                      ref.watch(selectnavIndex) == index
-                                          ? item['iconActive']
-                                          : item['iconsdefault'],
-                                    ),
-                                  ),
-                          );
-                        }).toList(),
+                Padding(
+                  padding: EdgeInsets.only(left: 25.5.w, top: 25.h),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'My order',
+                      style: TextStyle(
+                        fontFamily: 'RalewayRegular',
+                        fontSize: 22.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
+
+                Padding(
+                  padding: EdgeInsetsGeometry.only(
+                    left: 24.w,
+                    top: 15.h,
+                    right: 5.w,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ...List.generate(orderbtn.length, (index) {
+                        return SizedBox(
+                          height: 30.h,
+                          width: 105.w,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFFE5EBFC),
+                              foregroundColor: Color(0xFF9775FA),
+                              shadowColor: Colors.transparent,
+                              overlayColor: Colors.transparent,
+                              splashFactory: NoSplash.splashFactory,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                            ),
+                            child: Text(
+                              orderbtn[index]['text'],
+                              style: TextStyle(
+                                fontFamily: 'RalewayRegular',
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 25.h),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 25.w, right: 25.w),
+                    child: Row(
+                      children: [
+                        Text(
+                          'New Items',
+                          style: TextStyle(
+                            fontFamily: 'RalewayRegular',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        SizedBox(width: 100.w),
+                        Text(
+                          'See All',
+                          style: TextStyle(
+                            fontFamily: 'RalewayRegular',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 14.w),
+
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 30.w,
+                            width: 30.w,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100.r),
+                              color: Color(0xFF9775FA),
+                            ),
+
+                            child: Icon(
+                              Icons.arrow_right_alt_sharp,
+                              size: 20.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+
+                SizedBox(
+                  height: 165.h,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 25.w),
+                    itemCount: newitems.length,
+                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    itemBuilder: (context, index) {
+                      final img = newitems[index];
+                      final txt = newitems[index];
+                      return Column(
+                        children: [
+                          Container(
+                            height: 120.h,
+                            width: 140.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 5),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: Image.asset(
+                                  img['newimg']!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 140.w,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: 3.w,
+                                top: 10.h,
+                              ),
+                              child: Text(
+                                txt['description']!,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 25.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 25.w, right: 25.w),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Most Popular',
+                          style: TextStyle(
+                            fontFamily: 'RalewayRegular',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 75.w),
+                        Text(
+                          'See All',
+                          style: TextStyle(
+                            fontFamily: 'RalewayRegular',
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        SizedBox(width: 14.w),
+
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 30.w,
+                            width: 30.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100.r),
+                              color: Color(0xFF9775FA),
+                            ),
+                            child: Icon(
+                              Icons.arrow_right_alt_sharp,
+                              size: 20.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+                SizedBox(
+                  height: 150.h,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 25.w),
+                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    itemCount: popularimg.length,
+                    itemBuilder: (context, index) {
+                      final popular = popularimg[index];
+                      final desc = popularimg[index];
+                      final event = popularimg[index];
+                      return Column(
+                        children: [
+                          Container(
+                            height: 130.h,
+                            width: 100.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.r),
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 5),
+                              ],
+                            ),
+
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: Image.asset(popular['popular']!),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        desc['like']!,
+                                        style: TextStyle(
+                                          fontFamily: 'RalewayRegular',
+                                          fontSize: 12.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.favorite,
+                                        size: 15.sp,
+                                        color: Colors.red,
+                                      ),
+
+                                      SizedBox(width: 10.8.w,),
+
+                                      Text(
+                                        event['event']!,
+                                        style: TextStyle(
+                                          fontFamily: 'RalewayRegular',
+                                          fontSize: 13.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 50.h),
               ],
+            ),
+          ),
+
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SafeArea(
+              child: Container(
+                height: 50.h,
+                padding: EdgeInsets.all(12),
+                margin: EdgeInsets.symmetric(horizontal: 24.w),
+                decoration: BoxDecoration(
+                  color: Color(0xFF9775FA),
+                  borderRadius: BorderRadius.circular(24.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFF9775FA).withValues(alpha: 0.3),
+                      offset: Offset(0, 10),
+                      blurRadius: 20,
+                    ),
+                  ],
+                ),
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: navicons.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    var item = entry.value;
+
+                    return GestureDetector(
+                      onTap: () {
+                        ref.read(selectnavIndex.notifier).state = index;
+
+                        if (ref.watch(selectnavIndex) == 0) {
+                          context.go('/startscreen');
+                        }
+
+                        if (ref.watch(selectnavIndex) == 1) {
+                          context.go('/');
+                        }
+
+                        if (ref.watch(selectnavIndex) == 2) {
+                          context.go('/');
+                        }
+
+                        if (ref.watch(selectnavIndex) == 3) {
+                          context.go('/profile');
+                        }
+
+                        if (ref.watch(selectnavIndex) == 4) {
+                          context.go('/profile');
+                        }
+                      },
+
+                      child: item['type'] == 'profile'
+                          ? Container(
+                              height: 35.w,
+                              width: 35.w,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(100.r),
+                                border: Border.all(
+                                  color: ref.watch(selectnavIndex) == index
+                                      ? Color(0xFF9775FA)
+                                      : Colors.white,
+                                  width: 2.5.w,
+                                ),
+                              ),
+
+                              child: ClipRRect(
+                                borderRadius: BorderRadiusGeometry.circular(
+                                  100.r,
+                                ),
+                                child: Image.asset(
+                                  item['iconsdefault'],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 25.h,
+                              width: 25.w,
+                              child: Image.asset(item['iconsdefault']),
+                            ),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
           ),
         ],
