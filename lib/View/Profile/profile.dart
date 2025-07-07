@@ -168,7 +168,7 @@ class ProfileScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 14.w),
+                      SizedBox(width: 13.w),
 
                       SizedBox(
                         height: 35.h,
@@ -182,7 +182,7 @@ class ProfileScreen extends ConsumerWidget {
 
                               child: Container(
                                 height: 30.h,
-                                width: 30.h,
+                                width: 35.w,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: const Color.fromARGB(
@@ -191,7 +191,7 @@ class ProfileScreen extends ConsumerWidget {
                                     234,
                                     234,
                                   ),
-                                  borderRadius: BorderRadius.circular(25.r),
+                                  borderRadius: BorderRadius.circular(100.r),
                                 ),
                                 child: Icon(iconItems),
                               ),

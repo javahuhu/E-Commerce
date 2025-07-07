@@ -86,9 +86,11 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false, 
       body: Stack(
         children: [
           SingleChildScrollView(
+            
             child: Column(
               children: [
                 SizedBox(height: 25.h),
