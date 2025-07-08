@@ -13,18 +13,18 @@ class ProfileScreen extends ConsumerWidget {
   ];
 
   final List<Map<String, String>> recentimg = [
-    {"img": 'assets/sampleitem2.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem3.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem4.jpg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem5.jpg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem2.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem3.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem4.jpg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem5.jpg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem2.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem3.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem4.jpg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem5.jpg', "title": 'Shoes', "noItems": '109'},
+    {"img": 'assets/sampleitem2.jpeg',},
+    {"img": 'assets/sampleitem3.jpeg', },
+    {"img": 'assets/sampleitem4.jpg', },
+    {"img": 'assets/sampleitem5.jpg', },
+    {"img": 'assets/sampleitem2.jpeg', },
+    {"img": 'assets/sampleitem3.jpeg', },
+    {"img": 'assets/sampleitem4.jpg', },
+    {"img": 'assets/sampleitem5.jpg', },
+    {"img": 'assets/sampleitem2.jpeg', },
+    {"img": 'assets/sampleitem3.jpeg', },
+    {"img": 'assets/sampleitem4.jpg', },
+    {"img": 'assets/sampleitem5.jpg', },
   ];
 
   final List<Map<String, dynamic>> navicons = [
@@ -220,7 +220,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
 
                 SizedBox(
-                  height: 62.w,
+                  height: 60.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -231,6 +231,7 @@ class ProfileScreen extends ConsumerWidget {
                       return GestureDetector(
                         onTap: () {},
                         child: Container(
+                          margin: EdgeInsets.only(top: 3.h,bottom: 3.h),
                           height: 60.w,
                           width: 60.w,
                           decoration: BoxDecoration(
@@ -314,33 +315,33 @@ class ProfileScreen extends ConsumerWidget {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(left: 25.w, right: 25.w),
-                    child: Row(
-                      children: [
-                        Text(
-                          'New Items',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 22.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            'New Items',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 22.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
 
-                        SizedBox(width: 100.w),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 15.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(width: 100.w),
+                          Text(
+                            'See All',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 14.w),
+                          SizedBox(width: 14.w),
 
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
+                          Container(
                             height: 30.w,
                             width: 30.w,
                             alignment: Alignment.center,
@@ -355,8 +356,8 @@ class ProfileScreen extends ConsumerWidget {
                               color: Colors.white,
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -364,7 +365,7 @@ class ProfileScreen extends ConsumerWidget {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 165.h,
+                  height: 170.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -376,6 +377,7 @@ class ProfileScreen extends ConsumerWidget {
                       return Column(
                         children: [
                           Container(
+                            margin: EdgeInsets.only(top: 5.h),
                             height: 120.h,
                             width: 140.w,
                             decoration: BoxDecoration(
@@ -400,10 +402,7 @@ class ProfileScreen extends ConsumerWidget {
                           SizedBox(
                             width: 140.w,
                             child: Padding(
-                              padding: EdgeInsets.only(
-                                right: 3.w,
-                                top: 10.h,
-                              ),
+                              padding: EdgeInsets.only(right: 3.w, top: 10.h),
                               child: Text(
                                 txt['description']!,
                                 style: TextStyle(
@@ -424,33 +423,33 @@ class ProfileScreen extends ConsumerWidget {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(left: 25.w, right: 25.w),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Most Popular',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 22.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            'Most Popular',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 22.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 75.w),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 15.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(width: 75.w),
+                          Text(
+                            'See All',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
 
-                        SizedBox(width: 14.w),
+                          SizedBox(width: 14.w),
 
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
+                          Container(
                             height: 30.w,
                             width: 30.w,
                             decoration: BoxDecoration(
@@ -463,8 +462,8 @@ class ProfileScreen extends ConsumerWidget {
                               color: Colors.white,
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -484,6 +483,7 @@ class ProfileScreen extends ConsumerWidget {
                       return Column(
                         children: [
                           Container(
+                            margin: EdgeInsets.only(top: 5.h),
                             height: 130.h,
                             width: 100.w,
                             decoration: BoxDecoration(
@@ -525,7 +525,7 @@ class ProfileScreen extends ConsumerWidget {
                                         color: Colors.red,
                                       ),
 
-                                      SizedBox(width: 10.8.w,),
+                                      SizedBox(width: 10.8.w),
 
                                       Text(
                                         event['event']!,
@@ -548,7 +548,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 50.h),
+                SizedBox(height: 100.h),
               ],
             ),
           ),
@@ -591,11 +591,11 @@ class ProfileScreen extends ConsumerWidget {
                         }
 
                         if (ref.watch(selectnavIndex) == 2) {
-                          context.go('/');
+                          context.go('/wishlist');
                         }
 
                         if (ref.watch(selectnavIndex) == 3) {
-                          context.go('/profile');
+                          context.go('/cart');
                         }
 
                         if (ref.watch(selectnavIndex) == 4) {
@@ -605,8 +605,8 @@ class ProfileScreen extends ConsumerWidget {
 
                       child: item['type'] == 'profile'
                           ? Container(
-                              height: 35.w,
-                              width: 35.w,
+                              height: 30.w,
+                              width: 30.w,
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(100.r),

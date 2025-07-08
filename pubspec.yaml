@@ -51,6 +51,10 @@ flutter:
     - assets/heartactive.png
     - assets/noprofile.png
     - assets/filter.png
+    - assets/addtocart.png
+    - assets/trash.png
+    - assets/addbtn.png
+    - assets/minusbtn.png
     
     - assets/promo1.jpg
     - assets/promo2.jpg

@@ -3,6 +3,9 @@ import 'package:e_commercehybrid/View/ForgotPassword/forgotpassword.dart';
 import 'package:e_commercehybrid/View/ForgotPassword/otp.dart';
 import 'package:e_commercehybrid/View/HomePage.dart/start.dart';
 import 'package:e_commercehybrid/View/Profile/profile.dart';
+import 'package:e_commercehybrid/View/Recentviewed/recentlyviewed.dart';
+import 'package:e_commercehybrid/View/addtocart/addtocart.dart';
+import 'package:e_commercehybrid/View/wishlist/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,23 +71,50 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/changepassword',
       builder: (BuildContext context, GoRouterState state) {
-        return  ChangepasswordScreen();
+        return ChangepasswordScreen();
       },
     ),
 
-    GoRoute(path: '/carousel',
-    builder: (BuildContext context, GoRouterState state) {
-      return CarouselScreen();
-    }),
+    GoRoute(
+      path: '/carousel',
+      builder: (BuildContext context, GoRouterState state) {
+        return CarouselScreen();
+      },
+    ),
 
-    GoRoute(path: '/startscreen', 
-    builder: (BuildContext context, GoRouterState state){
-      return StartScreen();
-    }),
-    GoRoute(path: '/profile',
-     builder: (BuildContext context, GoRouterState state){
-      return ProfileScreen();
-    })
+    GoRoute(
+      path: '/startscreen',
+      builder: (BuildContext context, GoRouterState state) {
+        return StartScreen();
+      },
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (BuildContext context, GoRouterState state) {
+        return ProfileScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/wishlist',
+      builder: (BuildContext context, GoRouterState state) {
+        return WishlistScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/recentviewed',
+      builder: (BuildContext context, GoRouterState state) {
+        return RecentviewScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/cart',
+      builder: (BuildContext context, GoRouterState state) {
+        return CartScreen();
+      },
+    ),
   ],
 );
 

@@ -75,58 +75,116 @@ class _StartScreenState extends State<StartScreen> {
     {"img": 'assets/sampleitem.jpeg'},
   ];
 
-  final List<Map<String, String>> product1 = [
-    {"img": 'assets/sampleitem2.jpeg', "title": 'Shoes', "noItems": '109'},
-    {"img": 'assets/sampleitem3.jpeg', "title": 'Clothes', "noItems": '109'},
-    {"img": 'assets/sampleitem4.jpg', "title": 'Dress', "noItems": '109'},
-    {"img": 'assets/sampleitem5.jpg', "title": 'T-Shirt', "noItems": '109'},
+  final List<Map<String, dynamic>> product1 = [
+    {
+      "img": [
+        'assets/sampleitem.jpeg',
+        'assets/sampleitem2.jpeg',
+        'assets/sampleitem3.jpeg',
+        'assets/sampleitem4.jpg',
+      ],
+      "title": 'Shoes',
+      "noItems": '109',
+    },
+    {
+      "img": [
+        'assets/sampleitem.jpeg',
+        'assets/sampleitem2.jpeg',
+        'assets/sampleitem3.jpeg',
+        'assets/sampleitem4.jpg',
+      ],
+      "title": 'Clothes',
+      "noItems": '109',
+    },
+    {
+      "img": [
+        'assets/sampleitem.jpeg',
+        'assets/sampleitem2.jpeg',
+        'assets/sampleitem3.jpeg',
+        'assets/sampleitem4.jpg',
+      ],
+      "title": 'Dress',
+      "noItems": '109',
+    },
+    {
+      "img": [
+        'assets/sampleitem.jpeg',
+        'assets/sampleitem2.jpeg',
+        'assets/sampleitem3.jpeg',
+        'assets/sampleitem4.jpg',
+      ],
+      "title": 'T-Shirt',
+      "noItems": '109',
+    },
+  ];
+
+  final List<Map<String, dynamic>> live = [
+    {"img": 'assets/sampleitem2.jpeg'},
+    {"img": 'assets/sampleitem3.jpeg'},
+    {"img": 'assets/sampleitem4.jpg'},
+    {"img": 'assets/sampleitem5.jpg'},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false, 
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SingleChildScrollView(
-            
             child: Column(
               children: [
                 SizedBox(height: 25.h),
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(
-                    horizontal: 25.w,
+                    horizontal: 10.w,
                     vertical: 25.h,
                   ),
-                  child: SizedBox(
-                    height: 35.h,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsetsGeometry.symmetric(
-                          vertical: 5.h,
-                          horizontal: 10.w,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Shop',
+                        style: TextStyle(
+                          fontFamily: 'Raleway',
+                          fontSize: 38.sp,
+                          color: Colors.black,
                         ),
-                        hintText: 'Search...',
-                        filled: true,
-                        fillColor: Colors.grey[100],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100.r),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.camera_alt_outlined),
-                        ),
+                      ),
+                      SizedBox(width: 10.w),
 
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100.r),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 1.w,
+                      Expanded(
+                        child: SizedBox(
+                          height: 35.h,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsetsGeometry.symmetric(
+                                vertical: 5.h,
+                                horizontal: 10.w,
+                              ),
+                              hintText: 'Search...',
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.camera_alt_outlined),
+                              ),
+
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(100.r),
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                  width: 1.w,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
 
@@ -147,8 +205,9 @@ class _StartScreenState extends State<StartScreen> {
                                   child: Stack(
                                     children: [
                                       ClipRRect(
-                                        borderRadius:
-                                            BorderRadiusGeometry.circular(10.r),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
                                         child: Image.asset(
                                           promo['img']!,
                                           height: 130.h,
@@ -294,6 +353,9 @@ class _StartScreenState extends State<StartScreen> {
                     ),
                     itemBuilder: (context, index) {
                       final sample = product1[index];
+                      final List<String> images = List<String>.from(
+                        sample['img'],
+                      );
                       return GestureDetector(
                         onTap: () {},
                         child: Container(
@@ -311,19 +373,20 @@ class _StartScreenState extends State<StartScreen> {
                               Wrap(
                                 spacing: 5,
                                 runSpacing: 5,
-                                children: List.generate(4, (index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadiusGeometry.circular(
-                                      8.r,
-                                    ),
-                                    child: Image.asset(
-                                      sample['img']!,
-                                      width: 60.w,
-                                      height: 60.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
-                                }),
+                                children: List.generate(
+                                  images.length > 4 ? 4 : images.length,
+                                  (imgindex) {
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      child: Image.asset(
+                                        images[imgindex],
+                                        width: 60.w,
+                                        height: 60.h,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
 
                               SizedBox(height: 8.h),
@@ -368,7 +431,116 @@ class _StartScreenState extends State<StartScreen> {
                   ),
                 ),
 
+                Padding(
+                  padding: EdgeInsets.only(left: 25.w, top: 30.h),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Stories',
+                      style: TextStyle(
+                        fontFamily: 'RalewayRegular',
+                        fontSize: 22.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                ),
+
                 SizedBox(height: 25.h),
+
+                SizedBox(
+                  height: 200.h,
+                  child: ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    itemCount: live.length,
+                    itemBuilder: (context, index) {
+                      final liveimg = live[index];
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                          height: 175.h,
+                          width: 125.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5),
+                            ],
+                          ),
+
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5.r),
+                            child: Image.asset(
+                              liveimg['img']!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 25.h),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Row(
+                        
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          
+                          Text(
+                            'For You',
+                            style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 25.sp,
+                              color: Colors.black,
+                            ),
+                          ),
+
+                          
+                           SizedBox(width: 120.w),
+                          Text(
+                            'See All',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                         
+
+                          Container(
+                            height: 30.w,
+                            width: 30.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFF9775FA),
+                            ),
+
+                            child: Icon(
+                              Icons.arrow_right_alt_sharp,
+                              size: 20.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
 
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 15.w),
@@ -385,77 +557,82 @@ class _StartScreenState extends State<StartScreen> {
                     itemCount: product.length,
                     itemBuilder: (BuildContext ctx, index) {
                       final newProduct = product[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.r),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black26, blurRadius: 8),
-                          ],
-                        ),
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.r),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black26, blurRadius: 8),
+                            ],
+                          ),
 
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 110.h,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5.r),
-                                  topRight: Radius.circular(5.r),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 110.h,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(5.r),
+                                    topRight: Radius.circular(5.r),
+                                  ),
+
+                                  image: DecorationImage(
+                                    image: AssetImage(newProduct['img']!),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
+                              ),
 
-                                image: DecorationImage(
-                                  image: AssetImage(newProduct['img']!),
-                                  fit: BoxFit.cover,
+                              SizedBox(height: 5),
+
+                              Padding(
+                                padding: EdgeInsetsGeometry.symmetric(
+                                  horizontal: 15.w,
+                                ),
+                                child: Text(
+                                  'Soft Violet Everyday Shirt',
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            ),
 
-                            SizedBox(height: 5),
-
-                            Padding(
-                              padding: EdgeInsetsGeometry.symmetric(
-                                horizontal: 15.w,
+                              SizedBox(height: 2),
+                              Padding(
+                                padding: EdgeInsetsGeometry.symmetric(
+                                  horizontal: 15.w,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: List.generate(5, (index) {
+                                    return Icon(
+                                      index < 4
+                                          ? Icons.star
+                                          : Icons.star_border,
+                                      color: Colors.amber,
+                                      size: 15.sp,
+                                    );
+                                  }),
+                                ),
                               ),
-                              child: Text(
-                                'Soft Violet Everyday Shirt',
-                                maxLines: 1,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
+                              SizedBox(height: 5.h),
+                              Padding(
+                                padding: EdgeInsetsGeometry.symmetric(
+                                  horizontal: 15.w,
+                                ),
+                                child: Text(
+                                  '₱250',
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ),
-
-                            SizedBox(height: 2),
-                            Padding(
-                              padding: EdgeInsetsGeometry.symmetric(
-                                horizontal: 15.w,
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: List.generate(5, (index) {
-                                  return Icon(
-                                    index < 4 ? Icons.star : Icons.star_border,
-                                    color: Colors.amber,
-                                    size: 15.sp,
-                                  );
-                                }),
-                              ),
-                            ),
-                            SizedBox(height: 5.h),
-                            Padding(
-                              padding: EdgeInsetsGeometry.symmetric(
-                                horizontal: 15.w,
-                              ),
-                              child: Text(
-                                '₱250',
-                                maxLines: 1,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -503,11 +680,11 @@ class _StartScreenState extends State<StartScreen> {
                         }
 
                         if (selectIndex == 2) {
-                          context.go('/');
+                          context.go('/wishlist');
                         }
 
                         if (selectIndex == 3) {
-                          context.go('/');
+                          context.go('/cart');
                         }
 
                         if (selectIndex == 4) {
@@ -517,8 +694,8 @@ class _StartScreenState extends State<StartScreen> {
 
                       child: item['type'] == 'profile'
                           ? Container(
-                              height: 35.w,
-                              width: 35.w,
+                              height: 30.w,
+                              width: 30.w,
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(100.r),
@@ -531,9 +708,7 @@ class _StartScreenState extends State<StartScreen> {
                               ),
 
                               child: ClipRRect(
-                                borderRadius: BorderRadiusGeometry.circular(
-                                  100.r,
-                                ),
+                                borderRadius: BorderRadius.circular(100.r),
                                 child: Image.asset(
                                   item['iconsdefault'],
                                   fit: BoxFit.cover,
