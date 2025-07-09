@@ -1,3 +1,6 @@
+import 'package:e_commercehybrid/ViewModel/newitem_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/popularproduct_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/recentproduct_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,20 +15,6 @@ class ProfileScreen extends ConsumerWidget {
     Icons.settings,
   ];
 
-  final List<Map<String, String>> recentimg = [
-    {"img": 'assets/sampleitem2.jpeg',},
-    {"img": 'assets/sampleitem3.jpeg', },
-    {"img": 'assets/sampleitem4.jpg', },
-    {"img": 'assets/sampleitem5.jpg', },
-    {"img": 'assets/sampleitem2.jpeg', },
-    {"img": 'assets/sampleitem3.jpeg', },
-    {"img": 'assets/sampleitem4.jpg', },
-    {"img": 'assets/sampleitem5.jpg', },
-    {"img": 'assets/sampleitem2.jpeg', },
-    {"img": 'assets/sampleitem3.jpeg', },
-    {"img": 'assets/sampleitem4.jpg', },
-    {"img": 'assets/sampleitem5.jpg', },
-  ];
 
   final List<Map<String, dynamic>> navicons = [
     {
@@ -63,51 +52,15 @@ class ProfileScreen extends ConsumerWidget {
     {"text": 'Review'},
   ];
 
-  final List<Map<String, String>> newitems = [
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-    {
-      "newimg": 'assets/sampleitem2.jpeg',
-      "description": 'Lorem ipsum dolor sit amet consectetur.',
-    },
-  ];
-
-  final List<Map<String, dynamic>> popularimg = [
-    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
-    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
-    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
-    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
-    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
-    {"popular": 'assets/sampleitem2.jpeg', "like": '1700', "event": 'Sale'},
-  ];
 
   final selectIndexProvider = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final newitem = ref.watch(newitemProvider);
+    final recentproduct = ref.watch(recentproductProvider);
+    final popularproduct = ref.watch(popularproductProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -225,9 +178,9 @@ class ProfileScreen extends ConsumerWidget {
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
                     separatorBuilder: (_, __) => SizedBox(width: 15.w),
-                    itemCount: recentimg.length,
+                    itemCount: recentproduct.length,
                     itemBuilder: (context, index) {
-                      final recent = recentimg[index];
+                      final recent = recentproduct[index];
                       return GestureDetector(
                         onTap: () {},
                         child: Container(
@@ -244,7 +197,7 @@ class ProfileScreen extends ConsumerWidget {
 
                           child: ClipOval(
                             child: Image.asset(
-                              recent['img']!,
+                              recent.image,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -369,11 +322,11 @@ class ProfileScreen extends ConsumerWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
-                    itemCount: newitems.length,
+                    itemCount: newitem.length,
                     separatorBuilder: (_, __) => SizedBox(width: 15.w),
                     itemBuilder: (context, index) {
-                      final img = newitems[index];
-                      final txt = newitems[index];
+                      final img = newitem[index];
+                      final txt = newitem[index];
                       return Column(
                         children: [
                           Container(
@@ -392,7 +345,7 @@ class ProfileScreen extends ConsumerWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.r),
                                 child: Image.asset(
-                                  img['newimg']!,
+                                  img.image,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -404,7 +357,7 @@ class ProfileScreen extends ConsumerWidget {
                             child: Padding(
                               padding: EdgeInsets.only(right: 3.w, top: 10.h),
                               child: Text(
-                                txt['description']!,
+                                txt.title,
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   color: Colors.black,
@@ -475,11 +428,11 @@ class ProfileScreen extends ConsumerWidget {
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
                     separatorBuilder: (_, __) => SizedBox(width: 15.w),
-                    itemCount: popularimg.length,
+                    itemCount: popularproduct.length,
                     itemBuilder: (context, index) {
-                      final popular = popularimg[index];
-                      final desc = popularimg[index];
-                      final event = popularimg[index];
+                      final popular = popularproduct[index];
+                      final desc = popularproduct[index];
+                      final event = popularproduct[index];
                       return Column(
                         children: [
                           Container(
@@ -501,7 +454,7 @@ class ProfileScreen extends ConsumerWidget {
 
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.r),
-                                    child: Image.asset(popular['popular']!),
+                                    child: Image.asset(popular.image),
                                   ),
                                 ),
                                 Padding(
@@ -511,7 +464,7 @@ class ProfileScreen extends ConsumerWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        desc['like']!,
+                                        desc.like,
                                         style: TextStyle(
                                           fontFamily: 'RalewayRegular',
                                           fontSize: 12.sp,
@@ -528,7 +481,7 @@ class ProfileScreen extends ConsumerWidget {
                                       SizedBox(width: 10.8.w),
 
                                       Text(
-                                        event['event']!,
+                                        event.status,
                                         style: TextStyle(
                                           fontFamily: 'RalewayRegular',
                                           fontSize: 13.sp,

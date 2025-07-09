@@ -5,6 +5,7 @@ import 'package:e_commercehybrid/View/HomePage.dart/start.dart';
 import 'package:e_commercehybrid/View/Profile/profile.dart';
 import 'package:e_commercehybrid/View/Recentviewed/recentlyviewed.dart';
 import 'package:e_commercehybrid/View/addtocart/addtocart.dart';
+import 'package:e_commercehybrid/View/chooseproduct/chooseproduct.dart';
 import 'package:e_commercehybrid/View/wishlist/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -113,6 +114,13 @@ final GoRouter _router = GoRouter(
       path: '/cart',
       builder: (BuildContext context, GoRouterState state) {
         return CartScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/chooseproduct',
+      builder: (BuildContext context, GoRouterState state) {
+        return Chooseitem();
       },
     ),
   ],

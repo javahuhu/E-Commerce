@@ -1,20 +1,19 @@
+import 'package:e_commercehybrid/ViewModel/category_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/recommendation_view_model..dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class StartScreen extends StatefulWidget {
+class StartScreen extends ConsumerWidget {
   @override
-  const StartScreen({super.key});
+  StartScreen({super.key});
 
-  @override
-  State<StartScreen> createState() => _StartScreenState();
-}
-
-class _StartScreenState extends State<StartScreen> {
-  int selectIndex = 0;
-  int currentIndex = 0;
+  final currentIndex = StateProvider<int>((ref) => 0);
+  final selectnavIndex = StateProvider<int>((ref) => 0);
+  
 
   final List<Map<String, dynamic>> navicons = [
     {
@@ -63,60 +62,6 @@ class _StartScreenState extends State<StartScreen> {
     },
   ];
 
-  final List<Map<String, String>> product = [
-    {"img": 'assets/sampleitem.jpeg'},
-
-    {"img": 'assets/sampleitem.jpeg'},
-
-    {"img": 'assets/sampleitem.jpeg'},
-
-    {"img": 'assets/sampleitem.jpeg'},
-    {"img": 'assets/sampleitem.jpeg'},
-    {"img": 'assets/sampleitem.jpeg'},
-  ];
-
-  final List<Map<String, dynamic>> product1 = [
-    {
-      "img": [
-        'assets/sampleitem.jpeg',
-        'assets/sampleitem2.jpeg',
-        'assets/sampleitem3.jpeg',
-        'assets/sampleitem4.jpg',
-      ],
-      "title": 'Shoes',
-      "noItems": '109',
-    },
-    {
-      "img": [
-        'assets/sampleitem.jpeg',
-        'assets/sampleitem2.jpeg',
-        'assets/sampleitem3.jpeg',
-        'assets/sampleitem4.jpg',
-      ],
-      "title": 'Clothes',
-      "noItems": '109',
-    },
-    {
-      "img": [
-        'assets/sampleitem.jpeg',
-        'assets/sampleitem2.jpeg',
-        'assets/sampleitem3.jpeg',
-        'assets/sampleitem4.jpg',
-      ],
-      "title": 'Dress',
-      "noItems": '109',
-    },
-    {
-      "img": [
-        'assets/sampleitem.jpeg',
-        'assets/sampleitem2.jpeg',
-        'assets/sampleitem3.jpeg',
-        'assets/sampleitem4.jpg',
-      ],
-      "title": 'T-Shirt',
-      "noItems": '109',
-    },
-  ];
 
   final List<Map<String, dynamic>> live = [
     {"img": 'assets/sampleitem2.jpeg'},
@@ -126,7 +71,12 @@ class _StartScreenState extends State<StartScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categoryproduct = ref.watch(categoryProvider);
+    final activeIndex = ref.watch(currentIndex);
+    final recommendation = ref.watch(recommendationProvider);
+
+    
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -284,15 +234,14 @@ class _StartScreenState extends State<StartScreen> {
                     viewportFraction: 1,
                     enableInfiniteScroll: true,
                     onPageChanged: (index, reason) {
-                      setState(() {
-                        currentIndex = index;
-                      });
+                      ref.read(currentIndex.notifier).state = index;
+                     
                     },
                   ),
                 ),
 
                 AnimatedSmoothIndicator(
-                  activeIndex: currentIndex,
+                  activeIndex: activeIndex,
                   count: carouselpromo.length,
                   effect: ExpandingDotsEffect(
                     dotHeight: 10.w,
@@ -344,7 +293,7 @@ class _StartScreenState extends State<StartScreen> {
                   child: GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: product1.length,
+                    itemCount: categoryproduct.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
@@ -352,9 +301,9 @@ class _StartScreenState extends State<StartScreen> {
                       childAspectRatio: 0.75,
                     ),
                     itemBuilder: (context, index) {
-                      final sample = product1[index];
+                      final sample = categoryproduct[index];
                       final List<String> images = List<String>.from(
-                        sample['img'],
+                        sample.image,
                       );
                       return GestureDetector(
                         onTap: () {},
@@ -395,7 +344,7 @@ class _StartScreenState extends State<StartScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    sample['title']!,
+                                    sample.category,
                                     style: TextStyle(
                                       fontFamily: 'RalewayRegular',
                                       fontSize: 15.sp,
@@ -413,7 +362,7 @@ class _StartScreenState extends State<StartScreen> {
                                     ),
 
                                     child: Text(
-                                      sample['noItems']!,
+                                      sample.noItems,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'RalewayRegular',
@@ -493,10 +442,8 @@ class _StartScreenState extends State<StartScreen> {
                     child: GestureDetector(
                       onTap: () {},
                       child: Row(
-                        
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          
                           Text(
                             'For You',
                             style: TextStyle(
@@ -506,8 +453,7 @@ class _StartScreenState extends State<StartScreen> {
                             ),
                           ),
 
-                          
-                           SizedBox(width: 120.w),
+                          SizedBox(width: 120.w),
                           Text(
                             'See All',
                             style: TextStyle(
@@ -517,8 +463,6 @@ class _StartScreenState extends State<StartScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-
-                         
 
                           Container(
                             height: 30.w,
@@ -554,11 +498,15 @@ class _StartScreenState extends State<StartScreen> {
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
                         ),
-                    itemCount: product.length,
+                    itemCount: recommendation.length,
                     itemBuilder: (BuildContext ctx, index) {
-                      final newProduct = product[index];
+                      final newProduct = recommendation[index];
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          ref.read(selectedimageProvider.notifier).state = newProduct.image;
+                          ref.read(selectedsubimageProvider.notifier).state = newProduct.subimage;
+                          context.go('/chooseproduct');
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.r),
@@ -580,7 +528,7 @@ class _StartScreenState extends State<StartScreen> {
                                   ),
 
                                   image: DecorationImage(
-                                    image: AssetImage(newProduct['img']!),
+                                    image: AssetImage(newProduct.image[0]),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -593,7 +541,7 @@ class _StartScreenState extends State<StartScreen> {
                                   horizontal: 15.w,
                                 ),
                                 child: Text(
-                                  'Soft Violet Everyday Shirt',
+                                  newProduct.title,
                                   maxLines: 1,
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
@@ -610,7 +558,7 @@ class _StartScreenState extends State<StartScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: List.generate(5, (index) {
                                     return Icon(
-                                      index < 4
+                                      index < newProduct.rating
                                           ? Icons.star
                                           : Icons.star_border,
                                       color: Colors.amber,
@@ -625,7 +573,7 @@ class _StartScreenState extends State<StartScreen> {
                                   horizontal: 15.w,
                                 ),
                                 child: Text(
-                                  '₱250',
+                                  newProduct.price,
                                   maxLines: 1,
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
@@ -671,24 +619,17 @@ class _StartScreenState extends State<StartScreen> {
 
                     return GestureDetector(
                       onTap: () {
-                        setState(() {
-                          selectIndex = index;
-                        });
+                        ref.read(selectnavIndex.notifier).state = index;
 
-                        if (selectIndex == 1) {
-                          context.go('/');
-                        }
-
-                        if (selectIndex == 2) {
-                          context.go('/wishlist');
-                        }
-
-                        if (selectIndex == 3) {
-                          context.go('/cart');
-                        }
-
-                        if (selectIndex == 4) {
-                          context.go('/profile');
+                        switch (index) {
+                          case 0:
+                            context.go('/startscreen');
+                          case 2:
+                            context.go('/wishlist');
+                          case 3:
+                            context.go('/cart');
+                          case 4:
+                            context.go('/profile');
                         }
                       },
 
@@ -700,7 +641,9 @@ class _StartScreenState extends State<StartScreen> {
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(100.r),
                                 border: Border.all(
-                                  color: selectIndex == index
+                                  color:
+                                      ref.read(selectnavIndex.notifier).state ==
+                                          index
                                       ? Colors.white
                                       : Color(0xFF9775FA),
                                   width: 2.5.w,
@@ -719,7 +662,7 @@ class _StartScreenState extends State<StartScreen> {
                               height: 25.h,
                               width: 25.w,
                               child: Image.asset(
-                                selectIndex == index
+                                ref.read(selectnavIndex.notifier).state == index
                                     ? item['iconActive']
                                     : item['iconsdefault'],
                               ),
