@@ -23,7 +23,7 @@ class CreateaccountScreen extends ConsumerWidget {
         children: [
           Positioned(
             top: -100.h,
-            left: -100.w,
+            left: -60.w,
             child: CustomPaint(
               size: Size(650.w, 500.h),
               painter: PinkBlobPainter(),
@@ -102,7 +102,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: 'Username',
-                              icon: Icon(Icons.person, size: 32.sp, color: Colors.black,),
+                              
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -144,7 +144,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: "Email",
-                              icon: Icon(Icons.email_rounded, size: 32.sp, color: Colors.black,),
+                              
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -188,7 +188,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: "Password",
-                              icon: Icon(Icons.key_rounded, size: 32.sp, color: Colors.black,),
+                              
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -230,7 +230,7 @@ class CreateaccountScreen extends ConsumerWidget {
                             style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
                               labelText: 'Confirm Password',
-                              icon: Icon(Icons.password_rounded, size: 32.sp, color: Colors.black,),
+                              
                               labelStyle: TextStyle(
                                 color: const Color.fromARGB(255, 106, 241, 174),
                                 fontSize: 13.sp,
@@ -267,7 +267,7 @@ class CreateaccountScreen extends ConsumerWidget {
                           alignment: Alignment.bottomCenter,
                           child: SizedBox(
                             width: 300.w,
-                            height: 40.h,
+                            height: 55.h,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
@@ -307,16 +307,20 @@ class CreateaccountScreen extends ConsumerWidget {
                               ),
                             ),
                           ),
+                          
                         ),
+                        SizedBox(height: 15.h),
                       ],
                     ),
                   ),
                 ),
+                
               ),
             ],
           ),
         ],
       ),
+      
     );
   }
 }
@@ -337,14 +341,14 @@ class PinkBlobPainter extends CustomPainter {
     path.quadraticBezierTo(
       size.width * 0.9,
       size.height * 0.2,
-      size.width * 0.45,
+      size.width * 0.4,
       size.height * 0.5,
     );
     path.quadraticBezierTo(
       size.width * 0.4,
       size.height * 0.7,
-      size.width * 0.4,
-      size.height * 0.8,
+      size.width * 0.3,
+      size.height * 0.7,
     );
     path.quadraticBezierTo(0, size.height * 0.7, 0, size.height * 0.3);
     path.close();
@@ -369,8 +373,8 @@ class GreenBlobPainter extends CustomPainter {
     path.quadraticBezierTo(
       size.width * 0.4,
       size.height * 0.2,
-      size.width * 0.3,
-      size.height * 0.1,
+      size.width * 0.5,
+      size.height * 0.5,
     );
     path.quadraticBezierTo(
       size.width * 0.7,

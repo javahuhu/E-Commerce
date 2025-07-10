@@ -156,12 +156,12 @@ class LoginScreen extends ConsumerWidget{
                             ),
                           ),
 
-                          SizedBox(height: 70.h),
+                          SizedBox(height: 50.h),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: SizedBox(
                               width: 300.w,
-                              height: 40.h,
+                              height: 50.h,
                               child: ElevatedButton(
                                 onPressed: () async {
                                  final loginUsername = ref.watch(userLoginProvider).username;
@@ -195,6 +195,7 @@ class LoginScreen extends ConsumerWidget{
                               ),
                             ),
                           ),
+                          SizedBox(height: 30.h),
                         ],
                       ),
                     ),

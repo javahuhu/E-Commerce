@@ -4,7 +4,11 @@ class RecommendationModel {
   final List<String>subimage;
   final String title;
   final String price;
+  final List<String> material;
+  final String origin;
   final int rating;
+ final List<String> size;
+  final String color;
 
   RecommendationModel({
     required this.id,
@@ -12,6 +16,10 @@ class RecommendationModel {
     required this.subimage,
     required this.title,
     required this.price,
+    required this.material,
+    required this.origin,
     required this.rating,
+    required this.size,
+    required this.color,
   });
 }

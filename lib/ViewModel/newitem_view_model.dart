@@ -5,27 +5,72 @@ class NewitemViewModel extends StateNotifier<List<NewitemModel>> {
   NewitemViewModel()
     : super([
         NewitemModel(
-          image: "assets/sampleitem2.jpeg",
-          title: "Lorem ipsum dolor sit amet consectetur.",
+          id: '1',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
+          title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam arcu mauris, scelerisque eu mauris id, pretium pulvinar sapien.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$18.00',
+          size: ["M", "L", "S",],
+          color: 'Green',
         ),
 
         NewitemModel(
-          image: "assets/sampleitem2.jpeg",
+          id: '2',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
           title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$17.00',
+          size: ["M", "L", "S",],
+          color: 'Green',
         ),
 
         NewitemModel(
-          image: "assets/sampleitem2.jpeg",
+          id: '3',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
           title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$17.00',
+          size: ["M", "L", "S",],
+          color: 'Green',
         ),
 
         NewitemModel(
-          image: "assets/sampleitem2.jpeg",
+          id: '4',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
           title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$17.00',
+          size: ["M", "L", "S",],
+          color: 'Green',
         ),
       ]);
 }
 
-final newitemProvider = StateNotifierProvider<NewitemViewModel, List<NewitemModel>> ((ref){
+final newitemProvider =
+    StateNotifierProvider<NewitemViewModel, List<NewitemModel>>((ref) {
       return NewitemViewModel();
-});
+    });

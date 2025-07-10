@@ -550,7 +550,7 @@ class CartScreen extends ConsumerWidget {
             ),
 
             Padding(
-              padding: EdgeInsets.only(bottom: 60.h),
+              padding: EdgeInsets.only(bottom: 70.h),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -560,131 +560,134 @@ class CartScreen extends ConsumerWidget {
                     color: const Color(0xFFFF9F9F),
                     borderRadius: BorderRadius.circular(24.r),
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 10
-                      )
-                    ]
+                      BoxShadow(color: Colors.black12, blurRadius: 10),
+                    ],
                   ),
 
-                  child: 
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 15.w), child: 
-                     Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total \$17.00',
-                        style: TextStyle(
-                          fontFamily: 'Raleway',
-                          color: Colors.black,
-                          fontSize: 18.sp,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total \$17.00',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            color: Colors.black,
+                            fontSize: 18.sp,
+                          ),
                         ),
-                      ),
 
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          shadowColor: Colors.transparent,
-                          splashFactory: NoSplash.splashFactory,
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r)
-                          )
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shadowColor: Colors.transparent,
+                            splashFactory: NoSplash.splashFactory,
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          child: Text(
+                            'Checkout',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
-                        child: Text('Checkout', style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.black,
-                        )),
-                      ),
-                    ],
-                  ),)
-               
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
 
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SafeArea(
-                child: Container(
-                  height: 50.h,
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.symmetric(horizontal: 24.w),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF9775FA),
-                    borderRadius: BorderRadius.circular(24.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFF9775FA).withValues(alpha: 0.3),
-                        offset: Offset(0, 10),
-                        blurRadius: 20,
-                      ),
-                    ],
-                  ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SafeArea(
+                  child: Container(
+                    height: 55.h,
+                    padding: EdgeInsets.all(12),
+                    margin: EdgeInsets.symmetric(horizontal: 24.w),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF9775FA),
+                      borderRadius: BorderRadius.circular(24.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF9775FA).withValues(alpha: 0.3),
+                          offset: Offset(0, 10),
+                          blurRadius: 20,
+                        ),
+                      ],
+                    ),
 
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: navicons.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      var item = entry.value;
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: navicons.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        var item = entry.value;
 
-                      return GestureDetector(
-                        onTap: () {
-                          ref.read(selectnavIndex.notifier).state = index;
+                        return GestureDetector(
+                          onTap: () {
+                            ref.read(selectnavIndex.notifier).state = index;
 
-                          switch (index) {
-                            case 0:
-                              context.go('/startscreen');
-                            case 1:
-                              context.go('/');
-                            case 2:
-                              context.go('/wishlist');
-                            case 3:
-                              context.go('/cart');
-                            case 4:
-                              context.go('/profile');
-                          }
-                        },
+                            switch (index) {
+                              case 0:
+                                context.go('/startscreen');
+                              case 1:
+                                context.go('/');
+                              case 2:
+                                context.go('/wishlist');
+                              case 3:
+                                context.go('/cart');
+                              case 4:
+                                context.go('/profile');
+                            }
+                          },
 
-                        child: item['type'] == 'profile'
-                            ? Container(
-                                height: 30.w,
-                                width: 30.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(100.r),
-                                  border: Border.all(
-                                    color:
-                                        ref
-                                                .read(selectnavIndex.notifier)
-                                                .state ==
-                                            index
-                                        ? Colors.white
-                                        : Color(0xFF9775FA),
-                                    width: 2.5.w,
+                          child: item['type'] == 'profile'
+                              ? Container(
+                                  height: 30.w,
+                                  width: 30.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(100.r),
+                                    border: Border.all(
+                                      color:
+                                          ref
+                                                  .read(selectnavIndex.notifier)
+                                                  .state ==
+                                              index
+                                          ? Colors.white
+                                          : Color(0xFF9775FA),
+                                      width: 2.5.w,
+                                    ),
                                   ),
-                                ),
 
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100.r),
+                                    child: Image.asset(
+                                      item['iconsdefault'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 25.h,
+                                  width: 25.w,
                                   child: Image.asset(
-                                    item['iconsdefault'],
-                                    fit: BoxFit.cover,
+                                    ref.read(selectnavIndex.notifier).state ==
+                                            index
+                                        ? item['iconActive']
+                                        : item['iconsdefault'],
                                   ),
                                 ),
-                              )
-                            : SizedBox(
-                                height: 25.h,
-                                width: 25.w,
-                                child: Image.asset(
-                                  ref.read(selectnavIndex.notifier).state ==
-                                          index
-                                      ? item['iconActive']
-                                      : item['iconsdefault'],
-                                ),
-                              ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),

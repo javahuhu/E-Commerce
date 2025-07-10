@@ -1,3 +1,4 @@
+import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/newitem_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/popularproduct_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/recentproduct_view_model.dart';
@@ -14,7 +15,6 @@ class ProfileScreen extends ConsumerWidget {
     Icons.bookmark,
     Icons.settings,
   ];
-
 
   final List<Map<String, dynamic>> navicons = [
     {
@@ -52,7 +52,6 @@ class ProfileScreen extends ConsumerWidget {
     {"text": 'Review'},
   ];
 
-
   final selectIndexProvider = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
 
@@ -72,7 +71,7 @@ class ProfileScreen extends ConsumerWidget {
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(
                     vertical: 25.h,
-                    horizontal: 15.w,
+                    horizontal: 10.w,
                   ),
                   child: Row(
                     children: [
@@ -134,7 +133,7 @@ class ProfileScreen extends ConsumerWidget {
                               onTap: () {},
 
                               child: Container(
-                                height: 30.h,
+                                height: 35.w,
                                 width: 35.w,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
@@ -184,7 +183,7 @@ class ProfileScreen extends ConsumerWidget {
                       return GestureDetector(
                         onTap: () {},
                         child: Container(
-                          margin: EdgeInsets.only(top: 3.h,bottom: 3.h),
+                          margin: EdgeInsets.only(top: 3.h, bottom: 3.h),
                           height: 60.w,
                           width: 60.w,
                           decoration: BoxDecoration(
@@ -196,10 +195,7 @@ class ProfileScreen extends ConsumerWidget {
                           ),
 
                           child: ClipOval(
-                            child: Image.asset(
-                              recent.image,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.asset(recent.image, fit: BoxFit.cover),
                           ),
                         ),
                       );
@@ -327,45 +323,71 @@ class ProfileScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final img = newitem[index];
                       final txt = newitem[index];
-                      return Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 5.h),
-                            height: 120.h,
-                            width: 140.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 5),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.r),
-                                child: Image.asset(
-                                  img.image,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
+                      return GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(selectedproductProvider.notifier)
+                              .state = SelectproductModel(
+                            id: txt.id,
+                            image: img.image,
+                            subimage: img.subimage,
+                            title: txt.title,
+                            price: txt.price,
+                            material: txt.material,
+                            origin: txt.origin,
+                            size: txt.size,
+                            color: txt.color,
+                          );
 
-                          SizedBox(
-                            width: 140.w,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 3.w, top: 10.h),
-                              child: Text(
-                                txt.title,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.black,
+                          context.go('/chooseproduct');
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 5.h),
+                              height: 120.h,
+                              width: 140.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  child: Image.asset(
+                                    img.image[0],
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+
+                            SizedBox(
+                              width: 140.w,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 3.w, top: 10.h),
+                                child: Text(
+                                  txt.title,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ),
+
+                            
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -437,7 +459,7 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           Container(
                             margin: EdgeInsets.only(top: 5.h),
-                            height: 130.h,
+                            height: 135.h,
                             width: 100.w,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -501,93 +523,96 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 100.h),
+                SizedBox(height: 80.h),
               ],
             ),
           ),
 
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SafeArea(
-              child: Container(
-                height: 50.h,
-                padding: EdgeInsets.all(12),
-                margin: EdgeInsets.symmetric(horizontal: 24.w),
-                decoration: BoxDecoration(
-                  color: Color(0xFF9775FA),
-                  borderRadius: BorderRadius.circular(24.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF9775FA).withValues(alpha: 0.3),
-                      offset: Offset(0, 10),
-                      blurRadius: 20,
-                    ),
-                  ],
-                ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 10.h),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SafeArea(
+                child: Container(
+                  height: 55.h,
+                  padding: EdgeInsets.all(12),
+                  margin: EdgeInsets.symmetric(horizontal: 24.w),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF9775FA),
+                    borderRadius: BorderRadius.circular(24.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF9775FA).withValues(alpha: 0.3),
+                        offset: Offset(0, 10),
+                        blurRadius: 20,
+                      ),
+                    ],
+                  ),
 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: navicons.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    var item = entry.value;
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: navicons.asMap().entries.map((entry) {
+                      int index = entry.key;
+                      var item = entry.value;
 
-                    return GestureDetector(
-                      onTap: () {
-                        ref.read(selectnavIndex.notifier).state = index;
+                      return GestureDetector(
+                        onTap: () {
+                          ref.read(selectnavIndex.notifier).state = index;
 
-                        if (ref.watch(selectnavIndex) == 0) {
-                          context.go('/startscreen');
-                        }
+                          if (ref.watch(selectnavIndex) == 0) {
+                            context.go('/startscreen');
+                          }
 
-                        if (ref.watch(selectnavIndex) == 1) {
-                          context.go('/');
-                        }
+                          if (ref.watch(selectnavIndex) == 1) {
+                            context.go('/');
+                          }
 
-                        if (ref.watch(selectnavIndex) == 2) {
-                          context.go('/wishlist');
-                        }
+                          if (ref.watch(selectnavIndex) == 2) {
+                            context.go('/wishlist');
+                          }
 
-                        if (ref.watch(selectnavIndex) == 3) {
-                          context.go('/cart');
-                        }
+                          if (ref.watch(selectnavIndex) == 3) {
+                            context.go('/cart');
+                          }
 
-                        if (ref.watch(selectnavIndex) == 4) {
-                          context.go('/profile');
-                        }
-                      },
+                          if (ref.watch(selectnavIndex) == 4) {
+                            context.go('/profile');
+                          }
+                        },
 
-                      child: item['type'] == 'profile'
-                          ? Container(
-                              height: 30.w,
-                              width: 30.w,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(100.r),
-                                border: Border.all(
-                                  color: ref.watch(selectnavIndex) == index
-                                      ? Color(0xFF9775FA)
-                                      : Colors.white,
-                                  width: 2.5.w,
+                        child: item['type'] == 'profile'
+                            ? Container(
+                                height: 30.w,
+                                width: 30.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  border: Border.all(
+                                    color: ref.watch(selectnavIndex) == index
+                                        ? Color(0xFF9775FA)
+                                        : Colors.white,
+                                    width: 2.5.w,
+                                  ),
                                 ),
+
+                                child: ClipRRect(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    100.r,
+                                  ),
+                                  child: Image.asset(
+                                    item['iconsdefault'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(
+                                height: 25.h,
+                                width: 25.w,
+                                child: Image.asset(item['iconsdefault']),
                               ),
-
-                              child: ClipRRect(
-                                borderRadius: BorderRadiusGeometry.circular(
-                                  100.r,
-                                ),
-                                child: Image.asset(
-                                  item['iconsdefault'],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            )
-                          : SizedBox(
-                              height: 25.h,
-                              width: 25.w,
-                              child: Image.asset(item['iconsdefault']),
-                            ),
-                    );
-                  }).toList(),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ),

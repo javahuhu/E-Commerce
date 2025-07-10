@@ -1,52 +1,46 @@
-import 'package:e_commercehybrid/Model/recommendation_model.dart';
+import 'package:e_commercehybrid/Model/youmightlike_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RecommendationViewModel extends StateNotifier<List<RecommendationModel>> {
-  RecommendationViewModel()
+class YoumightlikeViewModel extends StateNotifier<List<YoumightlikeModel>> {
+  YoumightlikeViewModel()
     : super([
-        RecommendationModel(
+        YoumightlikeModel(
           id: '1',
-          image: [
-            'assets/sampleitem.jpeg',
-            'assets/sampleitem2.jpeg',
-            'assets/sampleitem3.jpeg',
-            'assets/sampleitem4.jpg',
-          ],
-
+          image: ['assets/sampleitem3.jpeg'],
           subimage: [
             'assets/sampleitem.jpeg',
             'assets/sampleitem2.jpeg',
             'assets/sampleitem3.jpeg',
             'assets/sampleitem4.jpg',
           ],
-          title: 'Soft Violet Everyday Shirt',
+          title: 'Lorem ipsum dolor sit amet consectetur',
           price: '₱250',
           material: ["Cotton", "Nylon"],
           origin: "EU",
-          rating: 5,
+          rating: 3,
           size: ["M", "L", "S",],
           color: 'Green',
         ),
 
-        RecommendationModel(
+        YoumightlikeModel(
           id: '2',
-          image: ['assets/sampleitem2.jpeg'],
+          image: ['assets/sampleitem3.jpeg'],
           subimage: [
             'assets/sampleitem.jpeg',
             'assets/sampleitem2.jpeg',
             'assets/sampleitem3.jpeg',
             'assets/sampleitem4.jpg',
           ],
-          title: 'Soft Violet Everyday Shirt',
+          title: 'Lorem ipsum dolor sit amet consectetur',
           price: '₱250',
           material: ["Cotton", "Nylon"],
           origin: "EU",
-          rating: 2,
+          rating: 3,
           size: ["M", "L", "S",],
           color: 'Green',
         ),
 
-        RecommendationModel(
+        YoumightlikeModel(
           id: '3',
           image: ['assets/sampleitem3.jpeg'],
           subimage: [
@@ -55,40 +49,38 @@ class RecommendationViewModel extends StateNotifier<List<RecommendationModel>> {
             'assets/sampleitem3.jpeg',
             'assets/sampleitem4.jpg',
           ],
-          title: 'Soft Violet Everyday Shirt',
+          title: 'Lorem ipsum dolor sit amet consectetur',
           price: '₱250',
           material: ["Cotton", "Nylon"],
           origin: "EU",
           rating: 3,
           size: ["M", "L", "S",],
           color: 'Green',
-          
         ),
 
-        RecommendationModel(
+        YoumightlikeModel(
           id: '4',
-          image: ['assets/sampleitem4.jpg'],
+          image: ['assets/sampleitem3.jpeg'],
           subimage: [
             'assets/sampleitem.jpeg',
             'assets/sampleitem2.jpeg',
             'assets/sampleitem3.jpeg',
             'assets/sampleitem4.jpg',
           ],
-          title: 'Soft Violet Everyday Shirt',
+          title: 'Lorem ipsum dolor sit amet consectetur',
           price: '₱250',
           material: ["Cotton", "Nylon"],
           origin: "EU",
-          rating: 4,
+          rating: 3,
           size: ["M", "L", "S",],
           color: 'Green',
         ),
       ]);
 }
 
-final recommendationProvider =
-    StateNotifierProvider<RecommendationViewModel, List<RecommendationModel>>((
+final youmightlikeProvider =
+    StateNotifierProvider<YoumightlikeViewModel, List<YoumightlikeModel>>((
       ref,
     ) {
-      return RecommendationViewModel();
+      return YoumightlikeViewModel();
     });
-

@@ -119,8 +119,21 @@ final GoRouter _router = GoRouter(
 
     GoRoute(
       path: '/chooseproduct',
-      builder: (BuildContext context, GoRouterState state) {
-        return Chooseitem();
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: Chooseitem(), 
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve:curve));
+
+          return SlideTransition(position: animation.drive(tween),
+          child: child,);
+        }
+);
       },
     ),
   ],
@@ -133,7 +146,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize: const Size(360, 640),
       minTextAdapt: true,
       splitScreenMode: true,
 

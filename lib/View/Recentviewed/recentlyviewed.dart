@@ -329,7 +329,7 @@ class _RecentviewScreenState extends State<RecentviewScreen> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20.h,
-                      childAspectRatio: 0.62,
+                      childAspectRatio: 0.61,
                     ),
                     itemCount: recentview.length,
                     itemBuilder: (context, index) {
