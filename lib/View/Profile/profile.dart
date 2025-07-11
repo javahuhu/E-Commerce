@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:e_commercehybrid/constantsize.dart';
 
 class ProfileScreen extends ConsumerWidget {
   ProfileScreen({super.key});
@@ -60,6 +61,7 @@ class ProfileScreen extends ConsumerWidget {
     final newitem = ref.watch(newitemProvider);
     final recentproduct = ref.watch(recentproductProvider);
     final popularproduct = ref.watch(popularproductProvider);
+    final largePhone = MediaQuery.of(context).size.height > 850;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -74,6 +76,7 @@ class ProfileScreen extends ConsumerWidget {
                     horizontal: 10.w,
                   ),
                   child: Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
                         height: 50.w,
@@ -93,6 +96,8 @@ class ProfileScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
+
+                      
 
                       Padding(
                         padding: EdgeInsetsGeometry.only(left: 15.w),
@@ -120,14 +125,14 @@ class ProfileScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 13.w),
+                   
 
                       SizedBox(
                         height: 35.h,
-                        width: 100.h,
+                        width: largePhone ? 135.w : 125.w,
 
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: iconItems.map((iconItems) {
                             return GestureDetector(
                               onTap: () {},
@@ -225,8 +230,9 @@ class ProfileScreen extends ConsumerWidget {
                     top: 15.h,
                     right: 5.w,
                   ),
+
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ...List.generate(orderbtn.length, (index) {
                         return SizedBox(
@@ -384,8 +390,6 @@ class ProfileScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
-
-                            
                           ],
                         ),
                       );
@@ -445,7 +449,7 @@ class ProfileScreen extends ConsumerWidget {
 
                 SizedBox(height: 15.h),
                 SizedBox(
-                  height: 150.h,
+                  height: 165.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -458,8 +462,8 @@ class ProfileScreen extends ConsumerWidget {
                       return Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 5.h),
-                            height: 135.h,
+                            margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                            height: 155.h,
                             width: 100.w,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -523,7 +527,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 80.h),
+                SizedBox(height: 110.h),
               ],
             ),
           ),
@@ -534,7 +538,7 @@ class ProfileScreen extends ConsumerWidget {
               alignment: Alignment.bottomCenter,
               child: SafeArea(
                 child: Container(
-                  height: 55.h,
+                  height: _responsivesize(context),
                   padding: EdgeInsets.all(12),
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
@@ -606,8 +610,8 @@ class ProfileScreen extends ConsumerWidget {
                                 ),
                               )
                             : SizedBox(
-                                height: 25.h,
-                                width: 25.w,
+                                height: _responsiveNavIconsheight(context),
+                                width: _responsiveNavIconswidth(context),
                                 child: Image.asset(item['iconsdefault']),
                               ),
                       );
@@ -621,4 +625,36 @@ class ProfileScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+double _responsivesize(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 60.h;
+  if (height < Breakpoints.largePhone) return 60.h;
+  if (height < Breakpoints.extraLarge) return 75.h;
+  return 5.h;
+}
+
+
+
+double _responsiveNavIconsheight(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 25.h;
+
+  if (height < Breakpoints.largePhone) return 30.h;
+
+  if (height > Breakpoints.extraLarge) return 60.h;
+
+  return 55.h;
+}
+
+double _responsiveNavIconswidth(BuildContext context) {
+  final height = MediaQuery.of(context).size.width;
+
+  if (height < Breakpoints.smallPhone) return 25.w;
+
+  if (height < Breakpoints.largePhone) return 30.w;
+
+  if (height > Breakpoints.extraLarge) return 60.w;
+  return 55.h;
 }

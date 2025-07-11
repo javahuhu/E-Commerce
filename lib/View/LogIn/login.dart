@@ -17,6 +17,7 @@ class LoginScreen extends ConsumerWidget{
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final smallPhone = MediaQuery.of(context).size.height < 700;
     return Scaffold(
       backgroundColor: Color(0xFF9775FA),
 
@@ -44,7 +45,7 @@ class LoginScreen extends ConsumerWidget{
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(right: 135.w, top: 70.h),
+                  padding: EdgeInsets.only(right: 145.w, top: 70.h),
                   child: Text(
                     'Log In',
                     style: TextStyle(
@@ -61,7 +62,7 @@ class LoginScreen extends ConsumerWidget{
                       key: formKey,
                       child: Column(
                         children: [
-                          SizedBox(height: 250.h),
+                          SizedBox(height: smallPhone ? 200.h : 250.h),
                           Padding(
                             padding: EdgeInsetsGeometry.symmetric(
                               horizontal: 25.w,
@@ -195,7 +196,7 @@ class LoginScreen extends ConsumerWidget{
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: smallPhone ? 0.h : 30.h),
                         ],
                       ),
                     ),

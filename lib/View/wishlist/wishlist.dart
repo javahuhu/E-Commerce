@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:e_commercehybrid/constantsize.dart';
 
 class WishlistScreen extends ConsumerWidget {
   WishlistScreen({super.key});
-
-  final int selectnavIndex = 2;
 
   final List<Map<String, dynamic>> navicons = [
     {
@@ -387,13 +386,13 @@ class WishlistScreen extends ConsumerWidget {
                 alignment: Alignment.bottomCenter,
                 child: SafeArea(
                   child: Container(
-                    height: 55.h,
+                    height: _responsivesize(context),
                     padding: EdgeInsets.all(12.0),
                     margin: EdgeInsets.symmetric(horizontal: 24.w),
 
                     decoration: BoxDecoration(
                       color: Color(0xFF9775FA),
-                      borderRadius: BorderRadius.circular(24.r),
+                      borderRadius: BorderRadius.circular(100.r),
                       boxShadow: [
                         BoxShadow(
                           color: Color(0xFF9775FA).withValues(alpha: 0.3),
@@ -457,8 +456,8 @@ class WishlistScreen extends ConsumerWidget {
                                   ),
                                 )
                               : SizedBox(
-                                  height: 25.h,
-                                  width: 25.w,
+                                  height: _responsiveNavIconsheight(context),
+                                  width: _responsiveNavIconswidth(context),
                                   child: Image.asset(
                                     ref.read(selectnavIndex.notifier).state ==
                                             index
@@ -478,4 +477,34 @@ class WishlistScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+double _responsivesize(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 60.h;
+  if (height < Breakpoints.largePhone) return 60.h;
+  if (height > Breakpoints.extraLarge) return 75.h;
+  return 55.h;
+}
+
+double _responsiveNavIconsheight(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 25.h;
+
+  if (height < Breakpoints.largePhone) return 30.h;
+
+  if (height > Breakpoints.extraLarge) return 60.h;
+
+  return 55.h;
+}
+
+double _responsiveNavIconswidth(BuildContext context) {
+  final height = MediaQuery.of(context).size.width;
+
+  if (height < Breakpoints.smallPhone) return 25.w;
+
+  if (height < Breakpoints.largePhone) return 30.w;
+
+  if (height > Breakpoints.extraLarge) return 60.w;
+  return 55.h;
 }

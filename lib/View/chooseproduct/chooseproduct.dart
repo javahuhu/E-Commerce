@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/popularproduct_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/youmightlike_view_model.dart';
@@ -19,6 +18,7 @@ class Chooseitem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeIndex = ref.watch(currentIndex);
     final selectedproduct = ref.watch(selectedproductProvider);
+    
 
     if (selectedproduct == null) {
       return Scaffold(body: Center(child: Text('No item to Show')));
@@ -120,7 +120,7 @@ class Chooseitem extends ConsumerWidget {
                     ),
 
                     SizedBox(
-                      height: 40.h,
+                      height: 50.h,
                       width: 130.w,
                       child: ElevatedButton(
                         onPressed: () {},
@@ -144,7 +144,7 @@ class Chooseitem extends ConsumerWidget {
                     ),
 
                     SizedBox(
-                      height: 40.h,
+                      height: 50.h,
                       width: 130.w,
                       child: ElevatedButton(
                         onPressed: () {},
@@ -184,6 +184,8 @@ Widget _buildProductDetails(
 ) {
   final popularproduct = ref.watch(popularproductProvider);
   final youmightlike = ref.watch(youmightlikeProvider);
+  
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -497,6 +499,7 @@ Widget _buildProductDetails(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Standard',
@@ -528,7 +531,7 @@ Widget _buildProductDetails(
                   ),
                 ),
 
-                SizedBox(width: 69.w),
+                SizedBox(width: 35.w),
 
                 Text(
                   '\$3.00',
@@ -559,6 +562,7 @@ Widget _buildProductDetails(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Express',
@@ -590,7 +594,7 @@ Widget _buildProductDetails(
                   ),
                 ),
 
-                SizedBox(width: 69.w),
+                SizedBox(width: 35.w),
 
                 Text(
                   '\$3.00',
@@ -804,7 +808,7 @@ Widget _buildProductDetails(
       ),
 
       SizedBox(
-        height: 150.h,
+        height: 160.h,
         child: ListView.separated(
           separatorBuilder: (_, __) => SizedBox(width: 15.w),
           scrollDirection: Axis.horizontal,
@@ -817,7 +821,7 @@ Widget _buildProductDetails(
             return Column(
               children: [
                 Container(
-                  height: 135.h,
+                  height: 150.h,
                   width: 100.w,
                   margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
                   decoration: BoxDecoration(
@@ -879,6 +883,8 @@ Widget _buildProductDetails(
         ),
       ),
 
+      SizedBox(height: 15.h,),
+
       Align(
         alignment: Alignment.centerLeft,
         child: Padding(
@@ -900,10 +906,10 @@ Widget _buildProductDetails(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
             crossAxisCount: 2,
-            childAspectRatio: 2 / 3.5,
+            childAspectRatio: MediaQuery.of(context).size.height < 900 ? 2 / 2.8 : 2 / 2.5
           ),
           itemCount: youmightlike.length,
           itemBuilder: (BuildContext context, index) {
@@ -991,7 +997,9 @@ void _showBottomModal(
   SelectproductModel product,
   BuildContext context,
   WidgetRef ref,
+  
 ) {
+   final smallphone = MediaQuery.of(context).size.height < 700;
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -1025,7 +1033,7 @@ void _showBottomModal(
                       child: Row(
                         children: [
                           Container(
-                            width: 100.w,
+                            width: 120.w,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.r),
                               image: DecorationImage(
@@ -1145,7 +1153,7 @@ void _showBottomModal(
                               ),
 
                               Positioned(
-                                top: 55.h,
+                                top: 50.h,
                                 left: 5.w,
                                 child: AnimatedSwitcher(
                                   duration: Duration(milliseconds: 200),
@@ -1219,7 +1227,7 @@ void _showBottomModal(
                           return Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 15.w,
-                              vertical: 4.h,
+                              vertical: 2.h,
                             ),
                             decoration: BoxDecoration(
                               color: Color(0xFFE5EBFC),
@@ -1303,10 +1311,9 @@ void _showBottomModal(
                       ],
                     ),
                   ),
-                  SizedBox(height: 40.h),
+                  SizedBox(height: smallphone ? 25.h : 20.h),
 
-                  SafeArea(
-                    child: Align(
+                   Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -1340,7 +1347,7 @@ void _showBottomModal(
                             ),
 
                             SizedBox(
-                              height: 40.h,
+                              height: smallphone ? 50.h : 55.h,
                               width: 130.w,
                               child: ElevatedButton(
                                 onPressed: () {},
@@ -1364,7 +1371,7 @@ void _showBottomModal(
                             ),
 
                             SizedBox(
-                              height: 40.h,
+                              height: smallphone ? 50.h : 55.h,
                               width: 130.w,
                               child: ElevatedButton(
                                 onPressed: () {},
@@ -1390,7 +1397,7 @@ void _showBottomModal(
                         ),
                       ),
                     ),
-                  ),
+                  
                 ],
               ),
             ),

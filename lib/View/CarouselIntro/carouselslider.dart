@@ -38,6 +38,8 @@ class _CarouselScreenState extends State<CarouselScreen> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final smallPhone = MediaQuery.of(context).size.height < 700;
+    final largePhone = MediaQuery.of(context).size.height > 800;
     return Scaffold(
       backgroundColor: Color(0xFF9775FA),
       body: Stack(
@@ -64,8 +66,8 @@ class _CarouselScreenState extends State<CarouselScreen> {
                         final item = introimg[index];
 
                         return Container(
-                          height: 460.h,
-                          width: 275.w,
+                          height: smallPhone ? 475.h : 550.h,
+                          width: largePhone ? 290.w : 275.w,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(25.r),
@@ -92,7 +94,7 @@ class _CarouselScreenState extends State<CarouselScreen> {
                               Padding(
                                 padding: EdgeInsetsGeometry.symmetric(
                                   horizontal: 15.w,
-                                  vertical: 15.h,
+                                  vertical: smallPhone ? 15.h : 50.h,
                                 ),
                                 child: Text(
                                   item['Description']!,
@@ -114,7 +116,7 @@ class _CarouselScreenState extends State<CarouselScreen> {
                                   SizedBox(
                                     key: ValueKey('Button'),
                                     width: 200.w,
-                                    height: 40.h,
+                                    height: smallPhone ? 50.h : 55.h,
                                     child: ElevatedButton(
                                       onPressed: () => context.go('/startscreen'),
                                       style: ElevatedButton.styleFrom(
@@ -148,12 +150,12 @@ class _CarouselScreenState extends State<CarouselScreen> {
                         );
                       },
                   options: CarouselOptions(
-                    height: 478.h,
+                    height: smallPhone ? 475.h : 550.h,
                     enlargeCenterPage: true,
                     scrollDirection: Axis.horizontal,
                     autoPlay: true,
                     enableInfiniteScroll: false,
-                    viewportFraction: 0.85,
+                    viewportFraction: 0.9,
                     onPageChanged: (index, reason) {
                       setState(() {
                         _currentIndex = index;

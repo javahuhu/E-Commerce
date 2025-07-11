@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:e_commercehybrid/constantsize.dart';
 
 class CartScreen extends ConsumerWidget {
   CartScreen({super.key});
@@ -68,13 +69,15 @@ class CartScreen extends ConsumerWidget {
     final selectnavIndex = StateProvider<int>((ref) => 3);
     final addtocart = ref.watch(addtocartProvider);
     final wishlist = ref.watch(wishlistProvider);
+    final extralargePhone = MediaQuery.of(context).size.height > 900;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
             ListView(
-              padding: EdgeInsets.only(bottom: 125.h),
+              padding: EdgeInsets.only(bottom: extralargePhone ? 180.h : 135.h),
               children: [
                 Column(
                   children: [
@@ -125,8 +128,8 @@ class CartScreen extends ConsumerWidget {
                     ),
 
                     Container(
-                      height: 100.h,
-                      width: 350.w,
+                      height: extralargePhone ? 120.h : 100.h,
+                      width: extralargePhone ? 400.w : 350.w,
                       margin: EdgeInsets.symmetric(
                         horizontal: 15.w,
                         vertical: 15.h,
@@ -148,13 +151,14 @@ class CartScreen extends ConsumerWidget {
                               'Shipping Address',
                               style: TextStyle(
                                 fontFamily: 'Raleway',
-                                fontSize: 14.sp,
+                                fontSize: extralargePhone ? 20.sp : 16.sp,
                                 color: Colors.black,
                               ),
                             ),
                           ),
 
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(left: 15.w, top: 15.h),
@@ -165,7 +169,7 @@ class CartScreen extends ConsumerWidget {
                                     style: TextStyle(
                                       fontFamily: 'RalewayRegular',
                                       color: Colors.black,
-                                      fontSize: 10.sp,
+                                      fontSize: extralargePhone ? 15.sp : 12.sp,
                                     ),
                                   ),
                                 ),
@@ -174,7 +178,10 @@ class CartScreen extends ConsumerWidget {
                               Container(
                                 height: 35.w,
                                 width: 35.w,
-                                margin: EdgeInsets.only(left: 10.w, top: 25.h),
+                                margin: EdgeInsets.only(
+                                  right: 5.w,
+                                  top: extralargePhone ? 30.h : 20.h,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Color(0xFF9775FA),
                                   shape: BoxShape.circle,
@@ -550,11 +557,11 @@ class CartScreen extends ConsumerWidget {
             ),
 
             Padding(
-              padding: EdgeInsets.only(bottom: 70.h),
+              padding: EdgeInsets.only(bottom: extralargePhone ? 100.h : 80.h),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 50.h,
+                  height: extralargePhone ? 60.h : 55.h,
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF9F9F),
@@ -579,7 +586,9 @@ class CartScreen extends ConsumerWidget {
                         ),
 
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('/payment');
+                          },
                           style: ElevatedButton.styleFrom(
                             shadowColor: Colors.transparent,
                             splashFactory: NoSplash.splashFactory,
@@ -609,12 +618,12 @@ class CartScreen extends ConsumerWidget {
                 alignment: Alignment.bottomCenter,
                 child: SafeArea(
                   child: Container(
-                    height: 55.h,
+                    height: _responsivesize(context),
                     padding: EdgeInsets.all(12),
                     margin: EdgeInsets.symmetric(horizontal: 24.w),
                     decoration: BoxDecoration(
                       color: Color(0xFF9775FA),
-                      borderRadius: BorderRadius.circular(24.r),
+                      borderRadius: BorderRadius.circular(100.r),
                       boxShadow: [
                         BoxShadow(
                           color: Color(0xFF9775FA).withValues(alpha: 0.3),
@@ -650,8 +659,8 @@ class CartScreen extends ConsumerWidget {
 
                           child: item['type'] == 'profile'
                               ? Container(
-                                  height: 30.w,
-                                  width: 30.w,
+                                  height: extralargePhone ? 35.h : 30.w,
+                                  width: extralargePhone ? 35.h : 30.w,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(100.r),
@@ -676,8 +685,8 @@ class CartScreen extends ConsumerWidget {
                                   ),
                                 )
                               : SizedBox(
-                                  height: 25.h,
-                                  width: 25.w,
+                                  height: _responsiveNavIconsheight(context),
+                                  width: _responsiveNavIconswidth(context),
                                   child: Image.asset(
                                     ref.read(selectnavIndex.notifier).state ==
                                             index
@@ -697,4 +706,34 @@ class CartScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+double _responsivesize(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 60.h;
+  if (height < Breakpoints.largePhone) return 60.h;
+  if (height > Breakpoints.extraLarge) return 75.h;
+  return 55.h;
+}
+
+double _responsiveNavIconsheight(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 25.h;
+
+  if (height < Breakpoints.largePhone) return 30.h;
+
+  if (height > Breakpoints.extraLarge) return 60.h;
+
+  return 55.h;
+}
+
+double _responsiveNavIconswidth(BuildContext context) {
+  final height = MediaQuery.of(context).size.width;
+
+  if (height < Breakpoints.smallPhone) return 25.w;
+
+  if (height < Breakpoints.largePhone) return 30.w;
+
+  if (height > Breakpoints.extraLarge) return 60.w;
+  return 55.h;
 }

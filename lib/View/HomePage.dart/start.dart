@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:e_commercehybrid/constantsize.dart';
 
 class StartScreen extends ConsumerWidget {
   @override
@@ -74,7 +75,8 @@ class StartScreen extends ConsumerWidget {
     final categoryproduct = ref.watch(categoryProvider);
     final activeIndex = ref.watch(currentIndex);
     final recommendation = ref.watch(recommendationProvider);
-
+    final largePhone = MediaQuery.of(context).size.height > 800;
+    final extralargePhone = MediaQuery.of(context).size.height > 900;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -146,7 +148,7 @@ class StartScreen extends ConsumerWidget {
                         return GestureDetector(
                           onTap: () {},
                           child: SizedBox(
-                            width: 300.w,
+                            width: largePhone ? 350.w : 300.w,
                             child: Row(
                               children: [
                                 Expanded(
@@ -158,14 +160,14 @@ class StartScreen extends ConsumerWidget {
                                         ),
                                         child: Image.asset(
                                           promo['img']!,
-                                          height: 130.h,
-                                          width: 300.w,
+                                          height: 180.h,
+                                          width: largePhone ? 350.w : 300.w,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
 
                                       Container(
-                                        height: 130.h,
+                                        height: 180.h,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             10.r,
@@ -226,7 +228,7 @@ class StartScreen extends ConsumerWidget {
                         );
                       },
                   options: CarouselOptions(
-                    height: 150.h,
+                    height: 200.h,
                     scrollDirection: Axis.horizontal,
                     autoPlay: true,
                     viewportFraction: 1,
@@ -280,7 +282,7 @@ class StartScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 25.h),
+                SizedBox(height: 5.h),
 
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(
@@ -295,7 +297,7 @@ class StartScreen extends ConsumerWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
-                      childAspectRatio: 0.7,
+                      childAspectRatio: extralargePhone ? 0.9: 0.8,
                     ),
                     itemBuilder: (context, index) {
                       final sample = categoryproduct[index];
@@ -317,8 +319,8 @@ class StartScreen extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Wrap(
-                                spacing: 5,
-                                runSpacing: 5,
+                                spacing: 7,
+                                runSpacing: 7,
                                 children: List.generate(
                                   images.length > 4 ? 4 : images.length,
                                   (imgindex) {
@@ -378,7 +380,7 @@ class StartScreen extends ConsumerWidget {
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(left: 25.w, top: 30.h),
+                  padding: EdgeInsets.only(left: 15.w, top: 30.h),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -481,17 +483,15 @@ class StartScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 15.h),
-
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 15.w),
                   child: GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                        SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 2 / 2.9,
+                          childAspectRatio: MediaQuery.of(context).size.height > 900 ? 2 / 2.4 : 2 / 2.6,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
                         ),
@@ -511,7 +511,7 @@ class StartScreen extends ConsumerWidget {
                             material: newProduct.material,
                             origin: newProduct.origin,
                             size: newProduct.size,
-                            color: newProduct.color
+                            color: newProduct.color,
                           );
                           context.go('/chooseproduct');
                         },
@@ -525,6 +525,7 @@ class StartScreen extends ConsumerWidget {
                           ),
 
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Container(
                                 height: 110.h,
@@ -606,12 +607,12 @@ class StartScreen extends ConsumerWidget {
               alignment: Alignment.bottomCenter,
               child: SafeArea(
                 child: Container(
-                  height: 55.h,
+                  height: _responsivesize(context),
                   padding: EdgeInsets.all(12),
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
                     color: Color(0xFF9775FA),
-                    borderRadius: BorderRadius.circular(24.r),
+                     borderRadius: BorderRadius.circular(100.r),
                     boxShadow: [
                       BoxShadow(
                         color: Color(0xFF9775FA).withValues(alpha: 0.3),
@@ -645,8 +646,8 @@ class StartScreen extends ConsumerWidget {
 
                         child: item['type'] == 'profile'
                             ? Container(
-                                height: 35.w,
-                                width: 35.w,
+                                height: extralargePhone ? 35.h : 30.w,
+                                width: extralargePhone ? 35.h : 30.w,
                                 decoration: BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(100.r),
@@ -671,8 +672,8 @@ class StartScreen extends ConsumerWidget {
                                 ),
                               )
                             : SizedBox(
-                                height: 25.h,
-                                width: 25.w,
+                                height: _responsiveNavIconsheight(context),
+                                width: _responsiveNavIconswidth(context),
                                 child: Image.asset(
                                   ref.read(selectnavIndex.notifier).state ==
                                           index
@@ -692,3 +693,36 @@ class StartScreen extends ConsumerWidget {
     );
   }
 }
+
+double _responsivesize(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 60.h;
+  if (height < Breakpoints.largePhone) return 60.h;
+  if (height > Breakpoints.extraLarge) return 75.h;
+  return 55.h;
+}
+
+double _responsiveNavIconsheight(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.smallPhone) return 25.h;
+
+  if (height < Breakpoints.largePhone) return 30.h;
+
+  if (height > Breakpoints.extraLarge) return 60.h;
+
+  return 55.h;
+}
+
+double _responsiveNavIconswidth(BuildContext context) {
+  final height = MediaQuery.of(context).size.width;
+
+  if (height < Breakpoints.smallPhone) return 25.w;
+
+  if (height < Breakpoints.largePhone) return 30.w;
+
+  if (height > Breakpoints.extraLarge) return 60.w;
+  return 55.h;
+}
+
+
+
