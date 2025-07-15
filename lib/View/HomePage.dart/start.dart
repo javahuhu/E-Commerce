@@ -1,6 +1,5 @@
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
-import 'package:e_commercehybrid/ViewModel/category_view_model.dart';
-import 'package:e_commercehybrid/ViewModel/recommendation_view_model..dart';
+import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -343,7 +342,7 @@ class StartScreen extends ConsumerWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    sample.category,
+                                    sample.category?.toString() ?? '',
                                     style: TextStyle(
                                       fontFamily: 'RalewayRegular',
                                       fontSize: 15.sp,
@@ -361,7 +360,7 @@ class StartScreen extends ConsumerWidget {
                                     ),
 
                                     child: Text(
-                                      sample.noItems,
+                                      sample.noItems?.toString() ?? '',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'RalewayRegular',
@@ -483,6 +482,8 @@ class StartScreen extends ConsumerWidget {
                   ),
                 ),
 
+                SizedBox(height: 10.h,),
+
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 15.w),
                   child: GridView.builder(
@@ -491,7 +492,7 @@ class StartScreen extends ConsumerWidget {
                     gridDelegate:
                         SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: MediaQuery.of(context).size.height > 900 ? 2 / 2.4 : 2 / 2.6,
+                          childAspectRatio: _responsiveforyou(context),
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
                         ),
@@ -525,10 +526,10 @@ class StartScreen extends ConsumerWidget {
                           ),
 
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                height: 110.h,
+                                height: 125.h,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
@@ -567,7 +568,7 @@ class StartScreen extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: List.generate(5, (index) {
                                     return Icon(
-                                      index < newProduct.rating
+                                      index < (newProduct.rating ?? 0)
                                           ? Icons.star
                                           : Icons.star_border,
                                       color: Colors.amber,
@@ -692,6 +693,14 @@ class StartScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+double _responsiveforyou(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height > Breakpoints.xxLarge) return 2 / 2.2;
+  if (height > Breakpoints.largePhone) return 2 / 2.4;
+  if (height > Breakpoints.xxsmall) return 2 / 2.45;
+  return 2 / 2.73;
 }
 
 double _responsivesize(BuildContext context) {

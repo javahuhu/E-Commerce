@@ -1,7 +1,5 @@
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
-import 'package:e_commercehybrid/ViewModel/newitem_view_model.dart';
-import 'package:e_commercehybrid/ViewModel/popularproduct_view_model.dart';
-import 'package:e_commercehybrid/ViewModel/recentproduct_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,10 +56,11 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final newitem = ref.watch(newitemProvider);
-    final recentproduct = ref.watch(recentproductProvider);
-    final popularproduct = ref.watch(popularproductProvider);
+    final newitem = ref.watch(newItemsProvider);
+    final recentproduct = ref.watch(recentviewProvider);
+    final popularproduct = ref.watch(popularItemsProvider);
     final largePhone = MediaQuery.of(context).size.height > 850;
+    final doublesmall = MediaQuery.of(context).size.height < 700;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -177,7 +176,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
 
                 SizedBox(
-                  height: 60.h,
+                  height: 60.w,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -200,7 +199,7 @@ class ProfileScreen extends ConsumerWidget {
                           ),
 
                           child: ClipOval(
-                            child: Image.asset(recent.image, fit: BoxFit.cover),
+                            child: Image.asset(recent.image[0], fit: BoxFit.cover),
                           ),
                         ),
                       );
@@ -226,18 +225,18 @@ class ProfileScreen extends ConsumerWidget {
 
                 Padding(
                   padding: EdgeInsetsGeometry.only(
-                    left: 24.w,
+                    left: 20.w,
                     top: 15.h,
                     right: 5.w,
                   ),
 
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ...List.generate(orderbtn.length, (index) {
                         return SizedBox(
                           height: 30.h,
-                          width: 105.w,
+                          width: 108.w,
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
@@ -320,7 +319,7 @@ class ProfileScreen extends ConsumerWidget {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 170.h,
+                  height: 175.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -449,7 +448,7 @@ class ProfileScreen extends ConsumerWidget {
 
                 SizedBox(height: 15.h),
                 SizedBox(
-                  height: 165.h,
+                  height: 175.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -463,7 +462,7 @@ class ProfileScreen extends ConsumerWidget {
                         children: [
                           Container(
                             margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                            height: 155.h,
+                            height: doublesmall ? 165.h : 150.h,
                             width: 100.w,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -480,7 +479,7 @@ class ProfileScreen extends ConsumerWidget {
 
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.r),
-                                    child: Image.asset(popular.image),
+                                    child: Image.asset(popular.image[0]),
                                   ),
                                 ),
                                 Padding(
@@ -490,7 +489,7 @@ class ProfileScreen extends ConsumerWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        desc.like,
+                                        desc.likes?.toString() ?? '',
                                         style: TextStyle(
                                           fontFamily: 'RalewayRegular',
                                           fontSize: 12.sp,
@@ -504,10 +503,10 @@ class ProfileScreen extends ConsumerWidget {
                                         color: Colors.red,
                                       ),
 
-                                      SizedBox(width: 10.8.w),
+                                      SizedBox(width: 10.6.w),
 
                                       Text(
-                                        event.status,
+                                        event.event?.toString() ?? '',
                                         style: TextStyle(
                                           fontFamily: 'RalewayRegular',
                                           fontSize: 13.sp,

@@ -1,43 +1,79 @@
-import 'package:e_commercehybrid/Model/addtocart_model.dart';
+import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddtocartViewModel extends StateNotifier<List<AddtocartModel>> {
+class AddtocartViewModel extends StateNotifier<List<Product>> {
   AddtocartViewModel()
     : super([
-        AddtocartModel(
-          id: "1",
-          image: "assets/sampleitem.jpeg",
-          title: "'Lorem ipsum dolor sit amet consectetur.'",
-          color: 'Purple',
-          size: 'Size M',
-          price: "\$32.50",
+        Product(
+          id: '1',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
+          title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$18.00',
+          size: ["M", "L", "S"],
+          color: 'Green',
+          likes: 1700,
+          event: 'Sale',
         ),
 
-        AddtocartModel(
-          id: "2",
-          image: "assets/sampleitem.jpeg",
-          title: "'Lorem ipsum dolor sit amet consectetur.'",
-          color: 'Purple',
-          size: 'Size M',
-          price: "\$32.50",
+        Product(
+          id: '2',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
+          title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$18.00',
+          size: ["M", "L", "S"],
+          color: 'Green',
+          likes: 1700,
+          event: 'Sale',
         ),
 
-        AddtocartModel(
-          id: "3",
-          image: "assets/sampleitem.jpeg",
-          title: "'Lorem ipsum dolor sit amet consectetur.'",
-          color: 'Purple',
-          size: 'Size M',
-          price: "\$32.50",
+        Product(
+          id: '3',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
+          title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$18.00',
+          size: ["M", "L", "S"],
+          color: 'Green',
+          likes: 1700,
+          event: 'Sale',
         ),
 
-        AddtocartModel(
-          id: "4",
-          image: "assets/sampleitem.jpeg",
-          title: "'Lorem ipsum dolor sit amet consectetur.'",
-          color: 'Purple',
-          size: 'Size M',
-          price: "\$32.50",
+        Product(
+          id: '4',
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
+          title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          price: '\$18.00',
+          size: ["M", "L", "S"],
+          color: 'Green',
+          likes: 1700,
+          event: 'Sale',
         ),
       ]);
 
@@ -48,6 +84,6 @@ class AddtocartViewModel extends StateNotifier<List<AddtocartModel>> {
 }
 
 final addtocartProvider =
-    StateNotifierProvider<AddtocartViewModel, List<AddtocartModel>>((ref) {
+    StateNotifierProvider<AddtocartViewModel, List<Product>>((ref) {
       return AddtocartViewModel();
     });

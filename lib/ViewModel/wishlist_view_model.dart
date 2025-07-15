@@ -1,44 +1,66 @@
+import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../Model/wishlist_model.dart';
 
-class WishlistViewModel extends StateNotifier<List<WishlistModel>> {
+class WishlistViewModel extends StateNotifier<List<Product>> {
   WishlistViewModel()
     : super([
-        WishlistModel(
+        //Wishlist//
+        Product(
           id: '1',
-          image: "assets/sampleitem2.jpeg",
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
           title: "Lorem ipsum dolor sit amet consectetur.",
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
           price: "\$17.00",
           color: "Pink",
-          size: "M",
+          size: ["M", "L", "S"],
         ),
 
-        WishlistModel(
+        Product(
           id: '2',
-          image: "assets/sampleitem2.jpeg",
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
           title: "Lorem ipsum dolor sit amet consectetur.",
           price: "\$17.00",
           color: "Pink",
-          size: "M",
+          size: ["M", "L", "S"],
         ),
 
-        WishlistModel(
+        Product(
           id: '3',
-          image: "assets/sampleitem2.jpeg",
+          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
+          material: ["Cotton", "Nylon"],
+          origin: 'PH',
+          subimage: [
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+            "assets/sampleitem2.jpeg",
+          ],
           title: "Lorem ipsum dolor sit amet consectetur.",
           price: "\$17.00",
           color: "Pink",
-          size: "M",
+          size: ["M", "L", "S"],
         ),
       ]);
 
-  void removedProduct(int index) {
-    final updated = [...state]..removeAt(index);
-    state = updated;
+  void remove(index) {
+    final update = [...state]..removeAt(index);
+    state = update;
   }
 }
 
 final wishlistProvider =
-    StateNotifierProvider<WishlistViewModel, List<WishlistModel>>((ref) {
+    StateNotifierProvider<WishlistViewModel, List<Product>>((ref) {
       return WishlistViewModel();
     });

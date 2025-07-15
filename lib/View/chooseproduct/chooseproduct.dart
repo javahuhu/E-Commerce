@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
-import 'package:e_commercehybrid/ViewModel/popularproduct_view_model.dart';
-import 'package:e_commercehybrid/ViewModel/youmightlike_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -182,9 +181,9 @@ Widget _buildProductDetails(
   WidgetRef ref,
   BuildContext context,
 ) {
-  final popularproduct = ref.watch(popularproductProvider);
+  final popularproduct = ref.watch(popularItemsProvider);
   final youmightlike = ref.watch(youmightlikeProvider);
-  
+  final doublesmall = MediaQuery.of(context).size.height < 700;
 
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -808,7 +807,7 @@ Widget _buildProductDetails(
       ),
 
       SizedBox(
-        height: 160.h,
+        height: 175.h,
         child: ListView.separated(
           separatorBuilder: (_, __) => SizedBox(width: 15.w),
           scrollDirection: Axis.horizontal,
@@ -821,7 +820,7 @@ Widget _buildProductDetails(
             return Column(
               children: [
                 Container(
-                  height: 150.h,
+                  height: doublesmall ? 165.h : 150.h,
                   width: 100.w,
                   margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
                   decoration: BoxDecoration(
@@ -838,7 +837,7 @@ Widget _buildProductDetails(
                         padding: EdgeInsets.all(5.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
-                          child: Image.asset(popular.image),
+                          child: Image.asset(popular.image[0]),
                         ),
                       ),
                       Padding(
@@ -846,7 +845,7 @@ Widget _buildProductDetails(
                         child: Row(
                           children: [
                             Text(
-                              desc.like,
+                              desc.likes?.toString() ?? '',
                               style: TextStyle(
                                 fontFamily: 'RalewayRegular',
                                 fontSize: 12.sp,
@@ -860,10 +859,10 @@ Widget _buildProductDetails(
                               size: 15.sp,
                               color: Colors.red,
                             ),
-                            SizedBox(width: 10.8.w),
+                            SizedBox(width: 10.6.w),
 
                             Text(
-                              event.status,
+                              event.event?.toString() ?? '',
                               style: TextStyle(
                                 fontFamily: 'RalewayRegular',
                                 fontSize: 13.sp,
@@ -900,6 +899,8 @@ Widget _buildProductDetails(
         ),
       ),
 
+
+      SizedBox(height: 15.h,),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.sp),
         child: GridView.builder(
@@ -1007,7 +1008,7 @@ void _showBottomModal(
         builder: (context, ref, child) {
           return SingleChildScrollView(
             child: Container(
-              height: 500.h,
+              height:  smallphone ? 525.h : 500.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
@@ -1064,7 +1065,7 @@ void _showBottomModal(
                                   Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 8.w,
-                                      vertical: 4.h,
+                                      vertical: 0.h,
                                     ),
                                     decoration: BoxDecoration(
                                       color: Color(0xFFE5EBFC),
@@ -1085,7 +1086,7 @@ void _showBottomModal(
                                   Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 8.w,
-                                      vertical: 4.h,
+                                      vertical: 0.h,
                                     ),
                                     decoration: BoxDecoration(
                                       color: Color(0xFFE5EBFC),

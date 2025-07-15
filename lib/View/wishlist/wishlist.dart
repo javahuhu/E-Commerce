@@ -1,6 +1,6 @@
-import 'package:e_commercehybrid/Model/wishlist_model.dart';
+import 'package:e_commercehybrid/Model/product_model.dart';
+import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
-import 'package:e_commercehybrid/ViewModel/recentproduct_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +40,7 @@ class WishlistScreen extends ConsumerWidget {
 
   Future<bool?> _showConfirmationDialog(
     BuildContext context,
-    WishlistModel item,
+    Product item,
   ) async {
     return showDialog(
       context: context,
@@ -67,7 +67,7 @@ class WishlistScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlist = ref.watch(wishlistProvider);
-    final recentproduct = ref.watch(recentproductProvider);
+    final recentproduct = ref.watch(recentviewProvider);
     final selectnavIndex = StateProvider<int>((ref) => 2);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -140,7 +140,7 @@ class WishlistScreen extends ConsumerWidget {
                     SizedBox(height: 15.h),
 
                     SizedBox(
-                      height: 60.h,
+                      height: 60.w,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -166,7 +166,7 @@ class WishlistScreen extends ConsumerWidget {
 
                             child: ClipOval(
                               child: Image.asset(
-                                recent.image,
+                                recent.image[0],
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -202,7 +202,7 @@ class WishlistScreen extends ConsumerWidget {
                         onDismissed: (direction) {
                           ref
                               .read(wishlistProvider.notifier)
-                              .removedProduct(index);
+                              .remove(index);
                         },
                         child: Row(
                           children: [
@@ -228,7 +228,7 @@ class WishlistScreen extends ConsumerWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12.r),
                                     child: Image.asset(
-                                      item.image,
+                                      item.image[0],
                                       height: 100.h,
                                       width: 120.w,
                                       fit: BoxFit.cover,
@@ -339,7 +339,7 @@ class WishlistScreen extends ConsumerWidget {
                                         ),
 
                                         child: Text(
-                                          item.size,
+                                          item.size[0],
                                           style: TextStyle(
                                             fontSize: 15.sp,
                                             color: Colors.black,

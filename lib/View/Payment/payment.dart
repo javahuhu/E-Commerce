@@ -40,6 +40,7 @@ class PaymentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectnavIndex = StateProvider<int>((ref) => 3);
     final extraLarge = MediaQuery.of(context).size.height > 900;
+    
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -118,8 +119,8 @@ class PaymentScreen extends ConsumerWidget {
                               height: 35.w,
                               width: 35.w,
                               margin: EdgeInsets.only(
-                                right: 5.w,
-                                top: extraLarge ? 30.h : 20.h,
+                                right: 6.w,
+                                top: _responsiveedit(context),
                               ),
                               decoration: BoxDecoration(
                                 color: Color(0xFF9775FA),
@@ -219,8 +220,8 @@ class PaymentScreen extends ConsumerWidget {
                               height: 35.w,
                               width: 35.w,
                               margin: EdgeInsets.only(
-                                right: 5.w,
-                                top: extraLarge ? 30.h : 20.h,
+                                right: 6.w,
+                                top: _responsiveedit(context),
                               ),
                               decoration: BoxDecoration(
                                 color: Color(0xFF9775FA),
@@ -626,6 +627,13 @@ class PaymentScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+double _responsiveedit(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height > Breakpoints.extraLarge) return 30.h;
+  if (height < Breakpoints.doublesmall) return 15.h;
+  return 20.h;
 }
 
 double _responsivesize(BuildContext context) {

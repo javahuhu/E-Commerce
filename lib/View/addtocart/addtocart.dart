@@ -1,4 +1,4 @@
-import 'package:e_commercehybrid/Model/addtocart_model.dart';
+import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class CartScreen extends ConsumerWidget {
 
   Future<bool?> _showConfirmationDialog(
     BuildContext context,
-    AddtocartModel itemcart,
+    Product itemcart,
   ) async {
     return showDialog(
       context: context,
@@ -253,7 +253,7 @@ class CartScreen extends ConsumerWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12.r),
                                     child: Image.asset(
-                                      itemcart.image,
+                                      itemcart.image[0],
                                       height: 100.h,
                                       width: 120.w,
                                       fit: BoxFit.cover,
@@ -298,6 +298,9 @@ class CartScreen extends ConsumerWidget {
                                         fontSize: 12.sp,
                                         color: Colors.black,
                                       ),
+
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
                                     ),
                                   ),
 
@@ -317,7 +320,7 @@ class CartScreen extends ConsumerWidget {
                                         SizedBox(width: 10.w),
 
                                         Text(
-                                          itemcart.size,
+                                          itemcart.size[0],
                                           style: TextStyle(
                                             fontFamily: 'RalewayRegular',
                                             fontSize: 12.sp,
@@ -448,7 +451,7 @@ class CartScreen extends ConsumerWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12.r),
                               child: Image.asset(
-                                list.image,
+                                list.image[0],
                                 height: 100.h,
                                 width: 120.w,
                                 fit: BoxFit.cover,
@@ -520,7 +523,7 @@ class CartScreen extends ConsumerWidget {
                                       ),
 
                                       child: Text(
-                                        list.size,
+                                        list.size[0],
                                         style: TextStyle(
                                           fontSize: 15.sp,
                                           color: Colors.black,
