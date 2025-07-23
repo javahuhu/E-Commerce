@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: smallphone ? 15.h : 90.h),
 
                 Container(
-                  height: smallphone ? 245.h : 245.h,
+                  height: smallphone ? 245.h : 235.h,
                   width: 325.w,
                   decoration: BoxDecoration(
                     color: Colors.white,

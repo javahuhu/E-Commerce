@@ -370,7 +370,7 @@ Widget _buildProductDetails(
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(left: 22.w),
-          separatorBuilder: (_, __) => SizedBox(width: 15.w),
+          separatorBuilder: (_, _) => SizedBox(width: 15.w),
           itemCount: product.material.length,
           itemBuilder: (context, index) {
             return Container(
@@ -809,7 +809,7 @@ Widget _buildProductDetails(
       SizedBox(
         height: 175.h,
         child: ListView.separated(
-          separatorBuilder: (_, __) => SizedBox(width: 15.w),
+          separatorBuilder: (_, _) => SizedBox(width: 15.w),
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(horizontal: 22.sp),
           itemCount: popularproduct.length,
@@ -1003,6 +1003,8 @@ void _showBottomModal(
    final smallphone = MediaQuery.of(context).size.height < 700;
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return Consumer(
         builder: (context, ref, child) {
@@ -1133,7 +1135,7 @@ void _showBottomModal(
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                      separatorBuilder: (_, _) => SizedBox(width: 15.w),
                       itemCount: product.subimage.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
@@ -1222,7 +1224,7 @@ void _showBottomModal(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         shrinkWrap: true,
-                        separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                        separatorBuilder: (_, _) => SizedBox(width: 15.w),
                         itemCount: product.size.length,
                         itemBuilder: (context, index) {
                           return Container(

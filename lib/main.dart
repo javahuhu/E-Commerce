@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
         locale: DevicePreview.locale(context),
-        useInheritedMediaQuery: true,
         builder: DevicePreview.appBuilder,
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),

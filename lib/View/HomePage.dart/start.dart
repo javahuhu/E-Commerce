@@ -401,7 +401,7 @@ class StartScreen extends ConsumerWidget {
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(horizontal: 15.w),
                     scrollDirection: Axis.horizontal,
-                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    separatorBuilder: (_, _) => SizedBox(width: 15.w),
                     itemCount: live.length,
                     itemBuilder: (context, index) {
                       final liveimg = live[index];
@@ -647,8 +647,8 @@ class StartScreen extends ConsumerWidget {
 
                         child: item['type'] == 'profile'
                             ? Container(
-                                height: extralargePhone ? 35.h : 30.w,
-                                width: extralargePhone ? 35.h : 30.w,
+                                height: extralargePhone ? 35.w : 35.w,
+                                width: extralargePhone ? 35.w : 35.w,
                                 decoration: BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(100.r),
@@ -699,16 +699,18 @@ double _responsiveforyou(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height > Breakpoints.xxLarge) return 2 / 2.2;
   if (height > Breakpoints.largePhone) return 2 / 2.4;
-  if (height > Breakpoints.xxsmall) return 2 / 2.45;
-  return 2 / 2.73;
+  if (height > Breakpoints.xxsmall) return 2 / 2.47;
+  if (height > Breakpoints.smallPhone) return 2 / 2.63;
+  if (height > Breakpoints.extraSmall) return 2 / 2.8;
+  return 2 / 2.5;
 }
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height < Breakpoints.smallPhone) return 60.h;
-  if (height < Breakpoints.largePhone) return 60.h;
-  if (height > Breakpoints.extraLarge) return 75.h;
-  return 55.h;
+  if (height < Breakpoints.largePhone) return 70.h;
+  if (height < Breakpoints.extraLarge) return 75.h;
+  return 60.h;
 }
 
 double _responsiveNavIconsheight(BuildContext context) {

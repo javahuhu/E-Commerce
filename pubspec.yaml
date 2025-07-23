@@ -22,11 +22,12 @@ dependencies:
   carousel_slider: ^5.1.1
   smooth_page_indicator: ^1.2.1
   device_preview: ^1.3.1
+  glassmorphism: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
@@ -67,6 +68,17 @@ flutter:
     - assets/sampleitem3.jpeg
     - assets/sampleitem4.jpg
     - assets/sampleitem5.jpg
+    - assets/gcash.png
+    - assets/mastercard.png
+    - assets/paypal.png
+    - assets/paymaya.png
+    - assets/paymayatxt.png
+    - assets/gcashtxt.png
+    - assets/paypaltxt.png
+    - assets/mastercardtxt.png
+    - assets/cod.png
+    - assets/cashdelivery.png
+    - assets/wishlistnull.png
 
 
     - assets/fonts/RalewayBlack.ttf

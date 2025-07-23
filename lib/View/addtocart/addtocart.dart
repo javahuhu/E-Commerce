@@ -411,23 +411,26 @@ class CartScreen extends ConsumerWidget {
                       );
                     }),
 
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 15.h,
-                        ),
-                        child: Text(
-                          'From Your Wishlist',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w900,
+                    if (wishlist.isNotEmpty) ...[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 15.h,
+                          ),
+                          child: Text(
+                            'From Your Wishlist',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ] else
+                      SizedBox(key: ValueKey('empty'), height: 20.h,),
 
                     ...wishlist.asMap().entries.map((entry) {
                       var list = entry.value;
@@ -560,7 +563,7 @@ class CartScreen extends ConsumerWidget {
             ),
 
             Padding(
-              padding: EdgeInsets.only(bottom: extralargePhone ? 100.h : 80.h),
+              padding: EdgeInsets.only(bottom: extralargePhone ? 110.h : 90.h),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -568,7 +571,7 @@ class CartScreen extends ConsumerWidget {
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF9F9F),
-                    borderRadius: BorderRadius.circular(24.r),
+                    borderRadius: BorderRadius.circular(100.r),
                     boxShadow: [
                       BoxShadow(color: Colors.black12, blurRadius: 10),
                     ],
@@ -662,8 +665,8 @@ class CartScreen extends ConsumerWidget {
 
                           child: item['type'] == 'profile'
                               ? Container(
-                                  height: extralargePhone ? 35.h : 30.w,
-                                  width: extralargePhone ? 35.h : 30.w,
+                                  height: extralargePhone ? 35.h : 35.w,
+                                  width: extralargePhone ? 35.h : 35.w,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(100.r),
@@ -714,9 +717,9 @@ class CartScreen extends ConsumerWidget {
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height < Breakpoints.smallPhone) return 60.h;
-  if (height < Breakpoints.largePhone) return 60.h;
-  if (height > Breakpoints.extraLarge) return 75.h;
-  return 55.h;
+  if (height < Breakpoints.largePhone) return 70.h;
+  if (height < Breakpoints.extraLarge) return 75.h;
+  return 60.h;
 }
 
 double _responsiveNavIconsheight(BuildContext context) {

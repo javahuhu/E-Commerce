@@ -129,6 +129,8 @@ class _RecentviewScreenState extends State<RecentviewScreen> {
           SingleChildScrollView(
             child: Column(
               children: [
+
+                SizedBox(height: 10.h,),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 15.w,
@@ -328,8 +330,8 @@ class _RecentviewScreenState extends State<RecentviewScreen> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
-                      mainAxisSpacing: 20.h,
-                      childAspectRatio: 0.61,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 0.75,
                     ),
                     itemCount: recentview.length,
                     itemBuilder: (context, index) {
@@ -394,7 +396,7 @@ class _RecentviewScreenState extends State<RecentviewScreen> {
                   ),
                 ),
 
-                SizedBox(height: 55.h),
+                SizedBox(height: 70.h),
               ],
             ),
           ),

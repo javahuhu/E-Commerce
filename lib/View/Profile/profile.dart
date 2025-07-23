@@ -101,7 +101,7 @@ class ProfileScreen extends ConsumerWidget {
                       Padding(
                         padding: EdgeInsetsGeometry.only(left: 15.w),
                         child: SizedBox(
-                          height: 30.h,
+                          height: 35.h,
                           width: 135.w,
                           child: ElevatedButton(
                             onPressed: () {},
@@ -127,7 +127,7 @@ class ProfileScreen extends ConsumerWidget {
                    
 
                       SizedBox(
-                        height: 35.h,
+                        height: 35.w,
                         width: largePhone ? 135.w : 125.w,
 
                         child: Row(
@@ -180,7 +180,7 @@ class ProfileScreen extends ConsumerWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
-                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    separatorBuilder: (_, _) => SizedBox(width: 15.w),
                     itemCount: recentproduct.length,
                     itemBuilder: (context, index) {
                       final recent = recentproduct[index];
@@ -235,7 +235,7 @@ class ProfileScreen extends ConsumerWidget {
                     children: [
                       ...List.generate(orderbtn.length, (index) {
                         return SizedBox(
-                          height: 30.h,
+                          height: 35.h,
                           width: 108.w,
                           child: ElevatedButton(
                             onPressed: () {},
@@ -324,7 +324,7 @@ class ProfileScreen extends ConsumerWidget {
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
                     itemCount: newitem.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    separatorBuilder: (_, _) => SizedBox(width: 15.w),
                     itemBuilder: (context, index) {
                       final img = newitem[index];
                       final txt = newitem[index];
@@ -452,7 +452,7 @@ class ProfileScreen extends ConsumerWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
-                    separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                    separatorBuilder: (_, _) => SizedBox(width: 15.w),
                     itemCount: popularproduct.length,
                     itemBuilder: (context, index) {
                       final popular = popularproduct[index];
@@ -542,7 +542,7 @@ class ProfileScreen extends ConsumerWidget {
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
                     color: Color(0xFF9775FA),
-                    borderRadius: BorderRadius.circular(24.r),
+                    borderRadius: BorderRadius.circular(100.r),
                     boxShadow: [
                       BoxShadow(
                         color: Color(0xFF9775FA).withValues(alpha: 0.3),
@@ -585,8 +585,8 @@ class ProfileScreen extends ConsumerWidget {
 
                         child: item['type'] == 'profile'
                             ? Container(
-                                height: 30.w,
-                                width: 30.w,
+                                height: 35.w,
+                                width: 35.w,
                                 decoration: BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(100.r),
@@ -629,18 +629,18 @@ class ProfileScreen extends ConsumerWidget {
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height < Breakpoints.smallPhone) return 60.h;
-  if (height < Breakpoints.largePhone) return 60.h;
+  if (height < Breakpoints.largePhone) return 70.h;
   if (height < Breakpoints.extraLarge) return 75.h;
-  return 5.h;
+  return 60.h;
 }
 
 
 
 double _responsiveNavIconsheight(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  if (height < Breakpoints.smallPhone) return 25.h;
+  if (height < Breakpoints.smallPhone) return 30.h;
 
-  if (height < Breakpoints.largePhone) return 30.h;
+  if (height < Breakpoints.largePhone) return 35.h;
 
   if (height > Breakpoints.extraLarge) return 60.h;
 

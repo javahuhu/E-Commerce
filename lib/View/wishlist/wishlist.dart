@@ -144,7 +144,7 @@ class WishlistScreen extends ConsumerWidget {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        separatorBuilder: (_, __) => SizedBox(width: 15.w),
+                        separatorBuilder: (_, _) => SizedBox(width: 15.w),
                         itemCount: recentproduct.length,
                         itemBuilder: (context, index) {
                           final recent = recentproduct[index];
@@ -176,205 +176,222 @@ class WishlistScreen extends ConsumerWidget {
                     ),
 
                     SizedBox(height: 15.h),
+                    if (wishlist.isNotEmpty) ...[
+                      ...wishlist.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        var item = entry.value;
 
-                    ...wishlist.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      var item = entry.value;
+                        return Dismissible(
+                          key: Key(item.id),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 70.w),
+                            child: Icon(Icons.delete, color: Colors.white),
+                          ),
 
-                      return Dismissible(
-                        key: Key(item.id),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 70.w),
-                          child: Icon(Icons.delete, color: Colors.white),
-                        ),
+                          confirmDismiss: (direction) async {
+                            final bool? confirm = await _showConfirmationDialog(
+                              context,
+                              item,
+                            );
+                            return confirm ?? false;
+                          },
 
-                        confirmDismiss: (direction) async {
-                          final bool? confirm = await _showConfirmationDialog(
-                            context,
-                            item,
-                          );
-                          return confirm ?? false;
-                        },
-
-                        onDismissed: (direction) {
-                          ref
-                              .read(wishlistProvider.notifier)
-                              .remove(index);
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 15.w,
-                                vertical: 12.h,
-                              ),
-                              padding: EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 8,
-                                  ),
-                                ],
-                              ),
-
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12.r),
-                                    child: Image.asset(
-                                      item.image[0],
-                                      height: 100.h,
-                                      width: 120.w,
-                                      fit: BoxFit.cover,
+                          onDismissed: (direction) {
+                            ref.read(wishlistProvider.notifier).remove(index);
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 15.w,
+                                  vertical: 12.h,
+                                ),
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 8,
                                     ),
-                                  ),
+                                  ],
+                                ),
 
-                                  // Padding(
-                                  //   padding: EdgeInsets.only(
-                                  //     top: 62.h,
-                                  //     left: 8.w,
-                                  //   ),
-                                  //   child: AnimatedOpacity(
-                                  //     opacity: item['showTrash'] ? 1 : 0,
-                                  //     duration: Duration(milliseconds: 200),
-                                  //     child: Container(
-                                  //       height: 35.w,
-                                  //       width: 35.w,
-                                  //       alignment: Alignment.center,
-                                  //       decoration: BoxDecoration(
-                                  //         color: Colors.white,
-                                  //         shape: BoxShape.circle,
-                                  //       ),
-
-                                  //       child: ClipRRect(
-                                  //         child: Image.asset(
-                                  //           'assets/trash.png',
-                                  //           height: 15.h,
-                                  //           width: 15.w,
-                                  //           fit: BoxFit.contain,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: Text(
-                                      item.title,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.black,
-                                      ),
-
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-
-                                  SizedBox(height: 10.h),
-
-                                  Padding(
-                                    padding: EdgeInsets.all(2),
-                                    child: Text(
-                                      item.price,
-                                      style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 20.sp,
-                                        color: Colors.black,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      child: Image.asset(
+                                        item.image[0],
+                                        height: 100.h,
+                                        width: 120.w,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                  ),
 
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 25.h,
-                                        width: 50.w,
-                                        alignment: Alignment.center,
+                                    // Padding(
+                                    //   padding: EdgeInsets.only(
+                                    //     top: 62.h,
+                                    //     left: 8.w,
+                                    //   ),
+                                    //   child: AnimatedOpacity(
+                                    //     opacity: item['showTrash'] ? 1 : 0,
+                                    //     duration: Duration(milliseconds: 200),
+                                    //     child: Container(
+                                    //       height: 35.w,
+                                    //       width: 35.w,
+                                    //       alignment: Alignment.center,
+                                    //       decoration: BoxDecoration(
+                                    //         color: Colors.white,
+                                    //         shape: BoxShape.circle,
+                                    //       ),
 
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFE5EBFC),
-                                          borderRadius: BorderRadius.circular(
-                                            3.r,
-                                          ),
+                                    //       child: ClipRRect(
+                                    //         child: Image.asset(
+                                    //           'assets/trash.png',
+                                    //           height: 15.h,
+                                    //           width: 15.w,
+                                    //           fit: BoxFit.contain,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 10.w),
+                                      child: Text(
+                                        item.title,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.black,
                                         ),
 
-                                        child: Text(
-                                          item.color,
-                                          style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 10.h),
+
+                                    Padding(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text(
+                                        item.price,
+                                        style: TextStyle(
+                                          fontFamily: 'Raleway',
+                                          fontSize: 20.sp,
+                                          color: Colors.black,
                                         ),
                                       ),
+                                    ),
 
-                                      SizedBox(width: 10.w),
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 25.h,
+                                          width: 50.w,
+                                          alignment: Alignment.center,
 
-                                      Container(
-                                        height: 25.h,
-                                        width: 50.w,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            3.r,
-                                          ),
-                                          color: Color(0xFFE5EBFC),
-                                        ),
-
-                                        child: Text(
-                                          item.size[0],
-                                          style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-
-                                      SizedBox(width: 50.w),
-
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Container(
-                                          height: 27.h,
-                                          width: 27.w,
                                           decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                'assets/addtocart.png',
+                                            color: Color(0xFFE5EBFC),
+                                            borderRadius: BorderRadius.circular(
+                                              3.r,
+                                            ),
+                                          ),
+
+                                          child: Text(
+                                            item.color,
+                                            style: TextStyle(
+                                              fontSize: 15.sp,
+                                              color: Colors.black,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+
+                                        SizedBox(width: 10.w),
+
+                                        Container(
+                                          height: 25.h,
+                                          width: 50.w,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              3.r,
+                                            ),
+                                            color: Color(0xFFE5EBFC),
+                                          ),
+
+                                          child: Text(
+                                            item.size[0],
+                                            style: TextStyle(
+                                              fontSize: 15.sp,
+                                              color: Colors.black,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+
+                                        SizedBox(width: 50.w),
+
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Container(
+                                            height: 27.h,
+                                            width: 27.w,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  'assets/addtocart.png',
+                                                ),
+                                                fit: BoxFit.cover,
                                               ),
-                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ] else
+                      Padding(
+                        padding: EdgeInsets.only(top: 100.h),
+                        child: Center(
+                          child: Container(
+                            height: 150.w,
+                            width: 150.w,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 5),
+                              ],
                             ),
-                          ],
+                            child: Image.asset('assets/wishlistnull.png', height: 90.h, width: 90.w,),
+                          ),
                         ),
-                      );
-                    }),
+                      ),
                   ],
                 ),
               ],
@@ -428,8 +445,8 @@ class WishlistScreen extends ConsumerWidget {
 
                           child: item['type'] == 'profile'
                               ? Container(
-                                  height: 30.w,
-                                  width: 30.w,
+                                  height: 35.w,
+                                  width: 35.w,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(100.r),
@@ -482,9 +499,9 @@ class WishlistScreen extends ConsumerWidget {
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height < Breakpoints.smallPhone) return 60.h;
-  if (height < Breakpoints.largePhone) return 60.h;
-  if (height > Breakpoints.extraLarge) return 75.h;
-  return 55.h;
+  if (height < Breakpoints.largePhone) return 70.h;
+  if (height < Breakpoints.extraLarge) return 75.h;
+  return 60.h;
 }
 
 double _responsiveNavIconsheight(BuildContext context) {
