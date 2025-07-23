@@ -54,7 +54,7 @@ class WishlistViewModel extends StateNotifier<List<Product>> {
         ),
       ]);
 
-  void remove(index) {
+  void remove(int index){
     final update = [...state]..removeAt(index);
     state = update;
   }
