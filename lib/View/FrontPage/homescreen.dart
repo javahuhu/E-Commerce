@@ -46,10 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 15.sp),
                 ),
 
-                SizedBox(height: smallphone ? 15.h : 90.h),
+                SizedBox(height: smallphone ? 40.h : 90.h),
 
                 Container(
-                  height: smallphone ? 245.h : 235.h,
+                  padding: EdgeInsets.symmetric(vertical: 5.h),
                   width: 325.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   child: Column(
                     children: [
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 5.h),
                       Text(
                         'Look Good, Feel Good',
                         style: TextStyle(

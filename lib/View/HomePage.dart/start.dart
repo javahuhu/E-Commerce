@@ -698,7 +698,7 @@ class StartScreen extends ConsumerWidget {
 double _responsiveforyou(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height > Breakpoints.xxLarge) return 2 / 2.2;
-  if (height > Breakpoints.largePhone) return 2 / 2.4;
+  if (height > Breakpoints.largePhone) return 2 / 2.3;
   if (height > Breakpoints.xxsmall) return 2 / 2.47;
   if (height > Breakpoints.smallPhone) return 2 / 2.63;
   if (height > Breakpoints.extraSmall) return 2 / 2.8;
@@ -707,9 +707,10 @@ double _responsiveforyou(BuildContext context) {
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.extraSmall) return 70.h;
   if (height < Breakpoints.smallPhone) return 60.h;
   if (height < Breakpoints.largePhone) return 70.h;
-  if (height < Breakpoints.extraLarge) return 75.h;
+  if (height > Breakpoints.extraLarge) return 75.h;
   return 60.h;
 }
 

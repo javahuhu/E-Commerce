@@ -1,5 +1,6 @@
 import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,8 +70,9 @@ class CartScreen extends ConsumerWidget {
     final selectnavIndex = StateProvider<int>((ref) => 3);
     final addtocart = ref.watch(addtocartProvider);
     final wishlist = ref.watch(wishlistProvider);
+    final popularproduct = ref.watch(popularItemsProvider);
     final extralargePhone = MediaQuery.of(context).size.height > 900;
-
+    final mediumPhone = MediaQuery.of(context).size.height > 750;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -180,7 +182,7 @@ class CartScreen extends ConsumerWidget {
                                 width: 35.w,
                                 margin: EdgeInsets.only(
                                   right: 5.w,
-                                  top: extralargePhone ? 30.h : 20.h,
+                                  top: extralargePhone ? 30.h : 14.h,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Color(0xFF9775FA),
@@ -203,213 +205,239 @@ class CartScreen extends ConsumerWidget {
                     ),
 
                     SizedBox(height: 15.h),
+                    if (addtocart.isNotEmpty) ...[
+                      ...addtocart.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        var itemcart = entry.value;
 
-                    ...addtocart.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      var itemcart = entry.value;
+                        return Dismissible(
+                          key: Key(itemcart.id),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 70.w),
+                            child: Icon(Icons.delete, color: Colors.white),
+                          ),
 
-                      return Dismissible(
-                        key: Key(itemcart.id),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 70.w),
-                          child: Icon(Icons.delete, color: Colors.white),
-                        ),
+                          confirmDismiss: (direction) async {
+                            final bool? confirm = await _showConfirmationDialog(
+                              context,
+                              itemcart,
+                            );
+                            return confirm ?? false;
+                          },
 
-                        confirmDismiss: (direction) async {
-                          final bool? confirm = await _showConfirmationDialog(
-                            context,
-                            itemcart,
-                          );
-                          return confirm ?? false;
-                        },
-
-                        onDismissed: (direction) {
-                          ref.read(addtocartProvider.notifier).onDelete(index);
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 15.w,
-                                vertical: 12.h,
-                              ),
-                              padding: EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 8,
-                                  ),
-                                ],
-                              ),
-
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12.r),
-                                    child: Image.asset(
-                                      itemcart.image[0],
-                                      height: 100.h,
-                                      width: 120.w,
-                                      fit: BoxFit.cover,
+                          onDismissed: (direction) {
+                            ref
+                                .read(addtocartProvider.notifier)
+                                .onDelete(index);
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 15.w,
+                                  vertical: 12.h,
+                                ),
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 8,
                                     ),
-                                  ),
+                                  ],
+                                ),
 
-                                  // Padding(
-                                  //   padding: EdgeInsets.only(
-                                  //     top: 62.h,
-                                  //     left: 8.w,
-                                  //   ),
-                                  //   child: Container(
-                                  //     height: 35.w,
-                                  //     width: 35.w,
-                                  //     alignment: Alignment.center,
-                                  //     decoration: BoxDecoration(
-                                  //       color: Colors.white,
-                                  //       shape: BoxShape.circle,
-                                  //     ),
-
-                                  //     child: Image.asset(
-                                  //       'assets/trash.png',
-                                  //       height: 15.h,
-                                  //       width: 15.w,
-                                  //       fit: BoxFit.contain,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: Text(
-                                      itemcart.title,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.black,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      child: Image.asset(
+                                        itemcart.image[0],
+                                        height: 100.h,
+                                        width: 120.w,
+                                        fit: BoxFit.cover,
                                       ),
-
-                                      maxLines: 2,
-                                      overflow: TextOverflow.clip,
                                     ),
-                                  ),
 
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 15.h),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          itemcart.color,
-                                          style: TextStyle(
-                                            fontFamily: 'RalewayRegyular',
-                                            fontSize: 12.sp,
-                                            color: Colors.black,
-                                          ),
+                                    // Padding(
+                                    //   padding: EdgeInsets.only(
+                                    //     top: 62.h,
+                                    //     left: 8.w,
+                                    //   ),
+                                    //   child: Container(
+                                    //     height: 35.w,
+                                    //     width: 35.w,
+                                    //     alignment: Alignment.center,
+                                    //     decoration: BoxDecoration(
+                                    //       color: Colors.white,
+                                    //       shape: BoxShape.circle,
+                                    //     ),
+
+                                    //     child: Image.asset(
+                                    //       'assets/trash.png',
+                                    //       height: 15.h,
+                                    //       width: 15.w,
+                                    //       fit: BoxFit.contain,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 10.w),
+                                      child: Text(
+                                        itemcart.title,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.black,
                                         ),
 
-                                        SizedBox(width: 10.w),
-
-                                        Text(
-                                          itemcart.size[0],
-                                          style: TextStyle(
-                                            fontFamily: 'RalewayRegular',
-                                            fontSize: 12.sp,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                      ),
                                     ),
-                                  ),
 
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 13.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          itemcart.price,
-                                          style: TextStyle(
-                                            fontFamily: 'Raleway',
-                                            fontSize: 20.sp,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-
-                                        SizedBox(width: 25.w),
-
-                                        GestureDetector(
-                                          onTap: () {},
-                                          child: Container(
-                                            height: 30.w,
-                                            width: 30.w,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  'assets/minusbtn.png',
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          height: 25.h,
-                                          width: 35.w,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFFE5EBFC),
-                                            borderRadius: BorderRadius.circular(
-                                              3.r,
-                                            ),
-                                          ),
-
-                                          child: Text(
-                                            '3',
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 15.h),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            itemcart.color,
                                             style: TextStyle(
-                                              fontSize: 15.sp,
+                                              fontFamily: 'RalewayRegyular',
+                                              fontSize: 12.sp,
                                               color: Colors.black,
                                             ),
                                           ),
-                                        ),
 
-                                        GestureDetector(
-                                          onTap: () {},
-                                          child: Container(
-                                            height: 30.h,
-                                            width: 30.w,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  'assets/addbtn.png',
+                                          SizedBox(width: 10.w),
+
+                                          Text(
+                                            itemcart.size[0],
+                                            style: TextStyle(
+                                              fontFamily: 'RalewayRegular',
+                                              fontSize: 12.sp,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 13.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            itemcart.price,
+                                            style: TextStyle(
+                                              fontFamily: 'Raleway',
+                                              fontSize: 20.sp,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+
+                                          SizedBox(width: 25.w),
+
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: Container(
+                                              height: 30.w,
+                                              width: 30.w,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    'assets/minusbtn.png',
+                                                  ),
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
 
-                                        SizedBox(width: 5.w),
-                                      ],
+                                          Container(
+                                            height: 25.h,
+                                            width: 35.w,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFE5EBFC),
+                                              borderRadius:
+                                                  BorderRadius.circular(3.r),
+                                            ),
+
+                                            child: Text(
+                                              '3',
+                                              style: TextStyle(
+                                                fontSize: 15.sp,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: Container(
+                                              height: 30.h,
+                                              width: 30.w,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    'assets/addbtn.png',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          SizedBox(width: 5.w),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ] else
+                      Padding(
+                        padding: EdgeInsets.only(top: 100.h),
+                        child: Center(
+                          child: Container(
+                            height: 150.w,
+                            width: 150.w,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 5),
+                              ],
                             ),
-                          ],
+                            child: Image.asset(
+                              'assets/addtocartnull.jpg',
+                              height: 90.h,
+                              width: 90.w,
+                            ),
+                          ),
                         ),
-                      );
-                    }),
+                      ),
+
+                    SizedBox(height: 25.h),
 
                     if (wishlist.isNotEmpty) ...[
                       Align(
@@ -430,7 +458,7 @@ class CartScreen extends ConsumerWidget {
                         ),
                       ),
                     ] else
-                      SizedBox(key: ValueKey('empty'), height: 20.h,),
+                      SizedBox(key: ValueKey('empty'), height: 20.h),
 
                     ...wishlist.asMap().entries.map((entry) {
                       var list = entry.value;
@@ -516,7 +544,7 @@ class CartScreen extends ConsumerWidget {
 
                                     Container(
                                       height: 25.h,
-                                      width: 50,
+                                      width: 50.w,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: Color(0xFFE5EBFC),
@@ -557,17 +585,151 @@ class CartScreen extends ConsumerWidget {
                         ],
                       );
                     }),
+
+                    SizedBox(height: 25.h),
+                    if (wishlist.isEmpty && addtocart.isEmpty) ...[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 22.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Most Popular',
+                              style: TextStyle(
+                                fontFamily: 'RalewayRegular',
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'See All',
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayRegular',
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                SizedBox(width: 15.w),
+
+                                Container(
+                                  height: 30.w,
+                                  width: 30.w,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFF9775FA),
+                                  ),
+
+                                  child: Icon(
+                                    Icons.arrow_right_alt_sharp,
+                                    size: 20.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 15.h),
+
+                      SizedBox(
+                        height: mediumPhone ? 165 : 178.h,
+                        child: ListView.separated(
+                          itemCount: popularproduct.length,
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          separatorBuilder: (_, _) => SizedBox(width: 15.w),
+                          itemBuilder: (context, index) {
+                            final popular = popularproduct[index];
+                            return Container(
+                              margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
+
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      child: Image.asset(popular.image[0]),
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          popular.likes?.toString() ?? '',
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 13.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+
+                                        Icon(
+                                          Icons.favorite,
+                                          size: 13.sp,
+                                          color: Colors.red,
+                                        ),
+
+                                        SizedBox(width: 10.w),
+
+                                        Text(
+                                          popular.event?.toString() ?? '',
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 13.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ] else
+                      SizedBox(key: ValueKey('empty')),
+
+                    SizedBox(height: 25.h),
                   ],
                 ),
               ],
             ),
 
             Padding(
-              padding: EdgeInsets.only(bottom: extralargePhone ? 110.h : 90.h),
+              padding: EdgeInsets.only(bottom: extralargePhone ? 90.h : 85.h),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: extralargePhone ? 60.h : 55.h,
+                  height: extralargePhone ? 70.h : 60.h,
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF9F9F),
@@ -665,8 +827,8 @@ class CartScreen extends ConsumerWidget {
 
                           child: item['type'] == 'profile'
                               ? Container(
-                                  height: extralargePhone ? 35.h : 35.w,
-                                  width: extralargePhone ? 35.h : 35.w,
+                                  height: 35.w,
+                                  width: 35.w,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(100.r),
@@ -716,9 +878,10 @@ class CartScreen extends ConsumerWidget {
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.extraSmall) return 70.h;
   if (height < Breakpoints.smallPhone) return 60.h;
   if (height < Breakpoints.largePhone) return 70.h;
-  if (height < Breakpoints.extraLarge) return 75.h;
+  if (height > Breakpoints.extraLarge) return 75.h;
   return 60.h;
 }
 
@@ -734,12 +897,12 @@ double _responsiveNavIconsheight(BuildContext context) {
 }
 
 double _responsiveNavIconswidth(BuildContext context) {
-  final height = MediaQuery.of(context).size.width;
+  final width = MediaQuery.of(context).size.width;
 
-  if (height < Breakpoints.smallPhone) return 25.w;
+  if (width < Breakpoints.smallPhone) return 25.w;
 
-  if (height < Breakpoints.largePhone) return 30.w;
+  if (width < Breakpoints.largePhone) return 30.w;
 
-  if (height > Breakpoints.extraLarge) return 60.w;
-  return 55.h;
+  if (width > Breakpoints.extraLarge) return 60.w;
+  return 55.w;
 }

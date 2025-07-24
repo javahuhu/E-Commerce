@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:e_commercehybrid/constantsize.dart';
 
 class Chooseitem extends ConsumerWidget {
   @override
@@ -17,7 +18,6 @@ class Chooseitem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeIndex = ref.watch(currentIndex);
     final selectedproduct = ref.watch(selectedproductProvider);
-    
 
     if (selectedproduct == null) {
       return Scaffold(body: Center(child: Text('No item to Show')));
@@ -176,6 +176,7 @@ class Chooseitem extends ConsumerWidget {
   }
 }
 
+final allreviews = StateProvider<bool>((ref) => false);
 Widget _buildProductDetails(
   SelectproductModel product,
   WidgetRef ref,
@@ -183,7 +184,7 @@ Widget _buildProductDetails(
 ) {
   final popularproduct = ref.watch(popularItemsProvider);
   final youmightlike = ref.watch(youmightlikeProvider);
-  final doublesmall = MediaQuery.of(context).size.height < 700;
+  final expand = ref.watch(allreviews);
 
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -670,71 +671,165 @@ Widget _buildProductDetails(
         ],
       ),
 
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 50.w,
-                width: 50.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 3.w),
-                  boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 8)],
-                ),
+      Container(
+        height: expand ? null : 150.h,
+        decoration: BoxDecoration(color: Colors.white),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 50.w,
+                      width: 50.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 3.w),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black38, blurRadius: 8),
+                        ],
+                      ),
 
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.r),
-                  child: Image.asset(
-                    'assets/testprofile.jpg',
-                    fit: BoxFit.cover,
-                  ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: Image.asset(
+                          'assets/testprofile.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 17.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Veronica',
+                              style: TextStyle(
+                                fontFamily: 'RalewayRegular',
+                                fontSize: 18.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: List.generate(5, (index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 0.w),
+                                  child: Icon(Icons.star),
+                                );
+                              }),
+                            ),
+
+                            SizedBox(height: 5.h),
+
+                            Padding(
+                              padding: EdgeInsets.only(left: 3.w),
+                              child: SizedBox(
+                                width: 245.w,
+                                child: Text(
+                                  'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            ),
 
+            if (expand)
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 17.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 22.w,
+                    vertical: 10.h,
+                  ),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Veronica',
-                        style: TextStyle(
-                          fontFamily: 'RalewayRegular',
-                          fontSize: 18.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        height: 50.w,
+                        width: 50.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3.w),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black38, blurRadius: 8),
+                          ],
+                        ),
+
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.r),
+                          child: Image.asset(
+                            'assets/testprofile.jpg',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: List.generate(5, (index) {
-                          return Padding(
-                            padding: EdgeInsets.only(right: 0.w),
-                            child: Icon(Icons.star),
-                          );
-                        }),
-                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 17.w),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Veronica',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayRegular',
+                                  fontSize: 18.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
 
-                      SizedBox(height: 5.h),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: List.generate(5, (index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(right: 0.w),
+                                    child: Icon(Icons.star),
+                                  );
+                                }),
+                              ),
 
-                      Padding(
-                        padding: EdgeInsets.only(left: 3.w),
-                        child: SizedBox(
-                          width: 245.w,
-                          child: Text(
-                            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.black,
-                            ),
+                              SizedBox(height: 5.h),
+
+                              Padding(
+                                padding: EdgeInsets.only(left: 3.w),
+                                child: SizedBox(
+                                  width: 245.w,
+                                  child: Text(
+                                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -742,8 +837,7 @@ Widget _buildProductDetails(
                   ),
                 ),
               ),
-            ],
-          ),
+          ],
         ),
       ),
 
@@ -753,7 +847,11 @@ Widget _buildProductDetails(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              ref.read(allreviews.notifier).state = !ref
+                  .read(allreviews.notifier)
+                  .state;
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF9775FA),
               shape: RoundedRectangleBorder(
@@ -761,7 +859,7 @@ Widget _buildProductDetails(
               ),
             ),
             child: Text(
-              'View All Reviews',
+              expand ? 'Show less' : 'View All Reviews',
               style: TextStyle(
                 fontFamily: 'RalewayRegular',
                 fontSize: 18.sp,
@@ -807,7 +905,7 @@ Widget _buildProductDetails(
       ),
 
       SizedBox(
-        height: 175.h,
+        height: 178.h,
         child: ListView.separated(
           separatorBuilder: (_, _) => SizedBox(width: 15.w),
           scrollDirection: Axis.horizontal,
@@ -820,7 +918,7 @@ Widget _buildProductDetails(
             return Column(
               children: [
                 Container(
-                  height: doublesmall ? 165.h : 150.h,
+                  padding: EdgeInsets.symmetric(vertical: 5.h),
                   width: 100.w,
                   margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
                   decoration: BoxDecoration(
@@ -882,7 +980,7 @@ Widget _buildProductDetails(
         ),
       ),
 
-      SizedBox(height: 15.h,),
+      SizedBox(height: 15.h),
 
       Align(
         alignment: Alignment.centerLeft,
@@ -899,8 +997,7 @@ Widget _buildProductDetails(
         ),
       ),
 
-
-      SizedBox(height: 15.h,),
+      SizedBox(height: 15.h),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.sp),
         child: GridView.builder(
@@ -910,7 +1007,7 @@ Widget _buildProductDetails(
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             crossAxisCount: 2,
-            childAspectRatio: MediaQuery.of(context).size.height < 900 ? 2 / 2.8 : 2 / 2.5
+            childAspectRatio: _responsiveGrid(context),
           ),
           itemCount: youmightlike.length,
           itemBuilder: (BuildContext context, index) {
@@ -998,9 +1095,8 @@ void _showBottomModal(
   SelectproductModel product,
   BuildContext context,
   WidgetRef ref,
-  
 ) {
-   final smallphone = MediaQuery.of(context).size.height < 700;
+  final smallphone = MediaQuery.of(context).size.height < 700;
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -1010,7 +1106,7 @@ void _showBottomModal(
         builder: (context, ref, child) {
           return SingleChildScrollView(
             child: Container(
-              height:  smallphone ? 525.h : 500.h,
+              height: smallphone ? 525.h : 500.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
@@ -1141,7 +1237,8 @@ void _showBottomModal(
                         return GestureDetector(
                           onTap: () {
                             final current = ref.read(selectIndex);
-                            ref.read(selectIndex.notifier).state = current == index ? null : index;
+                            ref.read(selectIndex.notifier).state =
+                                current == index ? null : index;
                           },
                           child: Stack(
                             children: [
@@ -1316,91 +1413,90 @@ void _showBottomModal(
                   ),
                   SizedBox(height: smallphone ? 25.h : 20.h),
 
-                   Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 0.w,
-                          vertical: 23.h,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(
-                              height: 35.h,
-                              width: 40.w,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFFF9F9F9),
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                  padding: EdgeInsets.zero,
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 0.w,
+                        vertical: 23.h,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            height: 35.h,
+                            width: 40.w,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFF9F9F9),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.favorite_outline,
-                                    size: 25.sp,
-                                    color: Colors.black,
-                                  ),
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.favorite_outline,
+                                  size: 25.sp,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
+                          ),
 
-                            SizedBox(
-                              height: smallphone ? 50.h : 55.h,
-                              width: 130.w,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF9775FA),
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
+                          SizedBox(
+                            height: smallphone ? 50.h : 55.h,
+                            width: 130.w,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF9775FA),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                child: Text(
-                                  'Add to cart',
-                                  style: TextStyle(
-                                    fontFamily: 'RalewayRegular',
-                                    fontSize: 14.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              ),
+                              child: Text(
+                                'Add to cart',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayRegular',
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
+                          ),
 
-                            SizedBox(
-                              height: smallphone ? 50.h : 55.h,
-                              width: 130.w,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFFF9F9F),
-                                  elevation: 3,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
+                          SizedBox(
+                            height: smallphone ? 50.h : 55.h,
+                            width: 130.w,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFFF9F9F),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                child: Text(
-                                  'Buy Now',
-                                  style: TextStyle(
-                                    fontFamily: 'RalewayRegular',
-                                    fontSize: 14.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              ),
+                              child: Text(
+                                'Buy Now',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayRegular',
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  
+                  ),
                 ],
               ),
             ),
@@ -1409,4 +1505,15 @@ void _showBottomModal(
       );
     },
   );
+}
+
+double _responsiveGrid(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+  if (height < Breakpoints.extraSmall) return 0.8;
+  if (height < Breakpoints.smallPhone) return 0.71;
+  if (height < Breakpoints.xxsmall) return 0.71;
+  if (height < Breakpoints.largePhone) return 0.78;
+  if (height < Breakpoints.xxLarge) return 0.83;
+  if (height < Breakpoints.max) return 0.92;
+  return 60.h;
 }
