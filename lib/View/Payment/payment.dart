@@ -1939,18 +1939,18 @@ class ClippedVoucher extends StatelessWidget {
   final double clipRadius;
 
   const ClippedVoucher({
-    Key? key,
+    super.key,
     required this.child,
     required this.width,
     required this.height,
     this.clipRadius = 10.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: VoucherClipper(clipRadius: clipRadius),
-      child: Container(width: width, height: height, child: child),
+      child: SizedBox(width: width, height: height, child: child),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:e_commercehybrid/View/Payment/payment.dart';
+import 'package:e_commercehybrid/View/ToRecieved/recieved.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../splashscreen.dart';
@@ -70,6 +71,8 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
-    GoRoute(path: '/payment', builder: (context, state) => PaymentScreen(),)
+    GoRoute(path: '/payment', builder: (context, state) => PaymentScreen(),),
+
+    GoRoute(path: '/torecieved', builder: (context, state) => ToRecievedScreen(),)
   ],
 );

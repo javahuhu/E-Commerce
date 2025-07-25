@@ -53,7 +53,7 @@ class ProfileScreen extends ConsumerWidget {
 
   final selectIndexProvider = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
-
+  final selectorderbtn = StateProvider<int>((ref) => 0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newitem = ref.watch(newItemsProvider);
@@ -239,7 +239,22 @@ class ProfileScreen extends ConsumerWidget {
                           height: 35.h,
                           width: 108.w,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              ref.read(selectorderbtn.notifier).state = index;
+                              
+
+                              switch (index) {
+                                case 0:
+                                  context.go('/topay');
+                                  break;
+                                case 1:
+                                  context.go('/torecieved');
+                                  break;
+                                case 2:
+                                  context.go('/toreview');
+                                  break;
+                              }
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFE5EBFC),
                               foregroundColor: Color(0xFF9775FA),
@@ -470,7 +485,7 @@ class ProfileScreen extends ConsumerWidget {
                       final event = popularproduct[index];
                       return Container(
                         margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                        padding: EdgeInsets.symmetric(vertical:5.h),
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
                         width: 100.w,
                         decoration: BoxDecoration(
                           color: Colors.white,
