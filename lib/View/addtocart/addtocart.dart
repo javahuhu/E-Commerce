@@ -119,7 +119,7 @@ class CartScreen extends ConsumerWidget {
                             ),
 
                             child: Text(
-                              '2',
+                              '${addtocart.length}',
                               style: TextStyle(
                                 fontFamily: 'Raleway',
                                 fontSize: 22.sp,
