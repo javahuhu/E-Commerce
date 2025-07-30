@@ -1,4 +1,5 @@
 import 'package:e_commercehybrid/Model/product_model.dart';
+import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
@@ -350,7 +351,22 @@ class WishlistScreen extends ConsumerWidget {
                                         SizedBox(width: 50.w),
 
                                         GestureDetector(
-                                          onTap: () {},
+                                          onTap: () {
+                                            ref
+                                                .read(
+                                                  addtocartProvider.notifier,
+                                                )
+                                                .addtoCart(item);
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text("Added to cart"),
+                                              ),
+                                            );
+
+                                            ref.read(wishlistProvider.notifier).removetoCart(item.id);
+                                          },
                                           child: Container(
                                             height: 27.h,
                                             width: 27.w,
@@ -388,7 +404,11 @@ class WishlistScreen extends ConsumerWidget {
                                 BoxShadow(color: Colors.black12, blurRadius: 5),
                               ],
                             ),
-                            child: Image.asset('assets/wishlistnull.png', height: 90.h, width: 90.w,),
+                            child: Image.asset(
+                              'assets/wishlistnull.png',
+                              height: 90.h,
+                              width: 90.w,
+                            ),
                           ),
                         ),
                       ),

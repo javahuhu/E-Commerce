@@ -6,7 +6,7 @@ class WishlistViewModel extends StateNotifier<List<Product>> {
     : super([
         //Wishlist//
         Product(
-          id: '1',
+          id: '25',
           image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
           subimage: [
             "assets/sampleitem2.jpeg",
@@ -22,7 +22,7 @@ class WishlistViewModel extends StateNotifier<List<Product>> {
         ),
 
         Product(
-          id: '2',
+          id: '26',
           image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
           material: ["Cotton", "Nylon"],
           origin: 'PH',
@@ -38,7 +38,7 @@ class WishlistViewModel extends StateNotifier<List<Product>> {
         ),
 
         Product(
-          id: '3',
+          id: '27',
           image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
           material: ["Cotton", "Nylon"],
           origin: 'PH',
@@ -53,6 +53,10 @@ class WishlistViewModel extends StateNotifier<List<Product>> {
           size: ["M", "L", "S"],
         ),
       ]);
+
+  void removetoCart(String id) {
+      state = state.where((item) => item.id !=id).toList();
+  }
 
   void remove(int index){
     final update = [...state]..removeAt(index);

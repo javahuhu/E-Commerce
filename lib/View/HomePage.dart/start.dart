@@ -296,7 +296,7 @@ class StartScreen extends ConsumerWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
-                      childAspectRatio: extralargePhone ? 0.9: 0.8,
+                      childAspectRatio: extralargePhone ? 0.9 : 0.8,
                     ),
                     itemBuilder: (context, index) {
                       final sample = categoryproduct[index];
@@ -482,20 +482,19 @@ class StartScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 10.h,),
+                SizedBox(height: 10.h),
 
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 15.w),
                   child: GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: _responsiveforyou(context),
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 20,
-                        ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: _responsiveforyou(context),
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
                     itemCount: recommendation.length,
                     itemBuilder: (BuildContext ctx, index) {
                       final newProduct = recommendation[index];
@@ -613,7 +612,7 @@ class StartScreen extends ConsumerWidget {
                   margin: EdgeInsets.symmetric(horizontal: 24.w),
                   decoration: BoxDecoration(
                     color: Color(0xFF9775FA),
-                     borderRadius: BorderRadius.circular(100.r),
+                    borderRadius: BorderRadius.circular(100.r),
                     boxShadow: [
                       BoxShadow(
                         color: Color(0xFF9775FA).withValues(alpha: 0.3),
@@ -698,7 +697,7 @@ class StartScreen extends ConsumerWidget {
 double _responsiveforyou(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
   if (height > Breakpoints.xxLarge) return 2 / 2.2;
-  if (height > Breakpoints.largePhone) return 2 / 2.3;
+  if (height > Breakpoints.largePhone) return 2 / 2.4;
   if (height > Breakpoints.xxsmall) return 2 / 2.47;
   if (height > Breakpoints.smallPhone) return 2 / 2.63;
   if (height > Breakpoints.extraSmall) return 2 / 2.8;
@@ -735,6 +734,3 @@ double _responsiveNavIconswidth(BuildContext context) {
   if (height > Breakpoints.extraLarge) return 60.w;
   return 55.h;
 }
-
-
-

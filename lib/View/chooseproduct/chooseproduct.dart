@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
+import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -122,7 +123,10 @@ class Chooseitem extends ConsumerWidget {
                       height: 50.h,
                       width: 130.w,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final product = selectedproduct.toProduct();
+                          ref.read(addtocartProvider).add(product);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF9775FA),
                           elevation: 3,
@@ -1027,7 +1031,7 @@ Widget _buildProductDetails(
                   size: mightlike.size,
                   color: mightlike.color,
                 );
-                context.go('/chooseproduct');
+                context.push('/chooseproduct');
               },
 
               child: Column(

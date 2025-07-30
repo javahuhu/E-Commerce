@@ -1,5 +1,6 @@
 import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/countitem_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +74,7 @@ class CartScreen extends ConsumerWidget {
     final popularproduct = ref.watch(popularItemsProvider);
     final extralargePhone = MediaQuery.of(context).size.height > 900;
     final mediumPhone = MediaQuery.of(context).size.height > 750;
+   
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -182,7 +184,7 @@ class CartScreen extends ConsumerWidget {
                                 width: 35.w,
                                 margin: EdgeInsets.only(
                                   right: 5.w,
-                                  top: extralargePhone ? 30.h : 14.h,
+                                  top: extralargePhone ? 30.h : 20.h,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Color(0xFF9775FA),
@@ -209,6 +211,7 @@ class CartScreen extends ConsumerWidget {
                       ...addtocart.asMap().entries.map((entry) {
                         int index = entry.key;
                         var itemcart = entry.value;
+                         final finalvalue = ref.watch(quantityProvider.select((map) => map[itemcart.id] ?? 1));
 
                         return Dismissible(
                           key: Key(itemcart.id),
@@ -339,8 +342,10 @@ class CartScreen extends ConsumerWidget {
                                       padding: EdgeInsets.only(top: 13.h),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.end,
+                                            
                                         children: [
+                                          Expanded(child: 
                                           Text(
                                             itemcart.price,
                                             style: TextStyle(
@@ -348,12 +353,15 @@ class CartScreen extends ConsumerWidget {
                                               fontSize: 20.sp,
                                               color: Colors.black,
                                             ),
-                                          ),
+                                          )),
 
-                                          SizedBox(width: 25.w),
+                                        
 
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              ref.read(quantityProvider.notifier).minus(itemcart.id);
+                                              
+                                            },
                                             child: Container(
                                               height: 30.w,
                                               width: 30.w,
@@ -368,6 +376,8 @@ class CartScreen extends ConsumerWidget {
                                             ),
                                           ),
 
+                                          SizedBox(width: 5.w),
+
                                           Container(
                                             height: 25.h,
                                             width: 35.w,
@@ -379,7 +389,7 @@ class CartScreen extends ConsumerWidget {
                                             ),
 
                                             child: Text(
-                                              '3',
+                                              '$finalvalue',
                                               style: TextStyle(
                                                 fontSize: 15.sp,
                                                 color: Colors.black,
@@ -387,8 +397,12 @@ class CartScreen extends ConsumerWidget {
                                             ),
                                           ),
 
+                                          SizedBox(width: 5.w),
+
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                             ref.read(quantityProvider.notifier).add(itemcart.id);
+                                            },
                                             child: Container(
                                               height: 30.h,
                                               width: 30.w,
@@ -415,7 +429,7 @@ class CartScreen extends ConsumerWidget {
                       }),
                     ] else
                       Padding(
-                        padding: EdgeInsets.only(top: 100.h),
+                        padding: EdgeInsets.only(top: 50.h),
                         child: Center(
                           child: Container(
                             height: 150.w,
@@ -587,7 +601,7 @@ class CartScreen extends ConsumerWidget {
                     }),
 
                     SizedBox(height: 25.h),
-                    if (wishlist.isEmpty && addtocart.isEmpty) ...[
+                    if (wishlist.isEmpty) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 22.w),
                         child: Row(
