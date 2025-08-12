@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,11 +20,12 @@ class Chooseitem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final activeIndex = ref.watch(currentIndex);
     final selectedproduct = ref.watch(selectedproductProvider);
+    final cart = ref.watch(addtocartProvider);
 
     if (selectedproduct == null) {
       return Scaffold(body: Center(child: Text('No item to Show')));
     }
-
+    final inCart = cart.any((product) => product.id == selectedproduct.id);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -100,7 +102,25 @@ class Chooseitem extends ConsumerWidget {
                       height: 35.h,
                       width: 40.w,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final product = selectedproduct.toProduct();
+                          final isInWishlist = ref.read(
+                            wishlistProvider.select(
+                              (wishlist) =>
+                                  wishlist.any((p) => p.id == product.id),
+                            ),
+                          );
+
+                          if (isInWishlist) {
+                            ref
+                                .read(wishlistProvider.notifier)
+                                .removetoWishlist(product.id);
+                          } else {
+                            ref
+                                .read(wishlistProvider.notifier)
+                                .addtoWishlist(product);
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFF9F9F9),
                           elevation: 3,
@@ -109,66 +129,105 @@ class Chooseitem extends ConsumerWidget {
                           ),
                           padding: EdgeInsets.zero,
                         ),
-                        child: Center(
-                          child: Icon(
-                            Icons.favorite_outline,
-                            size: 25.sp,
-                            color: Colors.black,
-                          ),
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            final isFavorite = ref.watch(
+                              wishlistProvider.select(
+                                (wishlist) => wishlist.any(
+                                  (p) => p.id == selectedproduct.id,
+                                ),
+                              ),
+                            );
+                            return Center(
+                              child: Icon(
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                size: 25.sp,
+                                color: isFavorite ? Colors.red : Colors.black,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
 
-                    SizedBox(
-                      height: 50.h,
-                      width: 130.w,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          final product = selectedproduct.toProduct();
-                          ref.read(addtocartProvider).add(product);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF9775FA),
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
+                    inCart
+                        ? SizedBox(key: ValueKey('empty'))
+                        : SizedBox(
+                            height: 50.h,
+                            width: 130.w,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                final product = selectedproduct.toProduct();
+                                ref.read(addtocartProvider).add(product);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF9775FA),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Text(
+                                'Add to cart',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayRegular',
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Add to cart',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 14.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
 
-                    SizedBox(
-                      height: 50.h,
-                      width: 130.w,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFF9F9F),
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
+                    inCart
+                        ? SizedBox(
+                            height: 50.h,
+                            width: 290.w,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFFF9F9F),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Text(
+                                'Buy Now',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayRegular',
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            height: 50.h,
+                            width: 130.w,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFFF9F9F),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Text(
+                                'Buy Now',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayRegular',
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Buy Now',
-                          style: TextStyle(
-                            fontFamily: 'RalewayRegular',
-                            fontSize: 14.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -675,6 +734,8 @@ Widget _buildProductDetails(
         ],
       ),
 
+      SizedBox(height: 15.h),
+
       Container(
         height: expand ? null : 150.h,
         decoration: BoxDecoration(color: Colors.white),
@@ -683,7 +744,7 @@ Widget _buildProductDetails(
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
+                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 0.h),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -909,7 +970,7 @@ Widget _buildProductDetails(
       ),
 
       SizedBox(
-        height: 178.h,
+        height: 192.h,
         child: ListView.separated(
           separatorBuilder: (_, _) => SizedBox(width: 15.w),
           scrollDirection: Axis.horizontal,
@@ -1101,6 +1162,8 @@ void _showBottomModal(
   WidgetRef ref,
 ) {
   final smallphone = MediaQuery.of(context).size.height < 700;
+  final cart = ref.watch(addtocartProvider);
+  final inCart = cart.any((p) => p.id == product.id);
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -1431,7 +1494,17 @@ void _showBottomModal(
                             height: 35.h,
                             width: 40.w,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                final currentproduct = product.toProduct();
+                                final wishlist = ref.read(
+                                  wishlistProvider.notifier,
+                                );
+                                if (wishlist.inWishlist(currentproduct.id)) {
+                                  wishlist.removetoWishlist(currentproduct.id);
+                                } else {
+                                  wishlist.addtoWishlist(currentproduct);
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFFF9F9F9),
                                 elevation: 3,
@@ -1440,63 +1513,109 @@ void _showBottomModal(
                                 ),
                                 padding: EdgeInsets.zero,
                               ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.favorite_outline,
-                                  size: 25.sp,
-                                  color: Colors.black,
-                                ),
+                              child: Consumer(
+                                // This makes the icon update instantly
+                                builder: (context, ref, child) {
+                                  final isFavorite = ref.watch(
+                                    wishlistProvider.select(
+                                      (wishlist) => wishlist.any(
+                                        (p) => p.id == product.id,
+                                      ),
+                                    ),
+                                  );
+                                  return Icon(
+                                    isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    size: 25.sp,
+                                    color: isFavorite
+                                        ? Colors.red
+                                        : Colors.black,
+                                  );
+                                },
                               ),
                             ),
                           ),
 
-                          SizedBox(
-                            height: smallphone ? 50.h : 55.h,
-                            width: 130.w,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF9775FA),
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
+                          inCart
+                              ? SizedBox(key: ValueKey('empty'))
+                              : SizedBox(
+                                  height: smallphone ? 50.h : 55.h,
+                                  width: 130.w,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xFF9775FA),
+                                      elevation: 3,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Add to cart',
+                                      style: TextStyle(
+                                        fontFamily: 'RalewayRegular',
+                                        fontSize: 14.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                'Add to cart',
-                                style: TextStyle(
-                                  fontFamily: 'RalewayRegular',
-                                  fontSize: 14.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
 
-                          SizedBox(
-                            height: smallphone ? 50.h : 55.h,
-                            width: 130.w,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFFF9F9F),
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
+                          inCart
+                              ? SizedBox(
+                                  height: 50.h,
+                                  width: 290.w,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFFF9F9F),
+                                      elevation: 3,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Buy Now',
+                                      style: TextStyle(
+                                        fontFamily: 'RalewayRegular',
+                                        fontSize: 14.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: smallphone ? 50.h : 55.h,
+                                  width: 130.w,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFFF9F9F),
+                                      elevation: 3,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Buy Now',
+                                      style: TextStyle(
+                                        fontFamily: 'RalewayRegular',
+                                        fontSize: 14.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                'Buy Now',
-                                style: TextStyle(
-                                  fontFamily: 'RalewayRegular',
-                                  fontSize: 14.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -1516,8 +1635,8 @@ double _responsiveGrid(BuildContext context) {
   if (height < Breakpoints.extraSmall) return 0.8;
   if (height < Breakpoints.smallPhone) return 0.71;
   if (height < Breakpoints.xxsmall) return 0.71;
-  if (height < Breakpoints.largePhone) return 0.78;
-  if (height < Breakpoints.xxLarge) return 0.83;
-  if (height < Breakpoints.max) return 0.92;
+  if (height < Breakpoints.largePhone) return 0.75;
+  if (height < Breakpoints.xxLarge) return 0.7;
+  if (height < Breakpoints.max) return 0.75;
   return 60.h;
 }

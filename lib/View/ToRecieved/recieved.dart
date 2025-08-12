@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class ToRecievedScreen extends ConsumerWidget {
   const ToRecievedScreen({super.key});
@@ -19,7 +20,33 @@ class ToRecievedScreen extends ConsumerWidget {
           'orderno': 'Order 92287157',
           'type': 'Standard Delivery',
           'items': 3,
+          'status': 'Delivered',
+          'intoStatus': 'Review',
+          'images': [
+            {"img": 'assets/sampleitem2.jpeg'},
+            {"img": 'assets/sampleitem3.jpeg'},
+            {"img": 'assets/sampleitem4.jpg'},
+            {"img": 'assets/sampleitem5.jpg'},
+          ],
+        },
+        {
+          'orderno': 'Order 92287158',
+          'type': 'Standard Delivery',
+          'items': 3,
           'status': 'Packed',
+          'intoStatus': 'Track',
+          'images': [
+            {"img": 'assets/sampleitem2.jpeg'},
+            {"img": 'assets/sampleitem3.jpeg'},
+            {"img": 'assets/sampleitem4.jpg'},
+          ],
+        },
+
+        {
+          'orderno': 'Order 92287157',
+          'type': 'Standard Delivery',
+          'items': 3,
+          'status': 'Delivered',
           'intoStatus': 'Review',
           'images': [
             {"img": 'assets/sampleitem2.jpeg'},
@@ -46,32 +73,6 @@ class ToRecievedScreen extends ConsumerWidget {
           'type': 'Standard Delivery',
           'items': 3,
           'status': 'Packed',
-          'intoStatus': 'Review',
-          'images': [
-            {"img": 'assets/sampleitem2.jpeg'},
-            {"img": 'assets/sampleitem3.jpeg'},
-            {"img": 'assets/sampleitem4.jpg'},
-            {"img": 'assets/sampleitem5.jpg'},
-          ],
-        },
-        {
-          'orderno': 'Order 92287158',
-          'type': 'Standard Delivery',
-          'items': 3,
-          'status': 'Packed',
-          'intoStatus': 'Track',
-          'images': [
-            {"img": 'assets/sampleitem2.jpeg'},
-            {"img": 'assets/sampleitem3.jpeg'},
-            {"img": 'assets/sampleitem4.jpg'},
-          ],
-        },
-
-        {
-          'orderno': 'Order 92287157',
-          'type': 'Standard Delivery',
-          'items': 3,
-          'status': 'Packed',
           'intoStatus': 'Track',
           'images': [
             {"img": 'assets/sampleitem2.jpeg'},
@@ -84,7 +85,7 @@ class ToRecievedScreen extends ConsumerWidget {
           'orderno': 'Order 92287158',
           'type': 'Standard Delivery',
           'items': 3,
-          'status': 'Packed',
+          'status': 'Delivered',
           'intoStatus': 'Review',
           'images': [
             {"img": 'assets/sampleitem2.jpeg'},
@@ -223,10 +224,11 @@ class ToRecievedScreen extends ConsumerWidget {
                     final order = sampleimg[index];
                     final group = order['images'];
                     final whatstatus = order['intoStatus'] == 'Review';
+                    final thestatus = order['status'] == 'Delivered';
 
                     return Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 25.w,
+                        horizontal: 15.w,
                         vertical: 10.h,
                       ),
                       child: Row(
@@ -270,9 +272,7 @@ class ToRecievedScreen extends ConsumerWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5.w),
-                            child: Transform.translate(
-                              offset: Offset(0, 0),
-                              child: Expanded(
+                            child:  Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -297,19 +297,57 @@ class ToRecievedScreen extends ConsumerWidget {
 
                                     SizedBox(height: 30.h),
 
-                                    Text(
-                                      order['status'],
-                                      style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 18.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    Row(
+                                      
+                                      children: [
+                                        Text(
+                                          order['status'],
+                                          style: TextStyle(
+                                            fontFamily: 'Raleway',
+                                            fontSize: 18.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+
+                                        SizedBox(width: thestatus ? 7.w : 29.5.w),
+
+                                        thestatus
+                                            ? Container(
+                                                width: 20.w,
+                                                height: 20.w,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.blueAccent,
+                                                ),
+
+                                                child: Icon(
+                                                  Icons.check,
+                                                  size: 12.sp,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : Container(
+                                                width: 20.w,
+                                                height: 20.w,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.blueAccent,
+                                                ),
+
+                                                child: Icon(
+                                                  Icons.delivery_dining,
+                                                  size: 12.sp,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
+                            
                           ),
 
                           Column(
@@ -339,7 +377,15 @@ class ToRecievedScreen extends ConsumerWidget {
                                 height: 30.h,
                                 width: 99.w,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if(whatstatus == true){
+                                      context.go('/');
+                                    }
+
+                                    else {
+                                      context.go('/trackorder');
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     foregroundColor: whatstatus
                                         ? Colors.white

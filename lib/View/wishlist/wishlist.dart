@@ -1,4 +1,5 @@
 import 'package:e_commercehybrid/Model/product_model.dart';
+import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
@@ -224,13 +225,30 @@ class WishlistScreen extends ConsumerWidget {
 
                                 child: Stack(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(12.r),
-                                      child: Image.asset(
-                                        item.image[0],
-                                        height: 100.h,
-                                        width: 120.w,
-                                        fit: BoxFit.cover,
+                                    GestureDetector(
+                                      onTap: () {
+                                        ref.read(selectedproductProvider.notifier).state = SelectproductModel(
+                                          id: item.id, 
+                                          image: item.image, 
+                                          subimage: item.subimage, 
+                                          title: item.title, 
+                                          price: item.price, 
+                                          material: item.material, 
+                                          origin: item.origin, 
+                                          size: item.size, 
+                                          color: item.color);
+                                          context.go('/chooseproduct');
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                        child: Image.asset(
+                                          item.image[0],
+                                          height: 100.h,
+                                          width: 120.w,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
 
@@ -362,10 +380,14 @@ class WishlistScreen extends ConsumerWidget {
                                             ).showSnackBar(
                                               const SnackBar(
                                                 content: Text("Added to cart"),
+                                                behavior:
+                                                    SnackBarBehavior.floating,
                                               ),
                                             );
 
-                                            ref.read(wishlistProvider.notifier).removetoCart(item.id);
+                                            ref
+                                                .read(wishlistProvider.notifier)
+                                                .removetoWishlist(item.id);
                                           },
                                           child: Container(
                                             height: 27.h,

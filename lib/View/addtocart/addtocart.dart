@@ -1,4 +1,5 @@
 import 'package:e_commercehybrid/Model/product_model.dart';
+import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/countitem_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
@@ -74,7 +75,7 @@ class CartScreen extends ConsumerWidget {
     final popularproduct = ref.watch(popularItemsProvider);
     final extralargePhone = MediaQuery.of(context).size.height > 900;
     final mediumPhone = MediaQuery.of(context).size.height > 750;
-   
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -132,7 +133,7 @@ class CartScreen extends ConsumerWidget {
                     ),
 
                     Container(
-                      height: extralargePhone ? 120.h : 100.h,
+                      height: extralargePhone ? 120.h : 115.h,
                       width: extralargePhone ? 400.w : 350.w,
                       margin: EdgeInsets.symmetric(
                         horizontal: 15.w,
@@ -211,7 +212,11 @@ class CartScreen extends ConsumerWidget {
                       ...addtocart.asMap().entries.map((entry) {
                         int index = entry.key;
                         var itemcart = entry.value;
-                         final finalvalue = ref.watch(quantityProvider.select((map) => map[itemcart.id] ?? 1));
+                        final finalvalue = ref.watch(
+                          quantityProvider.select(
+                            (map) => map[itemcart.id] ?? 1,
+                          ),
+                        );
 
                         return Dismissible(
                           key: Key(itemcart.id),
@@ -257,13 +262,30 @@ class CartScreen extends ConsumerWidget {
 
                                 child: Stack(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(12.r),
-                                      child: Image.asset(
-                                        itemcart.image[0],
-                                        height: 100.h,
-                                        width: 120.w,
-                                        fit: BoxFit.cover,
+                                    GestureDetector(
+                                      onTap: () {
+                                        ref.read(selectedproductProvider.notifier).state = SelectproductModel(
+                                        id: itemcart.id, 
+                                        image: itemcart.image, 
+                                        subimage: itemcart.subimage, 
+                                        title: itemcart.title,
+                                         price: itemcart.price, 
+                                         material: itemcart.material, 
+                                         origin: itemcart.origin, 
+                                         size: itemcart.size, 
+                                         color: itemcart.color);
+                                        context.go('/chooseproduct');
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                        child: Image.asset(
+                                          itemcart.image[0],
+                                          height: 100.h,
+                                          width: 120.w,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
 
@@ -343,24 +365,26 @@ class CartScreen extends ConsumerWidget {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
-                                            
-                                        children: [
-                                          Expanded(child: 
-                                          Text(
-                                            itemcart.price,
-                                            style: TextStyle(
-                                              fontFamily: 'Raleway',
-                                              fontSize: 20.sp,
-                                              color: Colors.black,
-                                            ),
-                                          )),
 
-                                        
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              itemcart.price,
+                                              style: TextStyle(
+                                                fontFamily: 'Raleway',
+                                                fontSize: 20.sp,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
 
                                           GestureDetector(
                                             onTap: () {
-                                              ref.read(quantityProvider.notifier).minus(itemcart.id);
-                                              
+                                              ref
+                                                  .read(
+                                                    quantityProvider.notifier,
+                                                  )
+                                                  .minus(itemcart.id);
                                             },
                                             child: Container(
                                               height: 30.w,
@@ -401,7 +425,11 @@ class CartScreen extends ConsumerWidget {
 
                                           GestureDetector(
                                             onTap: () {
-                                             ref.read(quantityProvider.notifier).add(itemcart.id);
+                                              ref
+                                                  .read(
+                                                    quantityProvider.notifier,
+                                                  )
+                                                  .add(itemcart.id);
                                             },
                                             child: Container(
                                               height: 30.h,

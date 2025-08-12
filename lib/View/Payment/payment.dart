@@ -74,7 +74,7 @@ class PaymentScreen extends ConsumerWidget {
                   ),
 
                   Container(
-                    height: extraLarge ? 120.h : 100.h,
+                    height: extraLarge ? 120.h : 120.h,
                     width: extraLarge ? 400.w : 350.w,
                     margin: EdgeInsets.symmetric(
                       horizontal: 15.w,
@@ -152,7 +152,7 @@ class PaymentScreen extends ConsumerWidget {
                   ),
 
                   Container(
-                    height: extraLarge ? 120.h : 100.h,
+                    height: extraLarge ? 120.h : 120.h,
                     width: extraLarge ? 400.w : 350.w,
                     margin: EdgeInsets.symmetric(
                       horizontal: 15.w,

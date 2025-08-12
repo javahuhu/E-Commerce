@@ -339,7 +339,7 @@ class ProfileScreen extends ConsumerWidget {
                 SizedBox(height: 15.h),
 
                 SizedBox(
-                  height: 175.h,
+                  height: 178.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -473,7 +473,7 @@ class ProfileScreen extends ConsumerWidget {
 
                 SizedBox(height: 15.h),
                 SizedBox(
-                  height: mediumPhone ? 165.h : 178.h,
+                  height: mediumPhone ? 165.h : 192.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 25.w),

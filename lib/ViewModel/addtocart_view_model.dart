@@ -5,7 +5,7 @@ class AddtocartViewModel extends StateNotifier<List<Product>> {
   AddtocartViewModel() : super([]);
 
   void addtoCart(Product product) {
-    if (!state.contains(product)) {
+    if (!state.contains(product) && !state.any((product) => product.id == product.id)) {
       state = [...state, product];
       
     }

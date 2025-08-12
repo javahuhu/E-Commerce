@@ -296,7 +296,7 @@ class StartScreen extends ConsumerWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
-                      childAspectRatio: extralargePhone ? 0.9 : 0.8,
+                      childAspectRatio: extralargePhone ? 0.85 : 0.8,
                     ),
                     itemBuilder: (context, index) {
                       final sample = categoryproduct[index];
@@ -696,11 +696,13 @@ class StartScreen extends ConsumerWidget {
 
 double _responsiveforyou(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  if (height > Breakpoints.xxLarge) return 2 / 2.2;
-  if (height > Breakpoints.largePhone) return 2 / 2.4;
-  if (height > Breakpoints.xxsmall) return 2 / 2.47;
+  if (height > Breakpoints.xxLarge) return 2 / 2.6;
+  if (height > Breakpoints.largePhone) return 2 / 2.7;
+  if (height > Breakpoints.xxsmall) return 2 / 2.55;
+  if (height < Breakpoints.eextraSmall) return 2 / 2.3;
   if (height > Breakpoints.smallPhone) return 2 / 2.63;
   if (height > Breakpoints.extraSmall) return 2 / 2.8;
+  if (height < Breakpoints.doublesmall) return 2 / 2.5;
   return 2 / 2.5;
 }
 
