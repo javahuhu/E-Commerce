@@ -103,7 +103,9 @@ class ProfileScreen extends ConsumerWidget {
                           height: 35.h,
                           width: 135.w,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.go('/myactivity');
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFFF9F9F),
                               shape: RoundedRectangleBorder(

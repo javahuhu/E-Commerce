@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/countitem_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
@@ -160,7 +161,9 @@ class Chooseitem extends ConsumerWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 final product = selectedproduct.toProduct();
-                                ref.read(addtocartProvider).add(product);
+                                ref
+                                    .read(addtocartProvider.notifier)
+                                    .addtoCart(product);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFF9775FA),
@@ -1162,8 +1165,7 @@ void _showBottomModal(
   WidgetRef ref,
 ) {
   final smallphone = MediaQuery.of(context).size.height < 700;
-  final cart = ref.watch(addtocartProvider);
-  final inCart = cart.any((p) => p.id == product.id);
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -1171,6 +1173,12 @@ void _showBottomModal(
     builder: (BuildContext context) {
       return Consumer(
         builder: (context, ref, child) {
+          final finalvalue = ref.watch(
+            quantityProvider.select((map) => map[product.id] ?? 1),
+          );
+          final cart = ref.watch(addtocartProvider);
+          final inCart = cart.any((p) => p.id == product.id);
+
           return SingleChildScrollView(
             child: Container(
               height: smallphone ? 525.h : 500.h,
@@ -1431,7 +1439,11 @@ void _showBottomModal(
                         SizedBox(width: 70.w),
 
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            ref
+                                .read(quantityProvider.notifier)
+                                .minus(product.id);
+                          },
                           child: Container(
                             height: 40.w,
                             width: 40.w,
@@ -1455,7 +1467,7 @@ void _showBottomModal(
                           ),
 
                           child: Text(
-                            '5',
+                            '$finalvalue',
                             style: TextStyle(
                               fontSize: 18.sp,
                               color: Colors.black,
@@ -1464,7 +1476,9 @@ void _showBottomModal(
                         ),
 
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            ref.read(quantityProvider.notifier).add(product.id);
+                          },
                           child: Container(
                             height: 40.w,
                             width: 40.w,
@@ -1543,7 +1557,12 @@ void _showBottomModal(
                                   height: smallphone ? 50.h : 55.h,
                                   width: 130.w,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      final currentcart = product.toProduct();
+                                      ref
+                                          .read(addtocartProvider.notifier)
+                                          .addtoCart(currentcart);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF9775FA),
                                       elevation: 3,

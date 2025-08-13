@@ -26,6 +26,7 @@ dependencies:
   path_drawing: ^1.0.1
   dotted_separator: ^1.0.6
   dotted_line: ^3.2.3
+  syncfusion_flutter_charts: ^30.2.4
 
 dev_dependencies:
   flutter_test:
