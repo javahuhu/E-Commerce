@@ -74,8 +74,7 @@ class PaymentScreen extends ConsumerWidget {
                   ),
 
                   Container(
-                    height: extraLarge ? 120.h : 120.h,
-                    width: extraLarge ? 400.w : 350.w,
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 15.h),
                     margin: EdgeInsets.symmetric(
                       horizontal: 15.w,
                       vertical: 15.h,
@@ -93,7 +92,7 @@ class PaymentScreen extends ConsumerWidget {
                         Padding(
                           padding: EdgeInsets.only(
                             left: 15.w,
-                            top: extraLarge ? 20.h : 15.h,
+                            top: extraLarge ? 20.h :0.h,
                           ),
                           child: Text(
                             'Shipping Address',
@@ -152,8 +151,7 @@ class PaymentScreen extends ConsumerWidget {
                   ),
 
                   Container(
-                    height: extraLarge ? 120.h : 120.h,
-                    width: extraLarge ? 400.w : 350.w,
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 15.h),
                     margin: EdgeInsets.symmetric(
                       horizontal: 15.w,
                       vertical: 0.h,
@@ -171,7 +169,7 @@ class PaymentScreen extends ConsumerWidget {
                         Padding(
                           padding: EdgeInsets.only(
                             left: 15.w,
-                            top: extraLarge ? 20.h : 15.h,
+                            top: extraLarge ? 20.h : 0.h,
                           ),
                           child: Text(
                             'Contact Information',
@@ -1903,7 +1901,8 @@ double _responsiveedit(BuildContext context) {
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  if (height < Breakpoints.extraSmall) return 70.h;
+  if (height < Breakpoints.extraSmall) return 60.h;
+  if (height < Breakpoints.eextraSmall) return 70.h;
   if (height < Breakpoints.smallPhone) return 60.h;
   if (height < Breakpoints.largePhone) return 70.h;
   if (height < Breakpoints.extraLarge) return 75.h;

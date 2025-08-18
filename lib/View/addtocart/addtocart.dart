@@ -133,8 +133,10 @@ class CartScreen extends ConsumerWidget {
                     ),
 
                     Container(
-                      height: extralargePhone ? 120.h : 115.h,
-                      width: extralargePhone ? 400.w : 350.w,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.w,
+                        vertical: 15.h,
+                      ),
                       margin: EdgeInsets.symmetric(
                         horizontal: 15.w,
                         vertical: 15.h,
@@ -151,7 +153,7 @@ class CartScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 15.w, top: 15.h),
+                            padding: EdgeInsets.only(left: 15.w, top: 0.h),
                             child: Text(
                               'Shipping Address',
                               style: TextStyle(
@@ -264,16 +266,21 @@ class CartScreen extends ConsumerWidget {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        ref.read(selectedproductProvider.notifier).state = SelectproductModel(
-                                        id: itemcart.id, 
-                                        image: itemcart.image, 
-                                        subimage: itemcart.subimage, 
-                                        title: itemcart.title,
-                                         price: itemcart.price, 
-                                         material: itemcart.material, 
-                                         origin: itemcart.origin, 
-                                         size: itemcart.size, 
-                                         color: itemcart.color);
+                                        ref
+                                            .read(
+                                              selectedproductProvider.notifier,
+                                            )
+                                            .state = SelectproductModel(
+                                          id: itemcart.id,
+                                          image: itemcart.image,
+                                          subimage: itemcart.subimage,
+                                          title: itemcart.title,
+                                          price: itemcart.price,
+                                          material: itemcart.material,
+                                          origin: itemcart.origin,
+                                          size: itemcart.size,
+                                          color: itemcart.color,
+                                        );
                                         context.go('/chooseproduct');
                                       },
                                       child: ClipRRect(
@@ -682,7 +689,7 @@ class CartScreen extends ConsumerWidget {
                       SizedBox(height: 15.h),
 
                       SizedBox(
-                        height: mediumPhone ? 165 : 178.h,
+                        height: mediumPhone ? 165 : 192.h,
                         child: ListView.separated(
                           itemCount: popularproduct.length,
                           scrollDirection: Axis.horizontal,
@@ -920,10 +927,11 @@ class CartScreen extends ConsumerWidget {
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  if (height < Breakpoints.extraSmall) return 70.h;
+  if (height < Breakpoints.extraSmall) return 60.h;
+  if (height < Breakpoints.eextraSmall) return 70.h;
   if (height < Breakpoints.smallPhone) return 60.h;
   if (height < Breakpoints.largePhone) return 70.h;
-  if (height > Breakpoints.extraLarge) return 75.h;
+  if (height < Breakpoints.extraLarge) return 75.h;
   return 60.h;
 }
 

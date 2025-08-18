@@ -540,10 +540,11 @@ class WishlistScreen extends ConsumerWidget {
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  if (height < Breakpoints.extraSmall) return 70.h;
+   if (height < Breakpoints.extraSmall) return 60.h;
+  if (height < Breakpoints.eextraSmall) return 70.h;
   if (height < Breakpoints.smallPhone) return 60.h;
   if (height < Breakpoints.largePhone) return 70.h;
-  if (height > Breakpoints.extraLarge) return 75.h;
+  if (height < Breakpoints.extraLarge) return 75.h;
   return 60.h;
 }
 
