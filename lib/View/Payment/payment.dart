@@ -1034,9 +1034,6 @@ void _showAddressBottomModal(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(10.r)),
-    ),
     builder: (context) {
       return Container(
         height: 505.h,

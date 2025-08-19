@@ -1,6 +1,7 @@
 import 'package:e_commercehybrid/View/Payment/payment.dart';
 import 'package:e_commercehybrid/View/ToRecieved/recieved.dart';
 import 'package:e_commercehybrid/View/myactivity/activity.dart';
+import 'package:e_commercehybrid/View/orderhistory/orderhistory.dart';
 import 'package:e_commercehybrid/View/trackOrder/tractorder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -77,6 +78,7 @@ final GoRouter appRouter = GoRouter(
 
     GoRoute(path: '/torecieved', builder: (context, state) => ToRecievedScreen(),),
     GoRoute(path: '/trackorder', builder: (context,state) => TrackOrder()),
-    GoRoute(path: '/myactivity', builder: (context, state) => MyActivity(),)
+    GoRoute(path: '/myactivity', builder: (context, state) => MyActivity(),),
+    GoRoute(path: '/orderhistory', builder: (context, state) =>OrderHistory()),
   ],
 );

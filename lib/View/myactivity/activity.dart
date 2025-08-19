@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MyActivity extends ConsumerWidget {
@@ -291,13 +292,14 @@ class MyActivity extends ConsumerWidget {
 
             SizedBox(
               height: 150.h,
-              child: ListView.separated(
+              
+              child: 
+              Center(child: 
+              ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: shopping.length,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 41.5.w,
-                  vertical: 5.h,
-                ),
+                shrinkWrap: true,
+                
                 separatorBuilder: (_, _) => SizedBox(width: 25.w),
                 itemBuilder: (context, index) {
                   final status = shopping[index];
@@ -354,10 +356,12 @@ class MyActivity extends ConsumerWidget {
                   );
                 },
               ),
-            ),
+            )),
 
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.go('/orderhistory');
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF9775FA),
                 shape: RoundedRectangleBorder(
@@ -378,7 +382,7 @@ class MyActivity extends ConsumerWidget {
               ),
             ),
 
-            SizedBox(height: 15.h,)
+            SizedBox(height: 15.h),
           ],
         ),
       ),
