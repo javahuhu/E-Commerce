@@ -689,7 +689,7 @@ class CartScreen extends ConsumerWidget {
                       SizedBox(height: 15.h),
 
                       SizedBox(
-                        height: mediumPhone ? 165 : 192.h,
+                        height: mediumPhone ? 165.h : 192.h,
                         child: ListView.separated(
                           itemCount: popularproduct.length,
                           scrollDirection: Axis.horizontal,

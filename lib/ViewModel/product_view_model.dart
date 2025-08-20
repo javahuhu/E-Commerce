@@ -436,7 +436,7 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           rating: 3,
           size: ["M", "L", "S"],
           color: 'Green',
-          type: ProductModel.youmightlike
+          type: ProductModel.youmightlike,
         ),
 
         Product(
@@ -455,7 +455,7 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           rating: 3,
           size: ["M", "L", "S"],
           color: 'Green',
-           type: ProductModel.youmightlike
+          type: ProductModel.youmightlike,
         ),
 
         Product(
@@ -474,7 +474,7 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           rating: 3,
           size: ["M", "L", "S"],
           color: 'Green',
-           type: ProductModel.youmightlike
+          type: ProductModel.youmightlike,
         ),
 
         Product(
@@ -493,7 +493,93 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           rating: 3,
           size: ["M", "L", "S"],
           color: 'Green',
-           type: ProductModel.youmightlike
+          type: ProductModel.youmightlike,
+        ),
+
+        Product(
+          id: '41',
+          image: [
+            'assets/sampleitem.jpeg',
+            'assets/sampleitem2.jpeg',
+            'assets/sampleitem3.jpeg',
+            'assets/sampleitem4.jpg',
+          ],
+
+          subimage: [
+            'assets/sampleitem.jpeg',
+            'assets/sampleitem2.jpeg',
+            'assets/sampleitem3.jpeg',
+            'assets/sampleitem4.jpg',
+          ],
+          title: 'Soft Violet Everyday Shirt',
+          price: '₱250',
+          discount: '₱50',
+          material: ["Cotton", "Nylon"],
+          origin: "EU",
+          rating: 5,
+          size: ["M", "L", "S"],
+          color: 'Green',
+          type: ProductModel.flashsale,
+        ),
+
+        Product(
+          id: '42',
+          image: ['assets/sampleitem2.jpeg'],
+          subimage: [
+            'assets/sampleitem.jpeg',
+            'assets/sampleitem2.jpeg',
+            'assets/sampleitem3.jpeg',
+            'assets/sampleitem4.jpg',
+          ],
+          title: 'Soft Violet Everyday Shirt',
+          price: '₱250',
+          discount: '₱50',
+          material: ["Cotton", "Nylon"],
+          origin: "EU",
+          rating: 2,
+          size: ["M", "L", "S"],
+          color: 'Green',
+          type: ProductModel.flashsale,
+        ),
+
+        Product(
+          id: '43',
+          image: ['assets/sampleitem3.jpeg'],
+          subimage: [
+            'assets/sampleitem.jpeg',
+            'assets/sampleitem2.jpeg',
+            'assets/sampleitem3.jpeg',
+            'assets/sampleitem4.jpg',
+          ],
+          title: 'Soft Violet Everyday Shirt',
+          price: '₱250',
+          discount: '₱50',
+          material: ["Cotton", "Nylon"],
+          origin: "EU",
+          rating: 3,
+          size: ["M", "L", "S"],
+          color: 'Green',
+          type: ProductModel.flashsale,
+        ),
+
+        Product(
+          id: '44',
+          image: ['assets/sampleitem4.jpg'],
+          subimage: [
+            'assets/sampleitem.jpeg',
+            'assets/sampleitem2.jpeg',
+            'assets/sampleitem3.jpeg',
+            'assets/sampleitem4.jpg',
+          ],
+          title: 'Soft Violet Everyday Shirt',
+          price: '₱250',
+          discount: '₱50',
+          material: ["Cotton", "Nylon"],
+          origin: "EU",
+          rating: 4,
+          size: ["M", "L", "S"],
+          color: 'Green',
+          type: ProductModel.flashsale,
         ),
       ]);
 }
@@ -539,5 +625,12 @@ final youmightlikeProvider = Provider<List<Product>>((ref) {
   final allItems = ref.watch(productsProvider);
   return allItems
       .where((item) => item.type == ProductModel.youmightlike)
+      .toList();
+});
+
+final flashsaleProvider = Provider<List<Product>>((ref) {
+  final allItems = ref.watch(productsProvider);
+  return allItems
+      .where((items) => items.type == ProductModel.flashsale)
       .toList();
 });

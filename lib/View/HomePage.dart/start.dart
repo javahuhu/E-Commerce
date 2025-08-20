@@ -69,6 +69,15 @@ class StartScreen extends ConsumerWidget {
     {"img": 'assets/sampleitem5.jpg'},
   ];
 
+  final List<Map<String, dynamic>> flashsale = [
+    {"img": 'assets/sampleitem2.jpeg'},
+    {"img": 'assets/sampleitem3.jpeg'},
+    {"img": 'assets/sampleitem4.jpg'},
+    {"img": 'assets/sampleitem5.jpg'},
+    {"img": 'assets/sampleitem4.jpg'},
+    {"img": 'assets/sampleitem5.jpg'},
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoryproduct = ref.watch(categoryProvider);
@@ -432,6 +441,156 @@ class StartScreen extends ConsumerWidget {
                 ),
 
                 SizedBox(height: 25.h),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Flash Sale',
+                          style: TextStyle(
+                            fontFamily: 'RalewayRegular',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.watch_later_outlined,
+                              size: 25.sp,
+                              color: Colors.blueAccent,
+                            ),
+
+                            Row(
+                              children: List.generate(
+                                3,
+                                (index) => Container(
+                                  margin: EdgeInsets.only(left: 5.w),
+                                  alignment: Alignment.center,
+                                  height: 30.h,
+                                  width: 30.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    color: Color(0xFFF3F3F3),
+                                  ),
+                                  child: Text(
+                                    '69',
+                                    style: TextStyle(
+                                      fontFamily: 'Raleway',
+                                      fontSize: 18.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: SizedBox(
+                    height: 280.h,
+                    child: GridView.builder(
+                      itemCount: flashsale.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                        childAspectRatio: 0.9,
+                      ),
+                      itemBuilder: (context, index) {
+                        final fimage = flashsale[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.go('/flashsale');
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 150.h,
+                                width: 120.w,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 2.w,
+                                  vertical: 2.h,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 5.h,
+                                  horizontal: 5.w,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 2,
+                                      color: Colors.black12,
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  child: Image.asset(
+                                    fimage['img'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+
+                              Positioned(
+                                left: 68.5.w,
+                                top: 6.5.h,
+                                child: Container(
+                                  height: 25.h,
+                                  width: 45.w,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xFFFF5790), // Pink
+                                    Color(0xFFF81140),
+                                  ],
+                                ),
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 2,
+                                        color: Colors.black26,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    '20%',
+                                    style: TextStyle(
+                                      fontFamily: 'Raleway',
+                                      fontSize: 12.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
 
                 Align(
                   alignment: Alignment.centerRight,

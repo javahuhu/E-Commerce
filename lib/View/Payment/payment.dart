@@ -92,7 +92,7 @@ class PaymentScreen extends ConsumerWidget {
                         Padding(
                           padding: EdgeInsets.only(
                             left: 15.w,
-                            top: extraLarge ? 20.h :0.h,
+                            top: extraLarge ? 0.h :0.h,
                           ),
                           child: Text(
                             'Shipping Address',
@@ -169,7 +169,7 @@ class PaymentScreen extends ConsumerWidget {
                         Padding(
                           padding: EdgeInsets.only(
                             left: 15.w,
-                            top: extraLarge ? 20.h : 0.h,
+                            top: extraLarge ? 0.h : 0.h,
                           ),
                           child: Text(
                             'Contact Information',

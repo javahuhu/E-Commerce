@@ -1,5 +1,6 @@
 import 'package:e_commercehybrid/View/Payment/payment.dart';
 import 'package:e_commercehybrid/View/ToRecieved/recieved.dart';
+import 'package:e_commercehybrid/View/flashsale/flashsale.dart';
 import 'package:e_commercehybrid/View/myactivity/activity.dart';
 import 'package:e_commercehybrid/View/orderhistory/orderhistory.dart';
 import 'package:e_commercehybrid/View/trackOrder/tractorder.dart';
@@ -80,5 +81,6 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/trackorder', builder: (context,state) => TrackOrder()),
     GoRoute(path: '/myactivity', builder: (context, state) => MyActivity(),),
     GoRoute(path: '/orderhistory', builder: (context, state) =>OrderHistory()),
+    GoRoute(path: '/flashsale', builder: (context, state) => FlashSale())
   ],
 );

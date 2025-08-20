@@ -4,7 +4,8 @@ enum ProductModel {
       popular,
       recentView,
       youmightlike,
-      categories
+      categories,
+      flashsale
 }
 
       class Product {
@@ -15,6 +16,7 @@ enum ProductModel {
             final List<String> material;
             final String origin;
             final String price;
+            final String? discount;
             final List<String> size;
             final String color;
             final ProductModel? type;
@@ -32,6 +34,7 @@ enum ProductModel {
               required this.material,
               required this.origin,
               required this.price,
+              this.discount,
               required this.size,
               required this.color,
               this.type,
