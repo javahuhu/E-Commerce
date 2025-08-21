@@ -1,0 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class SearchbarViewModel extends StateNotifier<List<String>> {
+  SearchbarViewModel() : super([]);
+
+  void addSearch(String text) {
+    if (text.isNotEmpty && !state.contains(text)) {
+      state = [...state, text];
+    }
+  }
+
+  void removeSearch(String text) {
+    state = state.where((item) => item != text).toList();
+  }
+}
+
+final searchbarProvider =
+    StateNotifierProvider<SearchbarViewModel, List<String>>((ref) {
+      return SearchbarViewModel();
+    });

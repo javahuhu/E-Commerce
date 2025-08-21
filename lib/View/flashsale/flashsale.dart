@@ -15,6 +15,7 @@ class FlashSale extends ConsumerWidget {
     final selectedIndex = ref.watch(isSelected);
     final showvalue = discount[selectedIndex];
     final flashsale = ref.watch(flashsaleProvider);
+    final mediumPhone = MediaQuery.of(context).size.height < 750;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -297,23 +298,26 @@ class FlashSale extends ConsumerWidget {
                       crossAxisCount: 2,
                       mainAxisSpacing: 5,
                       crossAxisSpacing: 5,
-                      childAspectRatio: 0.65,
+                      childAspectRatio: mediumPhone ? 0.75 : 0.65,
                     ),
                     itemBuilder: (context, index) {
                       final sale = flashsale[index];
                       return GestureDetector(
                         onTap: () {
-                          ref.read(selectedproductProvider.notifier).state = SelectproductModel(
-                            id: sale.id, 
-                            image: sale.image, 
-                            subimage: sale.subimage, 
-                            title: sale.title, 
-                            price: sale.price, 
-                            material: sale.material, 
-                            origin: sale.origin, 
-                            size: sale.size, 
-                            color: sale.color);
-                            context.go('/chooseproduct');
+                          ref
+                              .read(selectedproductProvider.notifier)
+                              .state = SelectproductModel(
+                            id: sale.id,
+                            image: sale.image,
+                            subimage: sale.subimage,
+                            title: sale.title,
+                            price: sale.price,
+                            material: sale.material,
+                            origin: sale.origin,
+                            size: sale.size,
+                            color: sale.color,
+                          );
+                          context.go('/chooseproduct');
                         },
                         child: Stack(
                           children: [
@@ -348,7 +352,7 @@ class FlashSale extends ConsumerWidget {
 
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    right: 30.w,
+                                    right: 25.w,
                                     top: 5.h,
                                   ),
                                   child: SizedBox(
@@ -366,32 +370,36 @@ class FlashSale extends ConsumerWidget {
                                   ),
                                 ),
 
-                                Row(
-                                  children: [
-                                    Text(
-                                      sale.price,
-                                      style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        color: Colors.black,
-                                        fontSize: 18.sp,
-                                      ),
-                                    ),
-
-                                    SizedBox(width: 10.w),
-                                    Text(
-                                      sale.discount.toString(),
-                                      style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        color: const Color(0xFFFF9F9F),
-                                        fontSize: 15.sp,
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationThickness: 2,
-                                        decorationColor: const Color(
-                                          0xFFFF9F9F,
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5.w),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        sale.price,
+                                        style: TextStyle(
+                                          fontFamily: 'Raleway',
+                                          color: Colors.black,
+                                          fontSize: 18.sp,
                                         ),
                                       ),
-                                    ),
-                                  ],
+
+                                      SizedBox(width: 10.w),
+                                      Text(
+                                        sale.discount.toString(),
+                                        style: TextStyle(
+                                          fontFamily: 'Raleway',
+                                          color: const Color(0xFFFF9F9F),
+                                          fontSize: 15.sp,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          decorationThickness: 2,
+                                          decorationColor: const Color(
+                                            0xFFFF9F9F,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

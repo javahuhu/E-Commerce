@@ -1,5 +1,6 @@
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/recentlyview_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,10 +58,12 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newitem = ref.watch(newItemsProvider);
-    final recentproduct = ref.watch(recentviewProvider);
+    final recentproduct = ref.watch(recentlyviewProvider);
     final popularproduct = ref.watch(popularItemsProvider);
     final largePhone = MediaQuery.of(context).size.height > 850;
     final mediumPhone = MediaQuery.of(context).size.height > 750;
+
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -175,6 +178,8 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
 
+
+              recentproduct.isNotEmpty ?
                 SizedBox(
                   height: 60.w,
                   child: ListView.separated(
@@ -185,11 +190,24 @@ class ProfileScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final recent = recentproduct[index];
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          ref.read(selectedproductProvider.notifier).state = SelectproductModel(
+                            id: recent.id, 
+                            image: recent.image,
+                             subimage: recent.subimage, 
+                             title: recent.title, 
+                             price: recent.price, 
+                             material: recent.material, 
+                             origin: recent.origin, 
+                             size: recent.size, 
+                             color: recent.color);
+
+                             context.go('/chooseproduct');
+                        },
                         child: Container(
                           margin: EdgeInsets.only(top: 3.h, bottom: 3.h),
                           height: 60.w,
-                          width: 60.w,
+                          width: 55.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white, width: 3.w),
@@ -208,7 +226,7 @@ class ProfileScreen extends ConsumerWidget {
                       );
                     },
                   ),
-                ),
+                ) : Text("No recently viewed products"),
 
                 Padding(
                   padding: EdgeInsets.only(left: 25.5.w, top: 25.h),
@@ -350,6 +368,7 @@ class ProfileScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final img = newitem[index];
                       final txt = newitem[index];
+                      final newproduct = newitem[index];
                       return GestureDetector(
                         onTap: () {
                           ref
@@ -365,6 +384,8 @@ class ProfileScreen extends ConsumerWidget {
                             size: txt.size,
                             color: txt.color,
                           );
+
+                          ref.read(recentlyviewProvider.notifier).addtoViewed(newproduct);
 
                           context.go('/chooseproduct');
                         },

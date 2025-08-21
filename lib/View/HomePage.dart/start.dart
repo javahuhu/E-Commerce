@@ -1,5 +1,7 @@
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/recentlyview_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/searchbar_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +16,9 @@ class StartScreen extends ConsumerWidget {
 
   final currentIndex = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
-
+  final showSearch = StateProvider<bool>((ref) => false);
+  final showChip = StateProvider<bool>((ref) => false);
+  final selectreco = StateProvider<int>((ref) => -1);
   final List<Map<String, dynamic>> navicons = [
     {
       "iconActive": 'assets/homeactive.png',
@@ -78,6 +82,47 @@ class StartScreen extends ConsumerWidget {
     {"img": 'assets/sampleitem5.jpg'},
   ];
 
+  final List<String> reco = [
+    "Skirt",
+    "Accessories",
+    "Black T-Shirt",
+    "Jeans",
+    "White Shoes",
+  ];
+
+  final List<Map<String, dynamic>> discovers = [
+    {
+      "img": 'assets/sampleitem2.jpeg',
+      "details": 'Lorem ipsum dolor sit amet consectetur.',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem3.jpeg',
+      "details": 'Lorem ipsum dolor sit amet consectetur.',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem4.jpg',
+      "details": 'Lorem ipsum dolor sit amet consectetur.',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem5.jpg',
+      "details": 'Lorem ipsum dolor sit amet consectetur.',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem4.jpg',
+      "details": 'Lorem ipsum dolor sit amet consectetur.',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem5.jpg',
+      "details": 'Lorem ipsum dolor sit amet consectetur.',
+      "Price": '\$125,00',
+    },
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoryproduct = ref.watch(categoryProvider);
@@ -85,10 +130,16 @@ class StartScreen extends ConsumerWidget {
     final recommendation = ref.watch(recommendationProvider);
     final largePhone = MediaQuery.of(context).size.height > 800;
     final extralargePhone = MediaQuery.of(context).size.height > 900;
+    final mediumPhone = MediaQuery.of(context).size.height < 750;
+    final searchbar = ref.watch(showSearch);
+    final searchItems = ref.watch(searchbarProvider);
+    final TextEditingController searchcontroller = TextEditingController();
+    final schip = ref.watch(showChip);
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Stack(
+        clipBehavior: Clip.none,
         children: [
           SingleChildScrollView(
             child: Column(
@@ -113,8 +164,12 @@ class StartScreen extends ConsumerWidget {
 
                       Expanded(
                         child: SizedBox(
-                          height: 35.h,
+                          height: 40.h,
                           child: TextField(
+                            controller: searchcontroller,
+                            onTap: () {
+                              ref.read(showSearch.notifier).state = true;
+                            },
                             decoration: InputDecoration(
                               contentPadding: EdgeInsetsGeometry.symmetric(
                                 vertical: 5.h,
@@ -290,7 +345,7 @@ class StartScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 5.h),
+                SizedBox(height: 15.h),
 
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(
@@ -403,7 +458,7 @@ class StartScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 25.h),
+                SizedBox(height: 15.h),
 
                 SizedBox(
                   height: 200.h,
@@ -558,12 +613,12 @@ class StartScreen extends ConsumerWidget {
                                   width: 45.w,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFFF5790), // Pink
-                                    Color(0xFFF81140),
-                                  ],
-                                ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFFF5790), // Pink
+                                        Color(0xFFF81140),
+                                      ],
+                                    ),
                                     borderRadius: BorderRadius.circular(5.r),
                                     boxShadow: [
                                       BoxShadow(
@@ -672,6 +727,10 @@ class StartScreen extends ConsumerWidget {
                             size: newProduct.size,
                             color: newProduct.color,
                           );
+
+                          ref
+                              .read(recentlyviewProvider.notifier)
+                              .addtoViewed(newProduct);
                           context.go('/chooseproduct');
                         },
                         child: Container(
@@ -847,6 +906,344 @@ class StartScreen extends ConsumerWidget {
               ),
             ),
           ),
+
+          if (searchbar)
+            Positioned.fill(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.r),
+                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 2)],
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 25.h),
+                      Padding(
+                        padding: EdgeInsetsGeometry.symmetric(
+                          horizontal: 10.w,
+                          vertical: 25.h,
+                        ),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                ref.read(showSearch.notifier).state = false;
+                              },
+                              icon: Icon(Icons.arrow_back_ios_new, size: 18.sp),
+                            ),
+
+                            Expanded(
+                              child: SizedBox(
+                                height: 45.h,
+                                child: Stack(
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 0.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            borderRadius: BorderRadius.circular(
+                                              100,
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Wrap(
+                                                spacing: 6.w,
+                                                runSpacing: 6.h,
+                                                children: [
+                                                  // show the chips first
+                                                  ...searchItems.map(
+                                                    (search) => Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                            horizontal: 5.w,
+                                                            vertical: 6.h,
+                                                          ),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      color:
+                                                          const Color.fromARGB(
+                                                            0,
+                                                            201,
+                                                            133,
+                                                            133,
+                                                          ),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Transform.translate(
+                                                            offset: Offset(
+                                                              0,
+                                                              0.h,
+                                                            ),
+                                                            child: Text(
+                                                              search,
+                                                              style: TextStyle(
+                                                                fontSize: 17.sp,
+                                                                color: Colors
+                                                                    .blue
+                                                                    .shade400,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 6.w),
+
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              ref
+                                                                  .read(
+                                                                    searchbarProvider
+                                                                        .notifier,
+                                                                  )
+                                                                  .removeSearch(
+                                                                    search,
+                                                                  );
+                                                            },
+                                                            child: Icon(
+                                                              Icons.close,
+                                                              size: 17.sp,
+                                                              color: Colors
+                                                                  .blue
+                                                                  .shade400,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  // then the editable input
+                                                  SizedBox(
+                                                    width: 235.w,
+                                                    child: TextField(
+                                                      controller:
+                                                          searchcontroller,
+                                                      decoration: InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsetsGeometry.symmetric(
+                                                              vertical: 7.h,
+                                                              horizontal: 10.w,
+                                                            ),
+                                                        border:
+                                                            InputBorder.none,
+                                                        hintText: "Search...",
+                                                        isDense: true,
+                                                      ),
+                                                      onSubmitted: (value) {
+                                                        if (value.isNotEmpty) {
+                                                          ref
+                                                              .read(
+                                                                searchbarProvider
+                                                                    .notifier,
+                                                              )
+                                                              .addSearch(value);
+                                                          searchcontroller
+                                                              .clear();
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
+                                              IconButton(
+                                                onPressed: () {},
+                                                icon: Icon(
+                                                  Icons.camera_alt_outlined,
+                                                  size: 22.sp,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: Text(
+                          'Recommendations',
+                          style: TextStyle(
+                            fontFamily: 'RalewayRegular',
+                            fontSize: 18.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 10.h,
+                        ),
+                        child: Wrap(
+                          spacing: 5,
+                          runSpacing: 10,
+                          children: reco.asMap().entries.map((entry) {
+                            int index = entry.key;
+                            String items = entry.value;
+                            final selectedreco = ref.watch(selectreco) == index;
+                            return GestureDetector(
+                              onTap: () {
+                                final currentselected = ref.read(selectreco);
+                                ref.read(selectreco.notifier).state =
+                                    currentselected == index ? -1 : index;
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 8.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: selectedreco
+                                      ? Color(0xFF9775FA)
+                                      : Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+
+                                child: Text(
+                                  items,
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayRegular',
+                                    fontSize: 17.sp,
+                                    color: selectedreco
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 10.h,
+                        ),
+                        child: Text(
+                          'Discover',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 21.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+                      GridView.builder(
+                        itemCount: discovers.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          childAspectRatio: mediumPhone ? 0.95 : 0.85,
+                        ),
+                        itemBuilder: (context, index) {
+                          final discoverItem = discovers[index];
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 140.h,
+                                  width: 160.w,
+                                  padding: EdgeInsets.all(5.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        blurRadius: 2,
+                                      ),
+                                    ],
+                                  ),
+
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: Image.asset(
+                                      discoverItem['img'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right: 15.w,
+                                        top: 5.h,
+                                      ),
+                                      child: SizedBox(
+                                        width: 130.w,
+                                        child: Text(
+                                          discoverItem['details'],
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 12.sp,
+                                            color: Colors.black,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h),
+
+                                    Text(
+                                      discoverItem['Price'],
+                                      style: TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontSize: 17.sp,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

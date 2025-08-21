@@ -158,78 +158,6 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           event: 'Sale',
         ),
 
-        //Recently Viewed
-        Product(
-          id: '1',
-          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
-          subimage: [
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-          ],
-          title:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam arcu mauris, scelerisque eu mauris id, pretium pulvinar sapien.",
-          material: ["Cotton", "Nylon"],
-          origin: 'PH',
-          price: '\$18.00',
-          size: ["M", "L", "S"],
-          color: 'Green',
-          type: ProductModel.recentView,
-        ),
-
-        Product(
-          id: '2',
-          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
-          subimage: [
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-          ],
-          title:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam arcu mauris, scelerisque eu mauris id, pretium pulvinar sapien.",
-          material: ["Cotton", "Nylon"],
-          origin: 'PH',
-          price: '\$18.00',
-          size: ["M", "L", "S"],
-          color: 'Green',
-          type: ProductModel.recentView,
-        ),
-
-        Product(
-          id: '3',
-          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
-          subimage: [
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-          ],
-          title:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam arcu mauris, scelerisque eu mauris id, pretium pulvinar sapien.",
-          material: ["Cotton", "Nylon"],
-          origin: 'PH',
-          price: '\$18.00',
-          size: ["M", "L", "S"],
-          color: 'Green',
-          type: ProductModel.recentView,
-        ),
-
-        Product(
-          id: '4',
-          image: ["assets/sampleitem2.jpeg", "assets/sampleitem2.jpeg"],
-          subimage: [
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-            "assets/sampleitem2.jpeg",
-          ],
-          title:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam arcu mauris, scelerisque eu mauris id, pretium pulvinar sapien.",
-          material: ["Cotton", "Nylon"],
-          origin: 'PH',
-          price: '\$18.00',
-          size: ["M", "L", "S"],
-          color: 'Green',
-          type: ProductModel.recentView,
-        ),
 
         //For you//
         Product(
@@ -600,12 +528,7 @@ final popularItemsProvider = Provider<List<Product>>((ref) {
   return allItems.where((item) => item.type == ProductModel.popular).toList();
 });
 
-final recentviewProvider = Provider<List<Product>>((ref) {
-  final allItems = ref.watch(productsProvider);
-  return allItems
-      .where((items) => items.type == ProductModel.recentView)
-      .toList();
-});
+
 
 final recommendationProvider = Provider<List<Product>>((ref) {
   final allItems = ref.watch(productsProvider);

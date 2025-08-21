@@ -2,6 +2,7 @@ import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/recentlyview_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,8 +70,11 @@ class WishlistScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlist = ref.watch(wishlistProvider);
-    final recentproduct = ref.watch(recentviewProvider);
+    final recentproduct = ref.watch(recentlyviewProvider);
     final selectnavIndex = StateProvider<int>((ref) => 2);
+    final popularproduct = ref.watch(popularItemsProvider);
+    final mediumPhone = MediaQuery.of(context).size.height > 750;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -141,41 +145,67 @@ class WishlistScreen extends ConsumerWidget {
 
                     SizedBox(height: 15.h),
 
-                    SizedBox(
-                      height: 60.w,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        separatorBuilder: (_, _) => SizedBox(width: 15.w),
-                        itemCount: recentproduct.length,
-                        itemBuilder: (context, index) {
-                          final recent = recentproduct[index];
-                          return Container(
-                            margin: EdgeInsets.only(top: 3.h, bottom: 3.h),
+                    recentproduct.isNotEmpty
+                        ? SizedBox(
                             height: 60.w,
-                            width: 60.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 3.w,
-                              ),
-                              boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 5),
-                              ],
-                            ),
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              separatorBuilder: (_, _) => SizedBox(width: 15.w),
+                              itemCount: recentproduct.length,
+                              itemBuilder: (context, index) {
+                                final recent = recentproduct[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(selectedproductProvider.notifier)
+                                        .state = SelectproductModel(
+                                      id: recent.id,
+                                      image: recent.image,
+                                      subimage: recent.subimage,
+                                      title: recent.title,
+                                      price: recent.price,
+                                      material: recent.material,
+                                      origin: recent.origin,
+                                      size: recent.size,
+                                      color: recent.color,
+                                    );
+                                    context.go('/chooseproduct');
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      top: 3.h,
+                                      bottom: 3.h,
+                                    ),
+                                    height: 60.w,
+                                    width: 55.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 3.w,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 5,
+                                        ),
+                                      ],
+                                    ),
 
-                            child: ClipOval(
-                              child: Image.asset(
-                                recent.image[0],
-                                fit: BoxFit.cover,
-                              ),
+                                    child: ClipOval(
+                                      child: Image.asset(
+                                        recent.image[0],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          )
+                        : Text("No recently viewed products"),
 
                     SizedBox(height: 15.h),
                     if (wishlist.isNotEmpty) ...[
@@ -227,17 +257,22 @@ class WishlistScreen extends ConsumerWidget {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        ref.read(selectedproductProvider.notifier).state = SelectproductModel(
-                                          id: item.id, 
-                                          image: item.image, 
-                                          subimage: item.subimage, 
-                                          title: item.title, 
-                                          price: item.price, 
-                                          material: item.material, 
-                                          origin: item.origin, 
-                                          size: item.size, 
-                                          color: item.color);
-                                          context.go('/chooseproduct');
+                                        ref
+                                            .read(
+                                              selectedproductProvider.notifier,
+                                            )
+                                            .state = SelectproductModel(
+                                          id: item.id,
+                                          image: item.image,
+                                          subimage: item.subimage,
+                                          title: item.title,
+                                          price: item.price,
+                                          material: item.material,
+                                          origin: item.origin,
+                                          size: item.size,
+                                          color: item.color,
+                                        );
+                                        context.go('/chooseproduct');
                                       },
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(
@@ -434,6 +469,143 @@ class WishlistScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
+
+
+
+
+                            SizedBox(height: 25.h),
+                    if (wishlist.isEmpty) ...[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 22.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Most Popular',
+                              style: TextStyle(
+                                fontFamily: 'RalewayRegular',
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'See All',
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayRegular',
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                SizedBox(width: 15.w),
+
+                                Container(
+                                  height: 30.w,
+                                  width: 30.w,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFF9775FA),
+                                  ),
+
+                                  child: Icon(
+                                    Icons.arrow_right_alt_sharp,
+                                    size: 20.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 15.h),
+
+                      SizedBox(
+                        height: mediumPhone ? 165.h : 192.h,
+                        child: ListView.separated(
+                          itemCount: popularproduct.length,
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          separatorBuilder: (_, _) => SizedBox(width: 15.w),
+                          itemBuilder: (context, index) {
+                            final popular = popularproduct[index];
+                            return Container(
+                              margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
+
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      child: Image.asset(popular.image[0]),
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          popular.likes?.toString() ?? '',
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 13.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+
+                                        Icon(
+                                          Icons.favorite,
+                                          size: 13.sp,
+                                          color: Colors.red,
+                                        ),
+
+                                        SizedBox(width: 10.w),
+
+                                        Text(
+                                          popular.event?.toString() ?? '',
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 13.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ] else
+                      SizedBox(key: ValueKey('empty')),
+
+                    SizedBox(height: 25.h),
                   ],
                 ),
               ],
@@ -540,7 +712,7 @@ class WishlistScreen extends ConsumerWidget {
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-   if (height < Breakpoints.extraSmall) return 60.h;
+  if (height < Breakpoints.extraSmall) return 60.h;
   if (height < Breakpoints.eextraSmall) return 70.h;
   if (height < Breakpoints.smallPhone) return 60.h;
   if (height < Breakpoints.largePhone) return 70.h;
