@@ -1,3 +1,4 @@
+import 'package:e_commercehybrid/View/HomePage.dart/opensearch.dart';
 import 'package:e_commercehybrid/View/Payment/payment.dart';
 import 'package:e_commercehybrid/View/ToRecieved/recieved.dart';
 import 'package:e_commercehybrid/View/flashsale/flashsale.dart';
@@ -44,7 +45,10 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => ChangepasswordScreen(),
     ),
     GoRoute(path: '/carousel', builder: (context, state) => CarouselScreen()),
-    GoRoute(path: '/startscreen', builder: (context, state) => StartScreen()),
+    GoRoute(
+      path: '/startscreen',
+      builder: (context, state) => StartScreen(), routes: []
+    ),
     GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
     GoRoute(path: '/wishlist', builder: (context, state) => WishlistScreen()),
     GoRoute(
@@ -59,7 +63,7 @@ final GoRouter appRouter = GoRouter(
         key: state.pageKey,
         child: Chooseitem(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
+          const begin = Offset(-1.0, 0.0);
           const end = Offset.zero;
           const curve = Curves.easeInOut;
 
@@ -70,17 +74,47 @@ final GoRouter appRouter = GoRouter(
           return SlideTransition(
             position: animation.drive(tween),
             child: child,
+            
           );
         },
+        transitionDuration: Duration(milliseconds: 400)
       ),
     ),
 
-    GoRoute(path: '/payment', builder: (context, state) => PaymentScreen(),),
+    GoRoute(path: '/payment', builder: (context, state) => PaymentScreen()),
 
-    GoRoute(path: '/torecieved', builder: (context, state) => ToRecievedScreen(),),
-    GoRoute(path: '/trackorder', builder: (context,state) => TrackOrder()),
-    GoRoute(path: '/myactivity', builder: (context, state) => MyActivity(),),
-    GoRoute(path: '/orderhistory', builder: (context, state) =>OrderHistory()),
-    GoRoute(path: '/flashsale', builder: (context, state) => FlashSale())
+    GoRoute(
+      path: '/torecieved',
+      builder: (context, state) => ToRecievedScreen(),
+    ),
+    GoRoute(path: '/trackorder', builder: (context, state) => TrackOrder()),
+    GoRoute(path: '/myactivity', builder: (context, state) => MyActivity()),
+    GoRoute(path: '/orderhistory', builder: (context, state) => OrderHistory()),
+    GoRoute(path: '/flashsale', builder: (context, state) => FlashSale()),
+    
+    GoRoute(
+  path: '/opensearch',
+  pageBuilder: (context, state) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child:  Opensearch(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        final tween = Tween(begin: begin, end: end)
+            .chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 300),
+    );
+  },
+),
+
   ],
 );

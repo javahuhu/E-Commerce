@@ -158,7 +158,6 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           event: 'Sale',
         ),
 
-
         //For you//
         Product(
           id: '1',
@@ -510,6 +509,15 @@ class ProductViewModel extends StateNotifier<List<Product>> {
           type: ProductModel.flashsale,
         ),
       ]);
+
+  List<Product> filterProducts(List<String> query) {
+    if (query.isEmpty) return state;
+
+    return state.where((p) {
+      final searching = '${p.title}, ${p.color}'.toLowerCase();
+      return query.any((q) => searching.contains(q.toLowerCase()));
+    }).toList();
+  }
 }
 
 final productsProvider = StateNotifierProvider<ProductViewModel, List<Product>>(
@@ -527,8 +535,6 @@ final popularItemsProvider = Provider<List<Product>>((ref) {
   final allItems = ref.watch(productsProvider);
   return allItems.where((item) => item.type == ProductModel.popular).toList();
 });
-
-
 
 final recommendationProvider = Provider<List<Product>>((ref) {
   final allItems = ref.watch(productsProvider);
