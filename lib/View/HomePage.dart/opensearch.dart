@@ -1,4 +1,6 @@
+import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/recentlyview_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:e_commercehybrid/ViewModel/searchbar_view_model.dart';
@@ -197,8 +199,9 @@ class Opensearch extends ConsumerWidget {
   }
 }
 
+final selectreco = StateProvider<int>((ref) => -1);
 Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
-  final selectreco = StateProvider<int>((ref) => -1);
+  
 
   final List<String> reco = [
     "Skirt",
@@ -392,78 +395,179 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
     return Center(child: Text('No product Available'));
   }
 
-  return GridView.builder(
-    itemCount: filtered.length,
-    physics: NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      mainAxisSpacing: 2,
-      crossAxisSpacing: 2,
-      childAspectRatio: 0.80,
-    ),
-    itemBuilder: (context, index) {
-      final product = filtered[index];
-      return Column(
-        children: [
-          SizedBox(height: 15.h),
-          Container(
-            height: 140.h,
-            width: 160.w,
-            padding: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.r),
-              boxShadow: [BoxShadow(blurRadius: 2, color: Colors.black12)],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.r),
-              child: Image.asset(product.image[0], fit: BoxFit.cover),
-            ),
+  final mediumPhone = MediaQuery.of(context).size.height < 750;
+
+  final List<Map<String, dynamic>> circleimg = [
+    {
+      "img": 'assets/sampleitem2.jpeg',
+      "details": 'jacket',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem3.jpeg',
+      "details": 'jacket',
+      "Price": '\$125,00',
+    },
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+  ];
+
+  return Column(
+    children: [
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: GridView.builder(
+          itemCount: circleimg.length,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            mainAxisSpacing: 2,
+            crossAxisSpacing: 2,
+            childAspectRatio: 0.8,
           ),
+          itemBuilder: (context, index) {
+            final featurelist = circleimg[index];
+            return Column(
+              children: [
+                Container(
+                  height: 50.w,
+                  width: 50.w,
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(color: Colors.black26, blurRadius: 2),
+                    ],
+                  ),
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-               SizedBox(height: 5.h),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(500.r),
+                    child: Image.asset(featurelist['img'], fit: BoxFit.cover),
+                  ),
+                ),
+                SizedBox(height: 5.h),
 
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20.w),
-                  child: SizedBox(
-                    width: 135.w,
-                    child: Text(
-                      product.title,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: Colors.black,
-                        fontFamily: 'RalewayRegular',
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                Center(
+                  child: Text(
+                    featurelist['details'],
+                    style: TextStyle(
+                      fontFamily: 'RalewayRegular',
+                      fontSize: 12.sp,
+                      color: Colors.black,
                     ),
                   ),
                 ),
-              ),
+              ],
+            );
+          },
+        ),
+      ),
 
-              SizedBox(height: 5.h),
+      GridView.builder(
+        itemCount: filtered.length,
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 2,
+          crossAxisSpacing: 2,
+          childAspectRatio: mediumPhone ? 0.9 : 0.77,
+        ),
+        itemBuilder: (context, index) {
+          final product = filtered[index];
+          return GestureDetector(
+            onTap: () {
+              ref
+                  .read(selectedproductProvider.notifier)
+                  .state = SelectproductModel(
+                id: product.id,
+                image: product.image,
+                subimage: product.subimage,
+                title: product.title,
+                price: product.price,
+                material: product.material,
+                origin: product.origin,
+                size: product.size,
+                color: product.color,
+              );
 
-              Padding(
-                padding: EdgeInsets.only(left: 20.w),
-                child: Text(
-                  product.price,
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    color: Colors.black,
-                    fontFamily: 'Raleway',
+              ref.read(recentlyviewProvider.notifier).addtoViewed(product);
+              context.push('/chooseproduct');
+            },
+            child: Column(
+              children: [
+                SizedBox(height: 15.h),
+                Container(
+                  height: 140.h,
+                  width: 160.w,
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    boxShadow: [
+                      BoxShadow(blurRadius: 2, color: Colors.black12),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: Image.asset(product.image[0], fit: BoxFit.cover),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      );
-    },
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 5.h),
+
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.w),
+                        child: SizedBox(
+                          width: 135.w,
+                          child: Text(
+                            product.title,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: Colors.black,
+                              fontFamily: 'RalewayRegular',
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 5.h),
+
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.w),
+                      child: Text(
+                        product.price,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          color: Colors.black,
+                          fontFamily: 'Raleway',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    ],
   );
 }

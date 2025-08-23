@@ -725,7 +725,7 @@ class StartScreen extends ConsumerWidget {
                           ref
                               .read(recentlyviewProvider.notifier)
                               .addtoViewed(newProduct);
-                          context.go('/chooseproduct');
+                          context.push('/chooseproduct');
                         },
                         child: Container(
                           decoration: BoxDecoration(

@@ -317,7 +317,7 @@ class FlashSale extends ConsumerWidget {
                             size: sale.size,
                             color: sale.color,
                           );
-                          context.go('/chooseproduct');
+                          context.push('/chooseproduct');
                         },
                         child: Stack(
                           children: [
