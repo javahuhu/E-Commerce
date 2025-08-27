@@ -1,6 +1,7 @@
 import 'package:e_commercehybrid/View/HomePage.dart/opensearch.dart';
 import 'package:e_commercehybrid/View/Payment/payment.dart';
 import 'package:e_commercehybrid/View/ToRecieved/recieved.dart';
+import 'package:e_commercehybrid/View/chatbot/chatbot.dart';
 import 'package:e_commercehybrid/View/flashsale/flashsale.dart';
 import 'package:e_commercehybrid/View/myactivity/activity.dart';
 import 'package:e_commercehybrid/View/orderhistory/orderhistory.dart';
@@ -121,5 +122,6 @@ final GoRouter appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(path: '/chatbot', builder: (context, state) => ChatBot()),
   ],
 );

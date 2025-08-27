@@ -6,12 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:e_commercehybrid/ViewModel/searchbar_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class Opensearch extends ConsumerWidget {
   Opensearch({super.key});
 
   final currentIndex = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
+  final openfilter = StateProvider<bool>((ref) => false);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -153,6 +155,13 @@ class Opensearch extends ConsumerWidget {
                                                             .notifier,
                                                       )
                                                       .addSearch(value);
+
+                                                  ref
+                                                      .read(
+                                                        searchHistoryProvider
+                                                            .notifier,
+                                                      )
+                                                      .addSearchHistory(value);
                                                   searchcontroller.clear();
                                                 }
                                               },
@@ -175,11 +184,29 @@ class Opensearch extends ConsumerWidget {
                             ),
                           ),
 
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () {},
-                            icon: Icon(Icons.filter_list_rounded, size: 30.sp),
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                isDismissible: false,
+                                enableDrag: false,
+                                builder: (context) {
+                                  return _buildShowFilter(context, ref);
+                                },
+                              );
+                            },
+                            child: Container(
+                              height: 25.h,
+                              width: 25.w,
+                              margin: EdgeInsets.only(left: 5.w),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/iconfilter.png'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -199,10 +226,7 @@ class Opensearch extends ConsumerWidget {
   }
 }
 
-final selectreco = StateProvider<int>((ref) => -1);
 Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
-  
-
   final List<String> reco = [
     "Skirt",
     "Accessories",
@@ -245,9 +269,62 @@ Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
   ];
 
   final mediumPhone = MediaQuery.of(context).size.height < 750;
+  final searchHistory = ref.watch(searchHistoryProvider);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      searchHistory.isNotEmpty
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Text(
+                'Search History',
+                style: TextStyle(
+                  fontFamily: 'RalewayRegular',
+                  fontSize: 18.sp,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          : SizedBox.shrink(),
+
+      searchHistory.isNotEmpty
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              child: Wrap(
+                spacing: 5,
+                runSpacing: 10,
+                children: searchHistory.asMap().entries.map((entry) {
+                  String items = entry.value;
+
+                  return GestureDetector(
+                    onTap: () {
+                      ref.read(searchbarProvider.notifier).addSearch(items);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+
+                      child: Text(
+                        items,
+                        style: TextStyle(
+                          fontFamily: 'RalewayRegular',
+                          fontSize: 17.sp,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            )
+          : SizedBox.shrink(),
+
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Text(
@@ -266,22 +343,16 @@ Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
           spacing: 5,
           runSpacing: 10,
           children: reco.asMap().entries.map((entry) {
-            int index = entry.key;
             String items = entry.value;
-            final selectedreco = ref.watch(selectreco) == index;
+
             return GestureDetector(
               onTap: () {
-                final currentselected = ref.read(selectreco);
-                ref.read(selectreco.notifier).state = currentselected == index
-                    ? -1
-                    : index;
+                ref.read(searchbarProvider.notifier).addSearch(items);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
-                  color: selectedreco
-                      ? Color(0xFF9775FA)
-                      : Colors.grey.shade200,
+                  color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8.r),
                 ),
 
@@ -290,7 +361,7 @@ Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
                   style: TextStyle(
                     fontFamily: 'RalewayRegular',
                     fontSize: 17.sp,
-                    color: selectedreco ? Colors.white : Colors.black,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -437,38 +508,83 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
             final featurelist = circleimg[index];
             return Column(
               children: [
-                Container(
-                  height: 50.w,
-                  width: 50.w,
-                  padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(color: Colors.black26, blurRadius: 2),
-                    ],
-                  ),
+                Shimmer(
+                  duration: Duration(milliseconds: 1500),
+                  interval: Duration(seconds: 0),
+                  color: Colors.white,
+                  enabled: true,
+                  direction: ShimmerDirection.fromLTRB(),
+                  colorOpacity: 0.3,
+                  child: Container(
+                    height: 50.w,
+                    width: 50.w,
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26, blurRadius: 2),
+                      ],
+                    ),
 
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(500.r),
-                    child: Image.asset(featurelist['img'], fit: BoxFit.cover),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(500.r),
+                      child: Image.asset(featurelist['img'], fit: BoxFit.cover),
+                    ),
                   ),
                 ),
                 SizedBox(height: 5.h),
 
-                Center(
-                  child: Text(
-                    featurelist['details'],
-                    style: TextStyle(
-                      fontFamily: 'RalewayRegular',
-                      fontSize: 12.sp,
-                      color: Colors.black,
+                Shimmer(
+                  duration: Duration(milliseconds: 1500),
+                  interval: Duration(seconds: 0),
+                  color: Colors.grey.shade100,
+                  enabled: true,
+                  direction: ShimmerDirection.fromLTRB(),
+                  colorOpacity: 0.3,
+                  child: Center(
+                    child: Text(
+                      featurelist['details'],
+                      style: TextStyle(
+                        fontFamily: 'RalewayRegular',
+                        fontSize: 12.sp,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
               ],
             );
           },
+        ),
+      ),
+
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'All Items',
+              style: TextStyle(
+                fontFamily: 'Raleway',
+                fontSize: 20.sp,
+                color: Colors.black,
+              ),
+            ),
+
+            Container(
+              height: 25.h,
+              width: 25.w,
+              margin: EdgeInsets.only(left: 5.w),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/iconfilter.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
 
@@ -506,20 +622,28 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
             child: Column(
               children: [
                 SizedBox(height: 15.h),
-                Container(
-                  height: 140.h,
-                  width: 160.w,
-                  padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.r),
-                    boxShadow: [
-                      BoxShadow(blurRadius: 2, color: Colors.black12),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Image.asset(product.image[0], fit: BoxFit.cover),
+                Shimmer(
+                  duration: Duration(milliseconds: 1500),
+                  interval: Duration(seconds: 0),
+                  color: Colors.white,
+                  enabled: true,
+                  direction: ShimmerDirection.fromLTRB(),
+                  colorOpacity: 0.3,
+                  child: Container(
+                    height: 140.h,
+                    width: 160.w,
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.r),
+                      boxShadow: [
+                        BoxShadow(blurRadius: 2, color: Colors.black12),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Image.asset(product.image[0], fit: BoxFit.cover),
+                    ),
                   ),
                 ),
 
@@ -528,21 +652,30 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
                   children: [
                     SizedBox(height: 5.h),
 
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20.w),
-                        child: SizedBox(
-                          width: 135.w,
-                          child: Text(
-                            product.title,
-                            style: TextStyle(
-                              fontSize: 13.sp,
-                              color: Colors.black,
-                              fontFamily: 'RalewayRegular',
+                    Shimmer(
+                      duration: Duration(milliseconds: 1500),
+                      interval: Duration(seconds: 0),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      enabled: true,
+                      direction: ShimmerDirection.fromLTRB(),
+                      colorOpacity: 0.3,
+                      child: Container(
+                        width: 150.w,
+                        color: Colors.white,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 0.w),
+                            child: Text(
+                              product.title,
+                              style: TextStyle(
+                                fontSize: 13.sp,
+                                color: Colors.black,
+                                fontFamily: 'RalewayRegular',
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
@@ -550,14 +683,22 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
 
                     SizedBox(height: 5.h),
 
-                    Padding(
-                      padding: EdgeInsets.only(left: 20.w),
-                      child: Text(
-                        product.price,
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          color: Colors.black,
-                          fontFamily: 'Raleway',
+                    Shimmer(
+                      duration: Duration(milliseconds: 1500),
+                      interval: Duration(seconds: 0),
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      enabled: true,
+                      direction: ShimmerDirection.fromLTRB(),
+                      colorOpacity: 0.3,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 0.w),
+                        child: Text(
+                          product.price,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Colors.black,
+                            fontFamily: 'Raleway',
+                          ),
                         ),
                       ),
                     ),
@@ -569,5 +710,238 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
         },
       ),
     ],
+  );
+}
+
+final selected = StateProvider<String>((ref) => "All");
+final expandedtile = StateProvider<int?>((ref) => null);
+Widget _buildShowFilter(BuildContext context, WidgetRef ref) {
+  final List<Map<String, dynamic>> list = [
+    {
+      "title": 'Clothing',
+      "img": 'assets/sampleitem4.jpg',
+      "choices": ["Dresses", "Pants", "Slippers", "T-Shirt"],
+    },
+
+    {
+      "title": 'Clothing',
+      "img": 'assets/sampleitem4.jpg',
+      "choices": ["Dresses", "Pants", "Slippers", "T-Shirt"],
+    },
+
+    {
+      "title": 'Clothing',
+      "img": 'assets/sampleitem4.jpg',
+      "choices": ["Dresses", "Pants", "Slippers", "T-Shirt"],
+    },
+
+    {
+      "title": 'Clothing',
+      "img": 'assets/sampleitem4.jpg',
+      "choices": ["Dresses", "Pants", "Slippers", "T-Shirt"],
+    },
+  ];
+
+  return Consumer(
+    builder: (context, ref, child) {
+      final options = ["All", "Male", "Female"];
+      final alreadyselect = ref.watch(selected);
+      final expandedIndex = ref.watch(expandedtile);
+      return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(color: Colors.white),
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 25.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Text(
+                        'All Categories',
+                        style: TextStyle(
+                          fontFamily: 'Raleway',
+                          color: Colors.black,
+                          fontSize: 28.sp,
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(right: 2.w),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: Icon(
+                          Icons.clear,
+                          size: 20.sp,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: options.map((item) {
+                    final isSelected = alreadyselect == item;
+                    return ChoiceChip(
+                      label: Text(item),
+                      selected: isSelected,
+                      selectedColor: Colors.blue.shade50,
+                      backgroundColor: Colors.white,
+                      labelStyle: TextStyle(
+                        color: isSelected ? Colors.blue : Colors.black,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                        side: BorderSide(
+                          color: isSelected ? Colors.blue : Colors.transparent,
+                        ),
+                      ),
+
+                      onSelected: (_) {
+                        ref.read(selected.notifier).state = item;
+                      },
+                    );
+                  }).toList(),
+                ),
+
+                SizedBox(height: 15.h),
+
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    final item = list[index];
+                    final selectedTile = expandedIndex == index;
+                    return Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            vertical: 5.h,
+                            horizontal: 15.w,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 3.w,
+                            vertical: 3.h,
+                          ),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 2),
+                            ],
+                          ),
+
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: Image.asset(
+                                item['img'],
+                                width: 60.w,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+
+                            title: Text(
+                              item['title'],
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+
+                            trailing: Icon(
+                              selectedTile
+                                  ? Icons.keyboard_arrow_up
+                                  : Icons.keyboard_arrow_down,
+                            ),
+
+                            onTap: () {
+                              ref.read(expandedtile.notifier).state =
+                                  selectedTile ? null : index;
+                            },
+                          ),
+                        ),
+
+                        AnimatedCrossFade(
+                          firstChild: SizedBox.shrink(),
+                          secondChild: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                              vertical: 10.h,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                  ),
+                                  child: GridView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: list.length,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                          childAspectRatio: 3,
+                                        ),
+                                    itemBuilder: (context, index) {
+                                      final choice = list[index];
+                                      final thechoice =
+                                          choice['choices'] as List<String>;
+                                      return Container(
+                                        height: 50.h,
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            7.r,
+                                          ),
+                                          color: Colors.transparent,
+                                          border: Border.all(
+                                            color: const Color(0xFFFF9F9F),
+                                            width: 2.w,
+                                          ),
+                                        ),
+                                        child: Text(thechoice[index]),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          crossFadeState: selectedTile
+                              ? CrossFadeState.showSecond
+                              : CrossFadeState.showFirst,
+                          duration: Duration(milliseconds: 300),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
   );
 }

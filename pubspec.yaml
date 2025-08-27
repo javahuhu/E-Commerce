@@ -28,6 +28,7 @@ dependencies:
   dotted_line: ^3.2.3
   syncfusion_flutter_charts: ^30.2.4
   blobs: ^2.0.0
+  shimmer_animation: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +88,10 @@ flutter:
     - assets/addtocartnull.jpg
     - assets/trackorder.jpg
     - assets/coupleshirt.jpg
+    - assets/iconfilter.png
+    - assets/chatbot.png
+    - assets/chatbotactive.png
+    - assets/boticon.png
 
 
     - assets/fonts/RalewayBlack.ttf

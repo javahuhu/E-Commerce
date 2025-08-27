@@ -847,6 +847,9 @@ class StartScreen extends ConsumerWidget {
                           switch (index) {
                             case 0:
                               context.go('/startscreen');
+
+                            case 1:
+                              context.go('/chatbot');
                             case 2:
                               context.go('/wishlist');
                             case 3:
@@ -900,8 +903,6 @@ class StartScreen extends ConsumerWidget {
               ),
             ),
           ),
-
-        
         ],
       ),
     );
