@@ -1492,7 +1492,7 @@ void _showVoucherModal(BuildContext context) {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
     builder: (context) {
       return Container(
-        height: 350.h,
+        height: 400.h,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

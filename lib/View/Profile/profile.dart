@@ -55,6 +55,7 @@ class ProfileScreen extends ConsumerWidget {
   final selectIndexProvider = StateProvider<int>((ref) => 0);
   final selectnavIndex = StateProvider<int>((ref) => 0);
   final selectorderbtn = StateProvider<int>((ref) => 0);
+  final selectIconItems = StateProvider<int>((ref) => 0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newitem = ref.watch(newItemsProvider);
@@ -62,8 +63,6 @@ class ProfileScreen extends ConsumerWidget {
     final popularproduct = ref.watch(popularItemsProvider);
     final largePhone = MediaQuery.of(context).size.height > 850;
     final mediumPhone = MediaQuery.of(context).size.height > 750;
-
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -135,9 +134,25 @@ class ProfileScreen extends ConsumerWidget {
 
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: iconItems.map((iconItems) {
+                          children: iconItems.asMap().entries.map((iconItems) {
+                            final index = iconItems.key;
+                            final icon = iconItems.value;
                             return GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                ref.read(selectIconItems.notifier).state = index;
+
+                                switch (index) {
+                                  case 0:
+                                  context.push('/voucher');
+                                  break;
+                                  case 1:
+                                  context.push('');
+                                  break;
+                                  case 2:
+                                  context.push('/settings');
+                                }
+
+                              },
 
                               child: Container(
                                 height: 35.w,
@@ -152,7 +167,7 @@ class ProfileScreen extends ConsumerWidget {
                                   ),
                                   borderRadius: BorderRadius.circular(100.r),
                                 ),
-                                child: Icon(iconItems),
+                                child: Icon(icon),
                               ),
                             );
                           }).toList(),
@@ -163,70 +178,100 @@ class ProfileScreen extends ConsumerWidget {
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(left: 25.w, top: 25.h, bottom: 15.h),
+                  padding: EdgeInsets.only(left: 20.w, top: 0.h),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Recently viewed',
+                      'Hello Christian!',
                       style: TextStyle(
-                        fontFamily: 'RalewayRegular',
-                        fontSize: 22.sp,
+                        fontFamily: 'Raleway',
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 28.sp,
                       ),
                     ),
                   ),
                 ),
 
-
-              recentproduct.isNotEmpty ?
-                SizedBox(
-                  height: 60.w,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 25.w),
-                    separatorBuilder: (_, _) => SizedBox(width: 15.w),
-                    itemCount: recentproduct.length,
-                    itemBuilder: (context, index) {
-                      final recent = recentproduct[index];
-                      return GestureDetector(
-                        onTap: () {
-                          ref.read(selectedproductProvider.notifier).state = SelectproductModel(
-                            id: recent.id, 
-                            image: recent.image,
-                             subimage: recent.subimage, 
-                             title: recent.title, 
-                             price: recent.price, 
-                             material: recent.material, 
-                             origin: recent.origin, 
-                             size: recent.size, 
-                             color: recent.color);
-
-                             context.go('/chooseproduct');
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 3.h, bottom: 3.h),
-                          height: 60.w,
-                          width: 55.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 3.w),
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 3),
-                            ],
-                          ),
-
-                          child: ClipOval(
-                            child: Image.asset(
-                              recent.image[0],
-                              fit: BoxFit.cover,
+                recentproduct.isNotEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                          left: 25.w,
+                          top: 25.h,
+                          bottom: 15.h,
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Recently viewed',
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 22.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ) : Text("No recently viewed products"),
+                      )
+                    : SizedBox.shrink(),
+
+                recentproduct.isNotEmpty
+                    ? SizedBox(
+                        height: 60.w,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          separatorBuilder: (_, _) => SizedBox(width: 15.w),
+                          itemCount: recentproduct.length,
+                          itemBuilder: (context, index) {
+                            final recent = recentproduct[index];
+                            return GestureDetector(
+                              onTap: () {
+                                ref
+                                    .read(selectedproductProvider.notifier)
+                                    .state = SelectproductModel(
+                                  id: recent.id,
+                                  image: recent.image,
+                                  subimage: recent.subimage,
+                                  title: recent.title,
+                                  price: recent.price,
+                                  material: recent.material,
+                                  origin: recent.origin,
+                                  size: recent.size,
+                                  color: recent.color,
+                                );
+
+                                context.go('/chooseproduct');
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 3.h, bottom: 3.h),
+                                height: 60.w,
+                                width: 55.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3.w,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    recent.image[0],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : SizedBox.shrink(),
 
                 Padding(
                   padding: EdgeInsets.only(left: 25.5.w, top: 25.h),
@@ -261,7 +306,6 @@ class ProfileScreen extends ConsumerWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               ref.read(selectorderbtn.notifier).state = index;
-                              
 
                               switch (index) {
                                 case 0:
@@ -385,7 +429,9 @@ class ProfileScreen extends ConsumerWidget {
                             color: txt.color,
                           );
 
-                          ref.read(recentlyviewProvider.notifier).addtoViewed(newproduct);
+                          ref
+                              .read(recentlyviewProvider.notifier)
+                              .addtoViewed(newproduct);
 
                           context.go('/chooseproduct');
                         },

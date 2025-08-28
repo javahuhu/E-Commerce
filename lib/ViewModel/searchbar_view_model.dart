@@ -34,6 +34,10 @@ class SearchHisotryViewModel extends StateNotifier<List<String>> {
   void removeSearchHistory(String text) {
     state = state.where((item) => item != text).toList();
   }
+
+  void clearHistory(){
+    state = [];
+  }
 }
 
 final searchHistoryProvider =

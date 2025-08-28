@@ -274,16 +274,32 @@ Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       searchHistory.isNotEmpty
-          ? Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Text(
-                'Search History',
-                style: TextStyle(
-                  fontFamily: 'RalewayRegular',
-                  fontSize: 18.sp,
-                  color: Colors.black,
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(
+                    'Search History',
+                    style: TextStyle(
+                      fontFamily: 'RalewayRegular',
+                      fontSize: 18.sp,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              ),
+
+                IconButton(
+                  onPressed: () {
+                    ref.read(searchHistoryProvider.notifier).clearHistory();
+                  },
+                  icon: Icon(
+                    Icons.delete_forever_outlined,
+                    size: 25.sp,
+                    color: Colors.redAccent,
+                  ),
+                ),
+              ],
             )
           : SizedBox.shrink(),
 
@@ -348,6 +364,9 @@ Widget _buildShowRecommendation(BuildContext context, WidgetRef ref) {
             return GestureDetector(
               onTap: () {
                 ref.read(searchbarProvider.notifier).addSearch(items);
+                ref
+                    .read(searchHistoryProvider.notifier)
+                    .addSearchHistory(items);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),

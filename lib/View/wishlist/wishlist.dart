@@ -103,6 +103,8 @@ class WishlistScreen extends ConsumerWidget {
                       ),
                     ),
 
+                     recentproduct.isNotEmpty ?
+
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15.w),
                       child: Row(
@@ -141,7 +143,7 @@ class WishlistScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                    ),
+                    ) : SizedBox.shrink(),
 
                     SizedBox(height: 15.h),
 
@@ -205,7 +207,7 @@ class WishlistScreen extends ConsumerWidget {
                               },
                             ),
                           )
-                        : Text("No recently viewed products"),
+                        : SizedBox.shrink(),
 
                     SizedBox(height: 15.h),
                     if (wishlist.isNotEmpty) ...[
