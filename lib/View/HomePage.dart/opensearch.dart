@@ -94,7 +94,7 @@ class Opensearch extends ConsumerWidget {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Transform.translate(
-                                                    offset: Offset(0, 0),
+                                                    offset: Offset(0, -2),
                                                     child: Text(
                                                       search,
                                                       style: TextStyle(

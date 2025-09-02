@@ -230,7 +230,7 @@ Widget _buildIssues(BuildContext context, WidgetRef ref) {
       return Stack(
         children: [
           Positioned(
-            top: 350.h,
+            bottom: 25.h,
             left: 0,
             right: 0,
             child: Center(
@@ -328,7 +328,7 @@ Widget _buildIssues(BuildContext context, WidgetRef ref) {
                                                 child: Icon(
                                                   Icons.check,
                                                   color: Colors.white,
-                                                  size: 15.sp,
+                                                  size: 13.sp,
                                                 ),
                                               ),
                                             )

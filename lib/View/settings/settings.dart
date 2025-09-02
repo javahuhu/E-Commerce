@@ -75,7 +75,7 @@ class SettingsScreen extends ConsumerWidget {
                         context.push('');
                         break;
                         case 2:
-                        context.push('');
+                        context.push('/paymentmethods');
                         break;
 
                       }

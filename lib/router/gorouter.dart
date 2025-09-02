@@ -6,6 +6,7 @@ import 'package:e_commercehybrid/View/chatbot/chatbot.dart';
 import 'package:e_commercehybrid/View/flashsale/flashsale.dart';
 import 'package:e_commercehybrid/View/myactivity/activity.dart';
 import 'package:e_commercehybrid/View/orderhistory/orderhistory.dart';
+import 'package:e_commercehybrid/View/settings/paymentmethods.dart';
 import 'package:e_commercehybrid/View/settings/profilesettings.dart';
 import 'package:e_commercehybrid/View/settings/settings.dart';
 import 'package:e_commercehybrid/View/trackOrder/tractorder.dart';
@@ -196,6 +197,12 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/profilesettings',
       builder: (context, state) => ProfileSettings(),
+      routes: [],
+    ),
+
+     GoRoute(
+      path: '/paymentmethods',
+      builder: (context, state) => PaymentMethodScreen(),
       routes: [],
     ),
   ],
