@@ -1290,7 +1290,7 @@ void _showPaymentBottoModal(BuildContext context, WidgetRef ref) {
 
                 SizedBox(height: 50.h),
                 SizedBox(
-                  height: 155.h,
+                  height: 165.h,
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(horizontal: 15.w),
                     physics: addedcards.length <= 1
@@ -1325,158 +1325,163 @@ void _showPaymentBottoModal(BuildContext context, WidgetRef ref) {
 
                       final cards = addedcards[index];
                       final ifSelected = selected == index;
-                      return Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              ref.read(selectcard.notifier).state = index;
-                            },
-                            child: Container(
-                              width: 280.w,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 5.h,
-                                horizontal: 15.w,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFF1F4FE),
-                                borderRadius: BorderRadius.circular(10.r),
-                                border: Border.all(
-                                  color: ifSelected
-                                      ? Colors.blueAccent
-                                      : Colors.transparent,
-                                  width: 2.w,
+                      return Container(
+                        margin: EdgeInsets.only(top: 8.h),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                ref.read(selectcard.notifier).state = index;
+                              },
+                              child: Container(
+                                width: 280.w,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 5.h,
+                                  horizontal: 15.w,
                                 ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ClipRRect(
-                                        child: Image.asset(
-                                          'assets/mastercard.png',
-                                          fit: BoxFit.cover,
-                                          height: 50.h,
-                                          width: 50.w,
-                                        ),
-                                      ),
-
-                                      GestureDetector(
-                                        onTap: () {
-                                          _showBottomEditCard(
-                                            context,
-                                            ref,
-                                            index,
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(5),
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Color(0xFFE5EBFC),
-                                          ),
-
-                                          child: Icon(
-                                            Icons.settings,
-                                            size: 22.sp,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF1F4FE),
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  border: Border.all(
+                                    color: ifSelected
+                                        ? Colors.blueAccent
+                                        : Colors.transparent,
+                                    width: 2.w,
                                   ),
-
-                                  SizedBox(height: 10.h),
-
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        cards.cardnumber.isNotEmpty
-                                            ? "**** **** ****"
-                                            : "",
-                                        style: TextStyle(
-                                          fontFamily: 'RalewayRegular',
-                                          fontSize: 30.sp,
-                                          color: Colors.black,
-                                          letterSpacing: 2,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ClipRRect(
+                                          child: Image.asset(
+                                            'assets/mastercard.png',
+                                            fit: BoxFit.cover,
+                                            height: 50.h,
+                                            width: 50.w,
+                                          ),
                                         ),
-                                      ),
 
-                                      Transform.translate(
-                                        offset: Offset(0, -10),
-                                        child: Text(
-                                          cards.cvv,
+                                        GestureDetector(
+                                          onTap: () {
+                                            _showBottomEditCard(
+                                              context,
+                                              ref,
+                                              index,
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xFFE5EBFC),
+                                            ),
+
+                                            child: Icon(
+                                              Icons.settings,
+                                              size: 22.sp,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 10.h),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          cards.cardnumber.isNotEmpty
+                                              ? "**** **** ****"
+                                              : "",
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 30.sp,
+                                            color: Colors.black,
+                                            letterSpacing: 2,
+                                          ),
+                                        ),
+
+                                        Transform.translate(
+                                          offset: Offset(0, -10),
+                                          child: Text(
+                                            cards.cvv,
+                                            style: TextStyle(
+                                              fontFamily: 'RalewayRegular',
+                                              fontSize: 15.sp,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          cards.cardholder,
                                           style: TextStyle(
                                             fontFamily: 'RalewayRegular',
                                             fontSize: 15.sp,
                                             color: Colors.black,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
 
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        cards.cardholder,
-                                        style: TextStyle(
-                                          fontFamily: 'RalewayRegular',
-                                          fontSize: 15.sp,
-                                          color: Colors.black,
+                                        Text(
+                                          cards.expiredate,
+                                          style: TextStyle(
+                                            fontFamily: 'RalewayRegular',
+                                            fontSize: 15.sp,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-
-                                      Text(
-                                        cards.expiredate,
-                                        style: TextStyle(
-                                          fontFamily: 'RalewayRegular',
-                                          fontSize: 15.sp,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: 260.w,
-                            top: -8.h,
-                            child: AnimatedSwitcher(
-                              duration: Duration(milliseconds: 200),
-                              transitionBuilder: (child, animation) =>
-                                  ScaleTransition(
-                                    scale: animation,
-                                    child: child,
-                                  ),
-                              child:ifSelected? Container(
-                                height: 25.w,
-                                width: 25.w,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
+                            Positioned(
+                              left: 260.w,
+                              top: -8.h,
+                              child: AnimatedSwitcher(
+                                duration: Duration(milliseconds: 200),
+                                transitionBuilder: (child, animation) =>
+                                    ScaleTransition(
+                                      scale: animation,
+                                      child: child,
+                                    ),
+                                child: ifSelected
+                                    ? Container(
+                                        height: 25.w,
+                                        width: 25.w,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.black,
+                                        ),
 
-                                child: Icon(
-                                  Icons.check,
-                                  size: 15.sp,
-                                  color: Colors.white,
-                                ),
-                              ) : SizedBox.shrink(key: ValueKey('empty'),),
+                                        child: Icon(
+                                          Icons.check,
+                                          size: 15.sp,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : SizedBox.shrink(key: ValueKey('empty')),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
                   ),
