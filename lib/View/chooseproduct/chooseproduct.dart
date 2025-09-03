@@ -10,12 +10,109 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:e_commercehybrid/constantsize.dart';
+import 'package:lottie/lottie.dart';
 
 class Chooseitem extends ConsumerWidget {
   @override
   Chooseitem({super.key});
 
   final currentIndex = StateProvider<int>((ref) => 0);
+
+  Future<void> _showAddedtoWishlist(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Container(
+          padding: EdgeInsets.all(0),
+          height: 120.h,
+          width: 170.w,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset(
+                'assets/animation/like.json',
+                width: 80.w,
+                height: 80.h,
+                repeat: true,
+                fit: BoxFit.contain,
+              ),
+
+              Text(
+                "Added to Cart!",
+                style: TextStyle(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'RalewayRegular',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await Future.delayed(Duration(seconds: 3));
+    if (context.mounted) {
+      return context.pop();
+    }
+  }
+
+  Future<void> _showAddedtoCart(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Container(
+          padding: EdgeInsets.all(0),
+          height: 120.h,
+          width: 170.w,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset(
+                'assets/animation/addtocart.json',
+                width: 75.w,
+                height: 75.h,
+                repeat: false,
+                fit: BoxFit.contain,
+              ),
+              SizedBox(height: 5),
+              Text(
+                "Added to Cart!",
+                style: TextStyle(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'RalewayRegular',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await Future.delayed(Duration(seconds: 4));
+    if (context.mounted) {
+      return context.pop();
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -120,6 +217,8 @@ class Chooseitem extends ConsumerWidget {
                             ref
                                 .read(wishlistProvider.notifier)
                                 .addtoWishlist(product);
+
+                            _showAddedtoWishlist(context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -164,6 +263,7 @@ class Chooseitem extends ConsumerWidget {
                                 ref
                                     .read(addtocartProvider.notifier)
                                     .addtoCart(product);
+                                _showAddedtoCart(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFF9775FA),
@@ -189,7 +289,10 @@ class Chooseitem extends ConsumerWidget {
                             height: 50.h,
                             width: 290.w,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ref.read(selectedproductProvider.notifier).state = selectedproduct;
+                                context.go('/payment');
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFFF9F9F),
                                 elevation: 3,
@@ -212,7 +315,10 @@ class Chooseitem extends ConsumerWidget {
                             height: 50.h,
                             width: 130.w,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ref.read(selectedproductProvider.notifier).state = selectedproduct;
+                                context.go('/payment');
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFFF9F9F),
                                 elevation: 3,
@@ -1159,6 +1265,98 @@ Widget _buildProductDetails(
 
 final selectIndex = StateProvider<int?>((ref) => null);
 
+Future<void> _showAddedtoWishlist(BuildContext context) async {
+  showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Container(
+        padding: EdgeInsets.all(0),
+        height: 120.h,
+        width: 170.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Lottie.asset(
+              'assets/animation/like.json',
+              width: 80.w,
+              height: 80.h,
+              repeat: true,
+              fit: BoxFit.contain,
+            ),
+
+            Text(
+              "Added to Cart!",
+              style: TextStyle(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'RalewayRegular',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+
+  await Future.delayed(Duration(seconds: 3));
+  if (context.mounted) {
+    return context.pop();
+  }
+}
+
+Future<void> _showAddedtoCart(BuildContext context) async {
+  showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Container(
+        padding: EdgeInsets.all(0),
+        height: 120.h,
+        width: 170.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Lottie.asset(
+              'assets/animation/addtocart.json',
+              width: 75.w,
+              height: 75.h,
+              repeat: false,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(height: 5),
+            Text(
+              "Added to Cart!",
+              style: TextStyle(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'RalewayRegular',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+
+  await Future.delayed(Duration(seconds: 4));
+  if (context.mounted) {
+    return context.pop();
+  }
+}
+
 void _showBottomModal(
   SelectproductModel product,
   BuildContext context,
@@ -1517,6 +1715,7 @@ void _showBottomModal(
                                   wishlist.removetoWishlist(currentproduct.id);
                                 } else {
                                   wishlist.addtoWishlist(currentproduct);
+                                  _showAddedtoWishlist(context);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -1562,6 +1761,8 @@ void _showBottomModal(
                                       ref
                                           .read(addtocartProvider.notifier)
                                           .addtoCart(currentcart);
+
+                                      _showAddedtoCart(context);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xFF9775FA),

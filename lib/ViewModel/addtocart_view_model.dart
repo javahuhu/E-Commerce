@@ -15,6 +15,10 @@ class AddtocartViewModel extends StateNotifier<List<Product>> {
     final update = [...state]..removeAt(index);
     state = update;
   }
+
+  int cartquantity(){
+   return state.length;
+  }
 }
 
 final addtocartProvider =

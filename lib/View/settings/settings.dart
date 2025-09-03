@@ -24,6 +24,8 @@ class SettingsScreen extends ConsumerWidget {
     {"label": "About Slada", "language": ""},
   ];
   final selectpersonalIndex = StateProvider<int>((ref) => 0);
+  final selectaccountIndex = StateProvider<int>((ref) => 0);
+  final selectshopIndex = StateProvider<int>((ref) => 0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -67,19 +69,17 @@ class SettingsScreen extends ConsumerWidget {
                     onTap: () {
                       ref.read(selectpersonalIndex.notifier).state = index;
 
-                      switch(index){
+                      switch (index) {
                         case 0:
-                        context.push('/profilesettings');
-                        break;
+                          context.push('/profilesettings');
+                          break;
                         case 1:
-                        context.push('');
-                        break;
+                          context.push('/shippingaddress');
+                          break;
                         case 2:
-                        context.push('/paymentmethods');
-                        break;
-
+                          context.push('/paymentmethods');
+                          break;
                       }
-
                     },
                     child: ListTile(
                       leading: Text(
@@ -123,7 +123,18 @@ class SettingsScreen extends ConsumerWidget {
             itemCount: shop.length,
             itemBuilder: (context, index) {
               final item = shop[index];
-              return Column(
+              return
+              GestureDetector(onTap: () {
+                ref.read(selectshopIndex.notifier).state = index;
+
+                switch(index){
+                  case 0: context.go('');
+                  case 1: context.go('');
+                  case 2: context.go('/sizesettings');
+                  case 3: context.go('');
+                }
+              }, child: 
+               Column(
                 children: [
                   ListTile(
                     leading: Text(
@@ -143,7 +154,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                   ),
                 ],
-              );
+              ));
             },
           ),
 
@@ -166,37 +177,50 @@ class SettingsScreen extends ConsumerWidget {
             itemCount: account.length,
             itemBuilder: (context, index) {
               final item = account[index];
-              return Column(
-                children: [
-                  ListTile(
-                    leading: Text(
-                      item['label'],
-                      style: TextStyle(
-                        fontFamily: 'RalewayRegular',
-                        fontSize: 15.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+              return GestureDetector(
+                onTap: () {
+                  ref.read(selectaccountIndex.notifier).state = index;
+
+                  switch (index) {
+                    case 0:
+                      context.go('/accountsettings');
+                      break;
+                    case 1:
+                      context.go('');
+                  }
+                },
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Text(
+                        item['label'],
+                        style: TextStyle(
+                          fontFamily: 'RalewayRegular',
+                          fontSize: 15.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            item['language'],
+                            style: TextStyle(fontSize: 15.sp),
+                          ),
+
+                          SizedBox(width: 10.w),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.black,
+                            size: 20.sp,
+                          ),
+                        ],
                       ),
                     ),
-
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          item['language'],
-                          style: TextStyle(fontSize: 15.sp),
-                        ),
-
-                        SizedBox(width: 10.w),
-                        Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.black,
-                          size: 20.sp,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),

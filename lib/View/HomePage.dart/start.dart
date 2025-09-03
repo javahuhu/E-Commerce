@@ -549,93 +549,92 @@ class StartScreen extends ConsumerWidget {
 
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: SizedBox(
-                    height: 280.h,
-                    child: GridView.builder(
-                      itemCount: flashsale.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 2,
-                        mainAxisSpacing: 2,
-                        childAspectRatio: 0.9,
-                      ),
-                      itemBuilder: (context, index) {
-                        final fimage = flashsale[index];
-                        return GestureDetector(
-                          onTap: () {
-                            context.go('/flashsale');
-                          },
-                          child: Stack(
-                            children: [
-                              Container(
-                                height: 150.h,
-                                width: 120.w,
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: 2.w,
-                                  vertical: 2.h,
+                  child: GridView.builder(
+                    itemCount: flashsale.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      childAspectRatio:
+                          MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height * 0.5),
+                    ),
+                    itemBuilder: (context, index) {
+                      final fimage = flashsale[index];
+                      return GestureDetector(
+                        onTap: () {
+                          context.go('/flashsale');
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 150.h,
+                              width: 120.w,
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 2.w,
+                                vertical: 2.h,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 5.h,
+                                horizontal: 5.w,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 2,
+                                    color: Colors.black12,
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: Image.asset(
+                                  fimage['img'],
+                                  fit: BoxFit.cover,
                                 ),
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 5.h,
-                                  horizontal: 5.w,
-                                ),
+                              ),
+                            ),
+
+                            Positioned(
+                              left: 68.5.w,
+                              top: 6.5.h,
+                              child: Container(
+                                height: 25.h,
+                                width: 45.w,
+                                alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.r),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFFFF5790), // Pink
+                                      Color(0xFFF81140),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.r),
                                   boxShadow: [
                                     BoxShadow(
                                       blurRadius: 2,
-                                      color: Colors.black12,
+                                      color: Colors.black26,
                                     ),
                                   ],
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  child: Image.asset(
-                                    fimage['img'],
-                                    fit: BoxFit.cover,
+                                child: Text(
+                                  '20%',
+                                  style: TextStyle(
+                                    fontFamily: 'Raleway',
+                                    fontSize: 12.sp,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-
-                              Positioned(
-                                left: 68.5.w,
-                                top: 6.5.h,
-                                child: Container(
-                                  height: 25.h,
-                                  width: 45.w,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFFFF5790), // Pink
-                                        Color(0xFFF81140),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(5.r),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 2,
-                                        color: Colors.black26,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Text(
-                                    '20%',
-                                    style: TextStyle(
-                                      fontFamily: 'Raleway',
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
 
@@ -911,15 +910,28 @@ class StartScreen extends ConsumerWidget {
 
 double _responsiveforyou(BuildContext context) {
   final height = MediaQuery.of(context).size.height;
-  if (height > Breakpoints.xxLarge) return 2 / 2.6;
-  if (height > Breakpoints.largePhone) return 2 / 2.7;
-  if (height > Breakpoints.xxsmall) return 2 / 2.55;
-  if (height < Breakpoints.eextraSmall) return 2 / 2.3;
-  if (height > Breakpoints.smallPhone) return 2 / 2.63;
-  if (height > Breakpoints.extraSmall) return 2 / 2.8;
-  if (height < Breakpoints.doublesmall) return 2 / 2.5;
-  return 2 / 2.5;
+
+  if (height >= BreakpointsForYou.max) {
+    return 2 / 2.7; // near-desktop size
+  } else if (height >= BreakpointsForYou.xxxl) {
+    return 2 / 2.6; // larger tablets
+  } else if (height >= BreakpointsForYou.xxl) {
+    return 2 / 2.55; // tablets
+  } else if (height >= BreakpointsForYou.xl) {
+    return 2 / 2.7; // phablets / small tablets
+  } else if (height >= BreakpointsForYou.lg) {
+    return 2 / 2.65; // large phones
+  } else if (height >= BreakpointsForYou.md) {
+    return 2 / 2.55; // medium phones
+  } else if (height >= BreakpointsForYou.sm) {
+    return 2 / 2.45; // small phones
+  } else if (height >= BreakpointsForYou.xs) {
+    return 2 / 2.3; // extra small
+  }
+
+  return 2 / 2.5; // fallback
 }
+
 
 double _responsivesize(BuildContext context) {
   final height = MediaQuery.of(context).size.height;

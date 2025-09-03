@@ -29,6 +29,7 @@ dependencies:
   syncfusion_flutter_charts: ^30.2.4
   blobs: ^2.0.0
   shimmer_animation: ^2.2.2
+  lottie: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +93,7 @@ flutter:
     - assets/chatbot.png
     - assets/chatbotactive.png
     - assets/boticon.png
+    - assets/animation/
 
 
     - assets/fonts/RalewayBlack.ttf

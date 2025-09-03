@@ -35,7 +35,6 @@ class ProfileSettings extends ConsumerWidget {
             SizedBox(height: 50.h),
             Padding(
               padding: EdgeInsets.only(left: 15.w),
-
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(

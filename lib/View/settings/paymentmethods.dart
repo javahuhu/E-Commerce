@@ -11,11 +11,13 @@ class PaymentMethodScreen extends ConsumerWidget {
   final List<Map<String, dynamic>> dummy = [{}];
 
   final selectcard = StateProvider<int?>((ref) => 0);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final addedcards = ref.watch(userCardProvider);
     final hasCards = addedcards.isNotEmpty;
     final selected = ref.watch(selectcard);
+    final keyboardaddcard = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -217,7 +219,10 @@ class PaymentMethodScreen extends ConsumerWidget {
 
               if (hasCards)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.w,
+                    vertical: 10.h,
+                  ),
                   child: Expanded(
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -248,7 +253,7 @@ class PaymentMethodScreen extends ConsumerWidget {
                                   ),
                                 ),
 
-                                 Text(
+                                Text(
                                   'Order #92287157',
                                   style: TextStyle(
                                     fontFamily: 'Raleway',
@@ -259,14 +264,14 @@ class PaymentMethodScreen extends ConsumerWidget {
                               ],
                             ),
 
-                            trailing:  Text(
-                                  '-\$14,00',
-                                  style: TextStyle(
-                                    fontFamily: 'Raleway',
-                                    fontSize: 18.sp,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                            trailing: Text(
+                              '-\$14,00',
+                              style: TextStyle(
+                                fontFamily: 'Raleway',
+                                fontSize: 18.sp,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         );
                       },
@@ -277,7 +282,7 @@ class PaymentMethodScreen extends ConsumerWidget {
           ),
 
           Positioned(
-            bottom: 25.h,
+            bottom: keyboardaddcard > 0 ? 0.1 : 25.h,
             left: 0,
             right: 0,
             child: AnimatedSwitcher(
@@ -323,6 +328,7 @@ Widget _showBottomCard(WidgetRef ref) {
         color: Colors.white,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -532,235 +538,243 @@ void _showBottomAddAnotherCard(BuildContext context, WidgetRef ref) {
   final TextEditingController cvvController = TextEditingController();
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
     enableDrag: true,
     builder: (context) {
       return Consumer(
         builder: (context, ref, child) {
-          return Container(
-            height: 505.h,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 3,
-                  spreadRadius: 1,
-                ),
-              ],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10.r),
-                topRight: Radius.circular(10.r),
-              ),
-              color: Colors.white,
+          final keyboardheight = MediaQuery.of(context).viewInsets.bottom;
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: keyboardheight > 0 ? keyboardheight * 0.8 : 0,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 90.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF8FAFF),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.r),
-                      topRight: Radius.circular(10.r),
-                    ),
+            child: Container(
+              height: 420.h,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3,
+                    spreadRadius: 1,
                   ),
-
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 15.w),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Add Card',
-                        style: TextStyle(
-                          fontFamily: 'Raleway',
-                          fontSize: 22.sp,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
+                ],
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.r),
+                  topRight: Radius.circular(10.r),
                 ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20.w, top: 10.h),
-                  child: Text(
-                    'Card Holder',
-                    style: TextStyle(fontSize: 15.sp, color: Colors.black),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15.w,
-                    vertical: 5.h,
-                  ),
-                  child: TextField(
-                    controller: cardHolderController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 10.h,
-                        horizontal: 16.w,
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xFFF8FAFF),
-                      hintText: 'Required',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20.w, top: 10.h),
-                  child: Text(
-                    'Card Number',
-                    style: TextStyle(fontSize: 15.sp, color: Colors.black),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15.w,
-                    vertical: 5.h,
-                  ),
-                  child: TextField(
-                    controller: cardNumberController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 10.h,
-                        horizontal: 16.w,
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xFFF8FAFF),
-                      hintText: 'Required',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                              child: Text(
-                                'Valid',
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-
-                            TextField(
-                              controller: expiryController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                  horizontal: 16.w,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xFFF8FAFF),
-                                hintText: 'Required',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(width: 10.w),
-
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                              child: Text(
-                                'CVV',
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-
-                            TextField(
-                              controller: cvvController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                  horizontal: 16.w,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xFFF8FAFF),
-                                hintText: 'Required',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 10.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15.w,
-                    vertical: 10.h,
-                  ),
-                  child: SizedBox(
-                    height: 45.h,
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 90.h,
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(userCardProvider.notifier)
-                            .addCard(
-                              UserCard(
-                                cardholder: cardHolderController.text,
-                                cardnumber: cardNumberController.text,
-                                expiredate: expiryController.text,
-                                cvv: cvvController.text,
-                              ),
-                            );
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF8FAFF),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.r),
+                        topRight: Radius.circular(10.r),
+                      ),
+                    ),
 
-                        context.pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Add Card',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: Text(
+                      'Card Holder',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 5.h,
+                    ),
+                    child: TextField(
+                      controller: cardHolderController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 16.w,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        hintText: 'Required',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
-                        foregroundColor: Colors.white,
-                        backgroundColor: Color(0xFF9775FA),
                       ),
-                      child: Text('Save', style: TextStyle(fontSize: 15.sp)),
                     ),
                   ),
-                ),
-              ],
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: Text(
+                      'Card Number',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 5.h,
+                    ),
+                    child: TextField(
+                      controller: cardNumberController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 16.w,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        hintText: 'Required',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.w, top: 10.h),
+                                child: Text(
+                                  'Valid',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+
+                              TextField(
+                                controller: expiryController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 16.w,
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFF),
+                                  hintText: 'Required',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(width: 10.w),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.w, top: 10.h),
+                                child: Text(
+                                  'CVV',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+
+                              TextField(
+                                controller: cvvController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 16.w,
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFF),
+                                  hintText: 'Required',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 10.h,
+                    ),
+                    child: SizedBox(
+                      height: 45.h,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref
+                              .read(userCardProvider.notifier)
+                              .addCard(
+                                UserCard(
+                                  cardholder: cardHolderController.text,
+                                  cardnumber: cardNumberController.text,
+                                  expiredate: expiryController.text,
+                                  cvv: cvvController.text,
+                                ),
+                              );
+
+                          context.pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Color(0xFF9775FA),
+                        ),
+                        child: Text('Save', style: TextStyle(fontSize: 15.sp)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -778,12 +792,16 @@ void _showBottomEditCard(BuildContext context, WidgetRef ref, int index) {
   final TextEditingController editcvvController = TextEditingController();
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
     enableDrag: true,
     builder: (context) {
       return Consumer(
         builder: (context, ref, child) {
-          return Container(
-            height: 505.h,
+          final keyboardheight = MediaQuery.of(context).viewInsets.bottom;
+          return 
+          Padding(padding: EdgeInsets.only(bottom: keyboardheight > 0 ? keyboardheight * 0.8 : 0.h ), child: 
+          Container(
+            height: 420.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10.r),
@@ -1032,7 +1050,7 @@ void _showBottomEditCard(BuildContext context, WidgetRef ref, int index) {
                 ),
               ],
             ),
-          );
+          ));
         },
       );
     },

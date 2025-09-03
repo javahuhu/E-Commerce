@@ -6,9 +6,12 @@ import 'package:e_commercehybrid/View/chatbot/chatbot.dart';
 import 'package:e_commercehybrid/View/flashsale/flashsale.dart';
 import 'package:e_commercehybrid/View/myactivity/activity.dart';
 import 'package:e_commercehybrid/View/orderhistory/orderhistory.dart';
+import 'package:e_commercehybrid/View/settings/accountsettings.dart';
 import 'package:e_commercehybrid/View/settings/paymentmethods.dart';
 import 'package:e_commercehybrid/View/settings/profilesettings.dart';
 import 'package:e_commercehybrid/View/settings/settings.dart';
+import 'package:e_commercehybrid/View/settings/shippingaddress.dart';
+import 'package:e_commercehybrid/View/settings/size.dart';
 import 'package:e_commercehybrid/View/trackOrder/tractorder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -200,9 +203,27 @@ final GoRouter appRouter = GoRouter(
       routes: [],
     ),
 
-     GoRoute(
+    GoRoute(
       path: '/paymentmethods',
       builder: (context, state) => PaymentMethodScreen(),
+      routes: [],
+    ),
+
+    GoRoute(
+      path: '/shippingaddress',
+      builder: (context, state) => Shippingaddress(),
+      routes: [],
+    ),
+
+    GoRoute(
+      path: '/accountsettings',
+      builder: (context, state) => Accountsettings(),
+      routes: [],
+    ),
+
+    GoRoute(
+      path: '/sizesettings',
+      builder: (context, state) => Sizesettings(),
       routes: [],
     ),
   ],
