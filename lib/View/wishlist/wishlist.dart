@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:e_commercehybrid/Model/product_model.dart';
 import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
@@ -48,20 +49,149 @@ class WishlistScreen extends ConsumerWidget {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm Delete Wishlist'),
-          content: Text('Are you sure you want to delete ${item.title}?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text('Cancel'),
+        return Dialog(
+          child: Container(
+            height: 225.h,
+            width: 200.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              color: Colors.white,
             ),
 
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text('Delete'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 50.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.r),
+                      topRight: Radius.circular(15.r),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0.w),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Are you sure you want to remove',
+                        style: TextStyle(
+                          fontFamily: "RalewayRegular",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 17.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+                Container(
+                  padding: EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 3,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(500.r),
+                    child: Image.asset(
+                      item.mainimage ?? item.image[0],
+                      fit: BoxFit.cover,
+                      height: 60.w,
+                      width: 60.w,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 5.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(
+                    item.title,
+                    style: TextStyle(
+                      fontFamily: "RalewayRegular",
+                      fontWeight: FontWeight.w300,
+                      color: Colors.black,
+                      fontSize: 15.sp,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pop(false);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          elevation: WidgetStateProperty.all(0), // no shadow
+                          shadowColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ), // no shadow color
+                          overlayColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ), // 🚫 no pressed color
+                          splashFactory: NoSplash.splashFactory, // 🚫 no ripple
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pop(true);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          elevation: WidgetStateProperty.all(0),
+                          shadowColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          overlayColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          splashFactory: NoSplash.splashFactory,
+                        ),
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
@@ -103,47 +233,47 @@ class WishlistScreen extends ConsumerWidget {
                       ),
                     ),
 
-                     recentproduct.isNotEmpty ?
+                    recentproduct.isNotEmpty
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Recently viewed',
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayRegular',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
 
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Recently viewed',
-                            style: TextStyle(
-                              fontFamily: 'RalewayRegular',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22.sp,
-                              color: Colors.black,
-                            ),
-                          ),
+                                Container(
+                                  height: 30.w,
+                                  width: 30.w,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF9775FA),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () {
+                                      context.go('/recentviewed');
+                                    },
 
-                          Container(
-                            height: 30.w,
-                            width: 30.w,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF9775FA),
-                              shape: BoxShape.circle,
+                                    icon: Icon(
+                                      Icons.arrow_right_alt_sharp,
+                                      size: 20.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
-                                context.go('/recentviewed');
-                              },
-
-                              icon: Icon(
-                                Icons.arrow_right_alt_sharp,
-                                size: 20.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ) : SizedBox.shrink(),
+                          )
+                        : SizedBox.shrink(),
 
                     SizedBox(height: 15.h),
 
@@ -163,6 +293,7 @@ class WishlistScreen extends ConsumerWidget {
                                         .read(selectedproductProvider.notifier)
                                         .state = SelectproductModel(
                                       id: recent.id,
+                                      mainimage: recent.image[0],
                                       image: recent.image,
                                       subimage: recent.subimage,
                                       title: recent.title,
@@ -215,6 +346,11 @@ class WishlistScreen extends ConsumerWidget {
                         int index = entry.key;
                         var item = entry.value;
 
+                        final cart = ref.watch(addtocartProvider);
+                        final alreadycart = cart.any(
+                          (incart) => incart.id == item.id,
+                        );
+
                         return Dismissible(
                           key: Key(item.id),
                           direction: DismissDirection.endToStart,
@@ -265,6 +401,7 @@ class WishlistScreen extends ConsumerWidget {
                                             )
                                             .state = SelectproductModel(
                                           id: item.id,
+                                          mainimage: item.image[0],
                                           image: item.image,
                                           subimage: item.subimage,
                                           title: item.title,
@@ -281,7 +418,7 @@ class WishlistScreen extends ConsumerWidget {
                                           12.r,
                                         ),
                                         child: Image.asset(
-                                          item.image[0],
+                                          item.mainimage ?? item.image[0],
                                           height: 100.h,
                                           width: 120.w,
                                           fit: BoxFit.cover,
@@ -405,40 +542,116 @@ class WishlistScreen extends ConsumerWidget {
 
                                         SizedBox(width: 50.w),
 
-                                        GestureDetector(
-                                          onTap: () {
-                                            ref
-                                                .read(
-                                                  addtocartProvider.notifier,
-                                                )
-                                                .addtoCart(item);
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              const SnackBar(
-                                                content: Text("Added to cart"),
-                                                behavior:
-                                                    SnackBarBehavior.floating,
-                                              ),
-                                            );
+                                        if (!alreadycart)
+                                          GestureDetector(
+                                            onTap: () {
+                                              ref
+                                                  .read(
+                                                    addtocartProvider.notifier,
+                                                  )
+                                                  .addtoCart(item);
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10.r,
+                                                        ),
+                                                    child: BackdropFilter(
+                                                      filter: ImageFilter.blur(
+                                                        sigmaX: 10,
+                                                        sigmaY: 10,
+                                                      ),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.black
+                                                              .withValues(
+                                                                alpha: 0.5,
+                                                              ),
 
-                                            ref
-                                                .read(wishlistProvider.notifier)
-                                                .removetoWishlist(item.id);
-                                          },
-                                          child: Container(
-                                            height: 27.h,
-                                            width: 27.w,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  'assets/addtocart.png',
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black12,
+                                                              blurRadius: 3,
+                                                              spreadRadius: 1,
+                                                            ),
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10.r,
+                                                              ),
+                                                        ),
+
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                12.0,
+                                                              ),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .check_circle,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10.w,
+                                                              ),
+                                                              Text(
+                                                                'Added to Cart',
+                                                                style: TextStyle(
+                                                                  fontFamily:
+                                                                      'RalewayRegular',
+                                                                  fontSize:
+                                                                      13.sp,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  elevation: 0,
+                                                  duration: Duration(
+                                                    seconds: 3,
+                                                  ),
+                                                  margin: EdgeInsets.only(
+                                                    bottom: 25.h,
+                                                  ),
                                                 ),
-                                                fit: BoxFit.cover,
+                                              );
+
+                                              ref
+                                                  .read(
+                                                    wishlistProvider.notifier,
+                                                  )
+                                                  .removetoWishlist(item.id);
+                                            },
+                                            child: Container(
+                                              height: 27.h,
+                                              width: 27.w,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    'assets/addtocart.png',
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -472,10 +685,7 @@ class WishlistScreen extends ConsumerWidget {
                         ),
                       ),
 
-
-
-
-                            SizedBox(height: 25.h),
+                    SizedBox(height: 25.h),
                     if (wishlist.isEmpty) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 22.w),
@@ -537,68 +747,94 @@ class WishlistScreen extends ConsumerWidget {
                           separatorBuilder: (_, _) => SizedBox(width: 15.w),
                           itemBuilder: (context, index) {
                             final popular = popularproduct[index];
-                            return Container(
-                              margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                              padding: EdgeInsets.symmetric(vertical: 5.h),
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 5,
-                                  ),
-                                ],
-                              ),
+                            return GestureDetector(
+                              onTap: () {
+                                ref
+                                    .read(selectedproductProvider.notifier)
+                                    .state = SelectproductModel(
+                                  id: popular.id,
+                                  mainimage: popular.image[0],
+                                  image: popular.image,
+                                  subimage: popular.subimage,
+                                  title: popular.title,
+                                  price: popular.price,
+                                  material: popular.material,
+                                  origin: popular.origin,
+                                  size: popular.size,
+                                  color: popular.color,
+                                );
 
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Image.asset(popular.image[0]),
-                                    ),
-                                  ),
+                                ref
+                                    .read(recentlyviewProvider.notifier)
+                                    .addtoViewed(popular);
 
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w,
+                                context.push('/chooseproduct');
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                                padding: EdgeInsets.symmetric(vertical: 5.h),
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 5,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          popular.likes?.toString() ?? '',
-                                          style: TextStyle(
-                                            fontFamily: 'RalewayRegular',
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
+                                  ],
+                                ),
+
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                        child: Image.asset(popular.image[0]),
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            popular.likes?.toString() ?? '',
+                                            style: TextStyle(
+                                              fontFamily: 'RalewayRegular',
+                                              fontSize: 13.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
-                                        ),
 
-                                        Icon(
-                                          Icons.favorite,
-                                          size: 13.sp,
-                                          color: Colors.red,
-                                        ),
-
-                                        SizedBox(width: 10.w),
-
-                                        Text(
-                                          popular.event?.toString() ?? '',
-                                          style: TextStyle(
-                                            fontFamily: 'RalewayRegular',
-                                            fontSize: 13.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
+                                          Icon(
+                                            Icons.favorite,
+                                            size: 13.sp,
+                                            color: Colors.red,
                                           ),
-                                        ),
-                                      ],
+
+                                          SizedBox(width: 10.w),
+
+                                          Text(
+                                            popular.event?.toString() ?? '',
+                                            style: TextStyle(
+                                              fontFamily: 'RalewayRegular',
+                                              fontSize: 13.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           },

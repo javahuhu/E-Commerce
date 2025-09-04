@@ -308,6 +308,7 @@ class FlashSale extends ConsumerWidget {
                               .read(selectedproductProvider.notifier)
                               .state = SelectproductModel(
                             id: sale.id,
+                            mainimage: sale.image[0],
                             image: sale.image,
                             subimage: sale.subimage,
                             title: sale.title,

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Sizesettings extends ConsumerWidget {
   Sizesettings({super.key});
 
-  final checkIndex = StateProvider<int>((ref) => -1);
+  final checkIndex = StateProvider<int>((ref) => 0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(checkIndex);

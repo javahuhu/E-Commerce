@@ -139,19 +139,19 @@ class ProfileScreen extends ConsumerWidget {
                             final icon = iconItems.value;
                             return GestureDetector(
                               onTap: () {
-                                ref.read(selectIconItems.notifier).state = index;
+                                ref.read(selectIconItems.notifier).state =
+                                    index;
 
                                 switch (index) {
                                   case 0:
-                                  context.push('/voucher');
-                                  break;
+                                    context.push('/voucher');
+                                    break;
                                   case 1:
-                                  context.push('');
-                                  break;
+                                    context.push('');
+                                    break;
                                   case 2:
-                                  context.push('/settings');
+                                    context.push('/settings');
                                 }
-
                               },
 
                               child: Container(
@@ -230,6 +230,7 @@ class ProfileScreen extends ConsumerWidget {
                                     .read(selectedproductProvider.notifier)
                                     .state = SelectproductModel(
                                   id: recent.id,
+                                  mainimage: recent.image[0],
                                   image: recent.image,
                                   subimage: recent.subimage,
                                   title: recent.title,
@@ -419,6 +420,7 @@ class ProfileScreen extends ConsumerWidget {
                               .read(selectedproductProvider.notifier)
                               .state = SelectproductModel(
                             id: txt.id,
+                            mainimage: txt.image[0],
                             image: img.image,
                             subimage: img.subimage,
                             title: txt.title,
@@ -552,62 +554,86 @@ class ProfileScreen extends ConsumerWidget {
                       final popular = popularproduct[index];
                       final desc = popularproduct[index];
                       final event = popularproduct[index];
-                      return Container(
-                        margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                        padding: EdgeInsets.symmetric(vertical: 5.h),
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.r),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black12, blurRadius: 5),
-                          ],
-                        ),
+                      return GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(selectedproductProvider.notifier)
+                              .state = SelectproductModel(
+                            id: popular.id,
+                            mainimage: popular.image[0],
+                            image: popular.image,
+                            subimage: popular.subimage,
+                            title: popular.title,
+                            price: popular.price,
+                            material: popular.material,
+                            origin: popular.origin,
+                            size: popular.size,
+                            color: popular.color,
+                          );
 
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(5.0),
+                          ref
+                              .read(recentlyviewProvider.notifier)
+                              .addtoViewed(popular);
 
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.r),
-                                child: Image.asset(popular.image[0]),
+                          context.push('/chooseproduct');
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                          padding: EdgeInsets.symmetric(vertical: 5.h),
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5),
+                            ],
+                          ),
+
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(5.0),
+
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  child: Image.asset(popular.image[0]),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    desc.likes?.toString() ?? '',
-                                    style: TextStyle(
-                                      fontFamily: 'RalewayRegular',
-                                      fontSize: 13.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      desc.likes?.toString() ?? '',
+                                      style: TextStyle(
+                                        fontFamily: 'RalewayRegular',
+                                        fontSize: 13.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  ),
-                                  Icon(
-                                    Icons.favorite,
-                                    size: 13.sp,
-                                    color: Colors.red,
-                                  ),
-
-                                  SizedBox(width: 10.w),
-
-                                  Text(
-                                    event.event?.toString() ?? '',
-                                    style: TextStyle(
-                                      fontFamily: 'RalewayRegular',
-                                      fontSize: 13.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                    Icon(
+                                      Icons.favorite,
+                                      size: 13.sp,
+                                      color: Colors.red,
                                     ),
-                                  ),
-                                ],
+
+                                    SizedBox(width: 10.w),
+
+                                    Text(
+                                      event.event?.toString() ?? '',
+                                      style: TextStyle(
+                                        fontFamily: 'RalewayRegular',
+                                        fontSize: 13.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },

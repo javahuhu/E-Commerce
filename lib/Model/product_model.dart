@@ -10,6 +10,7 @@ enum ProductModel {
 
       class Product {
             final String id;
+            final String? mainimage;
             final List<String> image;
             final List<String> subimage;
             final String title;
@@ -25,9 +26,11 @@ enum ProductModel {
             final int? rating;
             final String? category;
             final int? noItems;
+         
 
             Product ({
               required this.id,
+              this.mainimage,
               required this.image,
               required this.subimage,
               required this. title,

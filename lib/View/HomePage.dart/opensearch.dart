@@ -625,6 +625,7 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
                   .read(selectedproductProvider.notifier)
                   .state = SelectproductModel(
                 id: product.id,
+                mainimage: product.image[0],
                 image: product.image,
                 subimage: product.subimage,
                 title: product.title,

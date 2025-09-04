@@ -43,30 +43,160 @@ class CartScreen extends ConsumerWidget {
 
   Future<bool?> _showConfirmationDialog(
     BuildContext context,
-    Product itemcart,
+    Product item,
   ) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm Delete Item'),
-          content: Text('Are you sure you want to delete ${itemcart.title}?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text('Cancel'),
+        return Dialog(
+          child: Container(
+            height: 225.h,
+            width: 200.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              color: Colors.white,
             ),
 
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text('Delete'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 50.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.r),
+                      topRight: Radius.circular(15.r),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0.w),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Are you sure you want to remove',
+                        style: TextStyle(
+                          fontFamily: "RalewayRegular",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 17.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+                Container(
+                  padding: EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 3,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(500.r),
+                    child: Image.asset(
+                      item.mainimage ?? item.image[0],
+                      fit: BoxFit.cover,
+                      height: 60.w,
+                      width: 60.w,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 5.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(
+                    item.title,
+                    style: TextStyle(
+                      fontFamily: "RalewayRegular",
+                      fontWeight: FontWeight.w300,
+                      color: Colors.black,
+                      fontSize: 15.sp,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                SizedBox(height: 15.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pop(false);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          elevation: WidgetStateProperty.all(0), // no shadow
+                          shadowColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ), // no shadow color
+                          overlayColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ), // 🚫 no pressed color
+                          splashFactory: NoSplash.splashFactory, // 🚫 no ripple
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          context.pop(true);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          elevation: WidgetStateProperty.all(0),
+                          shadowColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          overlayColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
+                          splashFactory: NoSplash.splashFactory,
+                        ),
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
   }
 
+  final selectedcartprovider = StateProvider<Set<String>>((ref) => {});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectnavIndex = StateProvider<int>((ref) => 3);
@@ -75,7 +205,16 @@ class CartScreen extends ConsumerWidget {
     final popularproduct = ref.watch(popularItemsProvider);
     final extralargePhone = MediaQuery.of(context).size.height > 900;
     final mediumPhone = MediaQuery.of(context).size.height > 750;
+    final selectedcart = ref.watch(selectedcartprovider);
 
+    final cartlistselected = Provider<List<Product>>((ref) {
+      final allCartItems = ref.watch(addtocartProvider);
+      final theselectcart = ref.watch(selectedcartprovider);
+
+      return allCartItems
+          .where((item) => theselectcart.contains(item.id))
+          .toList();
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -214,6 +353,7 @@ class CartScreen extends ConsumerWidget {
                       ...addtocart.asMap().entries.map((entry) {
                         int index = entry.key;
                         var itemcart = entry.value;
+
                         final finalvalue = ref.watch(
                           quantityProvider.select(
                             (map) => map[itemcart.id] ?? 1,
@@ -245,10 +385,30 @@ class CartScreen extends ConsumerWidget {
                           },
                           child: Row(
                             children: [
+                              Checkbox(
+                                value: selectedcart.contains(itemcart.id),
+                                onChanged: (value) {
+                                  final notifier = ref.read(
+                                    selectedcartprovider.notifier,
+                                  );
+
+                                  final updated = {...selectedcart};
+
+                                  if (value == true) {
+                                    updated.add(itemcart.id);
+                                  } else {
+                                    updated.remove(itemcart.id);
+                                  }
+
+                                  notifier.state = updated;
+                                },
+                              ),
+
                               Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: 15.w,
-                                  vertical: 12.h,
+                                margin: EdgeInsets.only(
+                                  right: 5.w,
+                                  top: 12.h,
+                                  bottom: 12.h,
                                 ),
                                 padding: EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
@@ -272,6 +432,7 @@ class CartScreen extends ConsumerWidget {
                                             )
                                             .state = SelectproductModel(
                                           id: itemcart.id,
+                                          mainimage: itemcart.image[0],
                                           image: itemcart.image,
                                           subimage: itemcart.subimage,
                                           title: itemcart.title,
@@ -288,7 +449,8 @@ class CartScreen extends ConsumerWidget {
                                           12.r,
                                         ),
                                         child: Image.asset(
-                                          itemcart.image[0],
+                                          itemcart.mainimage ??
+                                              itemcart.image[0],
                                           height: 100.h,
                                           width: 120.w,
                                           fit: BoxFit.cover,
@@ -512,6 +674,11 @@ class CartScreen extends ConsumerWidget {
                     ...wishlist.asMap().entries.map((entry) {
                       var list = entry.value;
 
+                      final cart = ref.read(addtocartProvider);
+                      final alreadyincart = cart.any(
+                        (incart) => incart.id == list.id,
+                      );
+
                       return Row(
                         children: [
                           Container(
@@ -612,20 +779,26 @@ class CartScreen extends ConsumerWidget {
                                     ),
 
                                     SizedBox(width: 50.w),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        height: 27.h,
-                                        width: 27.w,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                              'assets/addtocart.png',
+
+                                    if (!alreadyincart)
+                                      GestureDetector(
+                                        onTap: () {
+                                          ref
+                                              .read(addtocartProvider.notifier)
+                                              .addtoCart(list);
+                                        },
+                                        child: Container(
+                                          height: 27.h,
+                                          width: 27.w,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                'assets/addtocart.png',
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
                                   ],
                                 ),
                               ],
@@ -773,61 +946,85 @@ class CartScreen extends ConsumerWidget {
               ],
             ),
 
-            Padding(
-              padding: EdgeInsets.only(bottom: extralargePhone ? 90.h : 85.h),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: extralargePhone ? 70.h : 60.h,
-                  margin: EdgeInsets.symmetric(horizontal: 24.w),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFF9F9F),
-                    borderRadius: BorderRadius.circular(100.r),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black12, blurRadius: 10),
-                    ],
-                  ),
-
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total \$17.00',
-                          style: TextStyle(
-                            fontFamily: 'Raleway',
-                            color: Colors.black,
-                            fontSize: 18.sp,
-                          ),
+            addtocart.isEmpty
+                ? SizedBox.shrink(key: ValueKey('empty'))
+                : Padding(
+                    key: ValueKey('showbutton'),
+                    padding: EdgeInsets.only(
+                      bottom: extralargePhone ? 90.h : 85.h,
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: extralargePhone ? 70.h : 60.h,
+                        margin: EdgeInsets.symmetric(horizontal: 24.w),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFF9F9F),
+                          borderRadius: BorderRadius.circular(100.r),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black12, blurRadius: 10),
+                          ],
                         ),
 
-                        ElevatedButton(
-                          onPressed: () {
-                            context.go('/payment');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shadowColor: Colors.transparent,
-                            splashFactory: NoSplash.splashFactory,
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                          ),
-                          child: Text(
-                            'Checkout',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.black,
-                            ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Total \$17.00',
+                                style: TextStyle(
+                                  fontFamily: 'Raleway',
+                                  color: Colors.black,
+                                  fontSize: 18.sp,
+                                ),
+                              ),
+
+                              ElevatedButton(
+                                onPressed: selectedcart.isEmpty
+                                    ? null
+                                    : () async {
+                                        final finalcart = ref.read(
+                                          cartlistselected,
+                                        );
+
+                                        ref
+                                                .read(currentPurchase.notifier)
+                                                .state =
+                                            finalcart;
+                                        await context.push('/payment');
+
+                                        ref
+                                                .read(currentPurchase.notifier)
+                                                .state =
+                                            [];
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor: Colors.transparent,
+                                  splashFactory: NoSplash.splashFactory,
+                                  backgroundColor: selectedcart.isEmpty
+                                      ? Colors.grey.shade300
+                                      : Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Checkout',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: selectedcart.isEmpty
+                                        ? Colors.black54
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
 
             Padding(
               padding: EdgeInsets.only(bottom: 10.h),

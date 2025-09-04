@@ -1,6 +1,7 @@
+import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/Model/user_card_model.dart';
-import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/countitem_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/usercard_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,9 +51,11 @@ class PaymentScreen extends ConsumerWidget {
     final extraLarge = MediaQuery.of(context).size.height > 900;
     final addedcards = ref.watch(userCardProvider);
     final hasCards = addedcards.isNotEmpty;
-   
-    final cartpayment = ref.watch(addtocartProvider);
-    final quantity = ref.watch(quantityProvider);
+    final purchase = ref.watch(currentPurchase);
+    final product = ref.watch(selectedproductProvider);
+    final finalvalue = product == null
+        ? 1
+        : ref.watch(quantityProvider.select((item) => item[product.id] ?? 1));
     // final card = ref.watch(userCardProvider);
     // final selectedcard = selected != -1 ? card[selected] : null;
     return Scaffold(
@@ -343,10 +346,10 @@ class PaymentScreen extends ConsumerWidget {
                   ListView.separated(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: cartpayment.length,
+                    itemCount: purchase.length,
                     separatorBuilder: (_, _) => SizedBox(height: 10.h),
                     itemBuilder: (context, index) {
-                      final cartItems = cartpayment[index];
+                      final cartItems = purchase[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.w),
                         child: Row(
@@ -376,9 +379,7 @@ class PaymentScreen extends ConsumerWidget {
                                         ],
 
                                         image: DecorationImage(
-                                          image: AssetImage(
-                                           cartItems.image[0],
-                                          ),
+                                          image: AssetImage(cartItems.image[0]),
                                         ),
                                       ),
                                     ),
@@ -405,7 +406,7 @@ class PaymentScreen extends ConsumerWidget {
                                         ),
 
                                         child: Text(
-                                          '0',
+                                          '$finalvalue',
                                           style: TextStyle(
                                             fontSize: 12.sp,
                                             color: Colors.black,
@@ -445,103 +446,7 @@ class PaymentScreen extends ConsumerWidget {
                     },
                   ),
 
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  height: 55.w,
-                                  width: 55.w,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 4.w,
-                                    ),
-
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 5,
-                                      ),
-                                    ],
-
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/testprofile.jpg',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                Positioned(
-                                  left: 40.w,
-                                  child: Container(
-                                    height: 30.w,
-                                    width: 30.w,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xFFE5EBFC),
-                                      border: Border.all(
-                                        color: Colors.white,
-                                        width: 3.w,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black38,
-                                          blurRadius: 5,
-                                        ),
-                                      ],
-                                    ),
-
-                                    child: Text(
-                                      '3',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(width: 30.w),
-
-                            SizedBox(
-                              width: extraLarge ? 200.w : 185.w,
-                              child: Text(
-                                'Lorem ipsum dolor sit amet consectetur.',
-                                style: TextStyle(
-                                  fontSize: extraLarge ? 15.sp : 12.sp,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        Text(
-                          '\$17.00',
-                          style: TextStyle(
-                            fontFamily: 'Raleway',
-                            fontSize: 18.sp,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
+                 SizedBox(height: 10.h,),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(

@@ -549,7 +549,7 @@ void _showBottomAddAnotherCard(BuildContext context, WidgetRef ref) {
               bottom: keyboardheight > 0 ? keyboardheight * 0.8 : 0,
             ),
             child: Container(
-              height: 420.h,
+              height: 425.h,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -801,7 +801,7 @@ void _showBottomEditCard(BuildContext context, WidgetRef ref, int index) {
           return 
           Padding(padding: EdgeInsets.only(bottom: keyboardheight > 0 ? keyboardheight * 0.8 : 0.h ), child: 
           Container(
-            height: 420.h,
+            height: 425.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10.r),

@@ -563,3 +563,5 @@ final flashsaleProvider = Provider<List<Product>>((ref) {
       .where((items) => items.type == ProductModel.flashsale)
       .toList();
 });
+
+  final currentPurchase = StateProvider<List<Product>>((ref) => []);

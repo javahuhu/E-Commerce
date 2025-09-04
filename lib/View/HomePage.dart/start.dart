@@ -711,6 +711,7 @@ class StartScreen extends ConsumerWidget {
                               .read(selectedproductProvider.notifier)
                               .state = SelectproductModel(
                             id: newProduct.id,
+                             mainimage: newProduct.image[0],
                             image: newProduct.image,
                             subimage: newProduct.subimage,
                             title: newProduct.title,

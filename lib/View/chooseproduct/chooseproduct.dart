@@ -47,7 +47,7 @@ class Chooseitem extends ConsumerWidget {
               ),
 
               Text(
-                "Added to Cart!",
+                "Added to Wishlist!",
                 style: TextStyle(
                   fontSize: 17.sp,
                   fontWeight: FontWeight.bold,
@@ -108,9 +108,9 @@ class Chooseitem extends ConsumerWidget {
       ),
     );
 
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 3));
     if (context.mounted) {
-      return context.pop();
+      return context.pop(true);
     }
   }
 
@@ -290,7 +290,10 @@ class Chooseitem extends ConsumerWidget {
                             width: 290.w,
                             child: ElevatedButton(
                               onPressed: () {
-                                ref.read(selectedproductProvider.notifier).state = selectedproduct;
+                                ref
+                                        .read(selectedproductProvider.notifier)
+                                        .state =
+                                    selectedproduct;
                                 context.go('/payment');
                               },
                               style: ElevatedButton.styleFrom(
@@ -315,9 +318,15 @@ class Chooseitem extends ConsumerWidget {
                             height: 50.h,
                             width: 130.w,
                             child: ElevatedButton(
-                              onPressed: () {
-                                ref.read(selectedproductProvider.notifier).state = selectedproduct;
-                                context.go('/payment');
+                              onPressed: () async {
+                                final buynow = selectedproduct.toProduct();
+                                ref.read(currentPurchase.notifier).state = [
+                                  buynow,
+                                ];
+
+                                await context.push('/payment');
+
+                                ref.read(currentPurchase.notifier).state = [];
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFFF9F9F),
@@ -1192,6 +1201,7 @@ Widget _buildProductDetails(
                     .read(selectedproductProvider.notifier)
                     .state = SelectproductModel(
                   id: mightlike.id,
+                  mainimage: mightlike.image[0],
                   image: mightlike.image,
                   subimage: mightlike.subimage,
                   title: mightlike.title,
@@ -1351,7 +1361,7 @@ Future<void> _showAddedtoCart(BuildContext context) async {
     ),
   );
 
-  await Future.delayed(Duration(seconds: 4));
+  await Future.delayed(Duration(seconds: 3));
   if (context.mounted) {
     return context.pop();
   }
@@ -1371,6 +1381,7 @@ void _showBottomModal(
     builder: (BuildContext context) {
       return Consumer(
         builder: (context, ref, child) {
+          final selectedproduct = ref.watch(selectedproductProvider) ?? product;
           final finalvalue = ref.watch(
             quantityProvider.select((map) => map[product.id] ?? 1),
           );
@@ -1409,7 +1420,7 @@ void _showBottomModal(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.r),
                               image: DecorationImage(
-                                image: AssetImage(product.subimage[0]),
+                                image: AssetImage(selectedproduct.mainimage),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -1509,9 +1520,20 @@ void _showBottomModal(
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            final current = ref.read(selectIndex);
+                            final current = ref.read(selectIndex) ?? -1;
                             ref.read(selectIndex.notifier).state =
                                 current == index ? null : index;
+
+                            final selectedimg = ref
+                                .read(selectIndex.notifier)
+                                .state;
+                            if (selectedimg != null) {
+                              final selectedindex = selectedimg;
+                              final selectedsub =
+                                  product.subimage[selectedindex];
+                              ref.read(selectedproductProvider.notifier).state =
+                                  product.copyWith(mainimage: selectedsub);
+                            }
                           },
                           child: Stack(
                             children: [
@@ -1761,7 +1783,7 @@ void _showBottomModal(
                                       ref
                                           .read(addtocartProvider.notifier)
                                           .addtoCart(currentcart);
-
+                                      
                                       _showAddedtoCart(context);
                                     },
                                     style: ElevatedButton.styleFrom(
