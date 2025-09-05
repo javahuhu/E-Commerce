@@ -674,7 +674,7 @@ Widget _buildProductDetails(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(
               color: const Color.fromARGB(255, 0, 0, 0),
-              width: 2.w,
+              width: 1.w,
             ),
           ),
           child: Padding(
@@ -737,7 +737,7 @@ Widget _buildProductDetails(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(
               color: const Color.fromARGB(255, 0, 0, 0),
-              width: 2.w,
+              width: 1.w,
             ),
           ),
           child: Padding(
@@ -1047,7 +1047,7 @@ Widget _buildProductDetails(
                 fontFamily: 'RalewayRegular',
                 fontSize: 18.sp,
                 color: Colors.black,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

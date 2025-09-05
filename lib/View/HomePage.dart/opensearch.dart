@@ -192,7 +192,7 @@ class Opensearch extends ConsumerWidget {
                                 isDismissible: false,
                                 enableDrag: false,
                                 builder: (context) {
-                                  return _buildShowFilter(context, ref);
+                                  return _buildShowCategories(context, ref);
                                 },
                               );
                             },
@@ -592,14 +592,25 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
               ),
             ),
 
-            Container(
-              height: 25.h,
-              width: 25.w,
-              margin: EdgeInsets.only(left: 5.w),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/iconfilter.png'),
-                  fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) => _buildGeneralFilter(context, ref),
+                );
+              },
+              child: Container(
+                height: 25.h,
+                width: 25.w,
+                margin: EdgeInsets.only(left: 5.w),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/iconfilter.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -735,7 +746,7 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
 
 final selected = StateProvider<String>((ref) => "All");
 final expandedtile = StateProvider<int?>((ref) => null);
-Widget _buildShowFilter(BuildContext context, WidgetRef ref) {
+Widget _buildShowCategories(BuildContext context, WidgetRef ref) {
   final List<Map<String, dynamic>> list = [
     {
       "title": 'Clothing',
@@ -816,6 +827,7 @@ Widget _buildShowFilter(BuildContext context, WidgetRef ref) {
                     return ChoiceChip(
                       label: Text(item),
                       selected: isSelected,
+                      showCheckmark: false,
                       selectedColor: Colors.blue.shade50,
                       backgroundColor: Colors.white,
                       labelStyle: TextStyle(
@@ -958,6 +970,261 @@ Widget _buildShowFilter(BuildContext context, WidgetRef ref) {
                   },
                 ),
               ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
+  final List<Map<String, dynamic>> circleimg = [
+    {
+      "img": 'assets/sampleitem2.jpeg',
+      "details": 'jacket',
+      "Price": '\$125,00',
+    },
+    {
+      "img": 'assets/sampleitem3.jpeg',
+      "details": 'jacket',
+      "Price": '\$125,00',
+    },
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem4.jpg', "details": 'jacket', "Price": '\$125,00'},
+    {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
+  ];
+
+  final size = ["XS", "XS", "XS", "XS", "XS", "XS"];
+  return Consumer(
+    builder: (context, ref, child) {
+      return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(color: Colors.white),
+
+        child: Column(
+          children: [
+            SizedBox(height: 25.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w),
+                  child: Text(
+                    'Filter',
+                    style: TextStyle(
+                      fontFamily: 'Raleway',
+                      color: Colors.black,
+                      fontSize: 28.sp,
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(right: 2.w),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                    onPressed: () {
+                      context.pop();
+                    },
+                    icon: Icon(Icons.clear, size: 20.sp, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 15.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: GridView.builder(
+                itemCount: circleimg.length,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 2,
+                  childAspectRatio: 0.8,
+                ),
+                itemBuilder: (context, index) {
+                  final featurelist = circleimg[index];
+                  return Column(
+                    children: [
+                      Shimmer(
+                        duration: Duration(milliseconds: 1500),
+                        interval: Duration(seconds: 0),
+                        color: Colors.white,
+                        enabled: true,
+                        direction: ShimmerDirection.fromLTRB(),
+                        colorOpacity: 0.3,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              height: 50.w,
+                              width: 50.w,
+                              padding: EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 2,
+                                  ),
+                                ],
+                              ),
+
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(500.r),
+                                child: Image.asset(
+                                  featurelist['img'],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+
+                            Positioned(
+                              top: -5.h,
+                              right: 0,
+                              child: Container(
+                                padding: EdgeInsets.all(1.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 3,
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+
+                                child: Icon(
+                                  Icons.check_circle,
+                                  color: Colors.blueAccent,
+                                  size: 20.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 5.h),
+
+                      Shimmer(
+                        duration: Duration(milliseconds: 1500),
+                        interval: Duration(seconds: 0),
+                        color: Colors.grey.shade100,
+                        enabled: true,
+                        direction: ShimmerDirection.fromLTRB(),
+                        colorOpacity: 0.3,
+                        child: Center(
+                          child: Text(
+                            featurelist['details'],
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 12.sp,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Size',
+                      style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 20.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    height: 30.h,
+                    width: 70.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 241, 193, 193),
+                      borderRadius: BorderRadius.circular(3.r),
+                    ),
+
+                    child: Text(
+                      'Clothes',
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(width: 15.w),
+                  Container(
+                    height: 30.h,
+                    width: 70.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 241, 193, 193),
+                      borderRadius: BorderRadius.circular(3.r),
+                    ),
+
+                    child: Text(
+                      'Shoes',
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+              child: Container(
+                padding: EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 189, 227, 245),
+                  borderRadius: BorderRadius.circular(50.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: size
+                      .map(
+                        (s) => Text(
+                          s,
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            color: const Color.fromARGB(255, 145, 210, 240),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ),
           ],
         ),
