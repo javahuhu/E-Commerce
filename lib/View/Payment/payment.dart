@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:e_commercehybrid/constantsize.dart';
 import 'dart:math' as math;
 import 'package:dotted_line/dotted_line.dart';
+import 'dart:ui';
 
 class PaymentScreen extends ConsumerWidget {
   @override
@@ -251,7 +252,9 @@ class PaymentScreen extends ConsumerWidget {
                               ),
 
                               child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _showContactBottomModal(context);
+                                },
                                 icon: Icon(
                                   Icons.edit,
                                   size: 15.sp,
@@ -446,7 +449,7 @@ class PaymentScreen extends ConsumerWidget {
                     },
                   ),
 
-                 SizedBox(height: 10.h,),
+                  SizedBox(height: 10.h),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -760,7 +763,7 @@ class PaymentScreen extends ConsumerWidget {
                                 if (hasCards) {
                                   _showPaymentBottoModal(context, ref);
                                 } else {
-                                  _showBottomCard(context, ref);
+                                  _showChoosePayment(context, ref);
                                 }
                               },
                               icon: Icon(
@@ -1155,6 +1158,198 @@ void _showAddressBottomModal(BuildContext context) {
   );
 }
 
+void _showContactBottomModal(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return Container(
+        height: 505.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.r),
+            topRight: Radius.circular(10.r),
+          ),
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 90.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFF),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.r),
+                  topRight: Radius.circular(10.r),
+                ),
+              ),
+
+              child: Padding(
+                padding: EdgeInsets.only(left: 15.w),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Contact Information',
+                    style: TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 22.sp,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 10.h),
+              child: Text(
+                'Mobile no.',
+                style: TextStyle(fontSize: 15.sp, color: Colors.black),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8FAFF),
+                    hintText: '0922632..',
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 10.h),
+              child: Text(
+                'Email Address',
+                style: TextStyle(fontSize: 15.sp, color: Colors.black),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8FAFF),
+                    hintText: 'sample@gmail.com',
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 10.h),
+              child: Text(
+                'Other Mobile no.',
+                style: TextStyle(fontSize: 15.sp, color: Colors.black),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8FAFF),
+                    hintText: '09232...',
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 25.h),
+              child: Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 50.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      backgroundColor: Color(0xFF9775FA),
+                    ),
+                    child: Text(
+                      'Save Changes',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 final selectcard = StateProvider<int?>((ref) => 0);
 void _showPaymentBottoModal(BuildContext context, WidgetRef ref) {
   showModalBottomSheet(
@@ -1225,7 +1420,7 @@ void _showPaymentBottoModal(BuildContext context, WidgetRef ref) {
                       if (index == addedcards.length) {
                         return GestureDetector(
                           onTap: () {
-                            _showBottomCard(context, ref);
+                            _showChoosePayment(context, ref);
                           },
                           child: Container(
                             padding: EdgeInsets.all(5),
@@ -1334,7 +1529,7 @@ void _showPaymentBottoModal(BuildContext context, WidgetRef ref) {
                                         Transform.translate(
                                           offset: Offset(0, -10),
                                           child: Text(
-                                            cards.cvv,
+                                            cards.cvv ?? '',
                                             style: TextStyle(
                                               fontFamily: 'RalewayRegular',
                                               fontSize: 15.sp,
@@ -1687,6 +1882,279 @@ void _showBottomEditCard(BuildContext context, WidgetRef ref, int index) {
   );
 }
 
+final selectpayment = StateProvider<int?>((ref) => null);
+void _showChoosePayment(BuildContext context, WidgetRef ref) {
+  final List<Map<String, dynamic>> cards = [
+    {"img": 'assets/gcash.png', "card": 'Gcash'},
+
+    {"img": 'assets/mastercard.png', "card": 'Master Card'},
+
+    {"img": 'assets/paypal.png', "card": 'Paypal'},
+
+    {"img": 'assets/paymayatxt.png', "card": 'PayMaya'},
+  ];
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    builder: (context) {
+      return Consumer(
+        builder: (context, ref, child) {
+          final selectedpayment = ref.watch(selectpayment);
+          return Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: 515.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+                color: Colors.white,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 90.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF8FAFF),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.r),
+                        topRight: Radius.circular(10.r),
+                      ),
+                    ),
+
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Choose Payment',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  ListView.separated(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 25.h,
+                    ),
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    separatorBuilder: (_, _) => SizedBox(height: 10.h),
+                    itemCount: cards.length,
+                    itemBuilder: (context, index) {
+                      final carditem = cards[index];
+                      final alreadyselect = selectedpayment == index;
+                      return GestureDetector(
+                        onTap: () {
+                          ref.read(selectpayment.notifier).state = index;
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                              color:
+                                  alreadyselect && carditem['card'] == 'Gcash'
+                                  ? Colors.blueAccent
+                                  : alreadyselect &&
+                                        carditem['card'] == 'Master Card'
+                                  ? Colors.deepOrange
+                                  : alreadyselect &&
+                                        carditem['card'] == 'Paypal'
+                                  ? Colors.blueGrey
+                                  : alreadyselect &&
+                                        carditem['card'] == 'PayMaya'
+                                  ? Colors.greenAccent
+                                  : Colors.transparent,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 3,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+
+                          child: ListTile(
+                            leading: ClipRRect(
+                              child: Image.asset(
+                                carditem['img'],
+                                fit: BoxFit.contain,
+                                height: 35.h,
+                                width: 60.w,
+                              ),
+                            ),
+
+                            title: Text(
+                              carditem['card'],
+                              style: TextStyle(
+                                fontFamily: 'RalewayRegular',
+                                fontSize: 15.sp,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  if (selectedpayment != null)
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15.w,
+                        vertical: 10.h,
+                      ),
+                      child: SizedBox(
+                        height: 45.h,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            final paymentType = ref.read(selectpayment);
+
+                            if (paymentType == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 10,
+                                        sigmaY: 10,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withValues(
+                                            alpha: 0.5,
+                                          ),
+
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black12,
+                                              blurRadius: 3,
+                                              spreadRadius: 1,
+                                            ),
+                                          ],
+                                          borderRadius: BorderRadius.circular(
+                                            10.r,
+                                          ),
+                                        ),
+
+                                        child: Padding(
+                                          padding: EdgeInsets.all(12.0),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.check_circle,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(width: 10.w),
+                                              Text(
+                                                'Select a Payment',
+                                                style: TextStyle(
+                                                  fontFamily: 'RalewayRegular',
+                                                  fontSize: 13.sp,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  duration: Duration(seconds: 3),
+                                  margin: EdgeInsets.only(bottom: 25.h),
+                                ),
+                              );
+
+                              return;
+                            }
+
+                            context.pop();
+
+                            if (paymentType == 0) {
+                              return _showBottomGcash(context, ref);
+                            } else {
+                              _showBottomCard(context, ref);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color(0xFF9775FA),
+                          ),
+                          child: Text(
+                            'Next',
+                            style: TextStyle(fontSize: 15.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  if (selectedpayment == null)
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15.w,
+                        vertical: 10.h,
+                      ),
+                      child: SizedBox(
+                        height: 45.h,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            foregroundColor: const Color.fromARGB(
+                              255,
+                              201,
+                              196,
+                              196,
+                            ),
+                            backgroundColor: Color.fromARGB(255, 133, 132, 134),
+                          ),
+                          child: Text(
+                            'Next',
+                            style: TextStyle(fontSize: 15.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
 void _showBottomCard(BuildContext context, WidgetRef ref) {
   final TextEditingController cardHolderController = TextEditingController();
   final TextEditingController cardNumberController = TextEditingController();
@@ -1697,219 +2165,441 @@ void _showBottomCard(BuildContext context, WidgetRef ref) {
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (context) {
-      return Align(
-        alignment: Alignment.center,
-        child: Container(
-          height: 450.h,
-          width: 350.w,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: Colors.black12, blurRadius: 3, spreadRadius: 1),
-            ],
-            borderRadius: BorderRadius.circular(10.r),
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 90.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0xFFF8FAFF),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.r),
-                    topRight: Radius.circular(10.r),
+      return Consumer(
+        builder: (context, ref, child) {
+          return Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: 450.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3,
+                    spreadRadius: 1,
                   ),
-                ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+                color: Colors.white,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 90.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF8FAFF),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.r),
+                        topRight: Radius.circular(10.r),
+                      ),
+                    ),
 
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15.w),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Add Card',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
                     child: Text(
-                      'Add Card',
-                      style: TextStyle(
-                        fontFamily: 'Raleway',
-                        fontSize: 22.sp,
-                        color: Colors.black,
+                      'Card Holder',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 5.h,
+                    ),
+                    child: TextField(
+                      controller: cardHolderController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 16.w,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        hintText: 'Required',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
 
-              Padding(
-                padding: EdgeInsets.only(left: 20.w, top: 10.h),
-                child: Text(
-                  'Card Holder',
-                  style: TextStyle(fontSize: 15.sp, color: Colors.black),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
-                child: TextField(
-                  controller: cardHolderController,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: Text(
+                      'Card Number',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 5.h,
+                    ),
+                    child: TextField(
+                      controller: cardNumberController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 16.w,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        hintText: 'Required',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.w, top: 10.h),
+                                child: Text(
+                                  'Valid',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+
+                              TextField(
+                                controller: expiryController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 16.w,
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFF),
+                                  hintText: 'Required',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(width: 10.w),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.w, top: 10.h),
+                                child: Text(
+                                  'CVV',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+
+                              TextField(
+                                controller: cvvController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 16.w,
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFF),
+                                  hintText: 'Required',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
                       vertical: 10.h,
-                      horizontal: 16.w,
                     ),
-                    filled: true,
-                    fillColor: const Color(0xFFF8FAFF),
-                    hintText: 'Required',
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(10.r),
+                    child: SizedBox(
+                      height: 45.h,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref
+                              .read(userCardProvider.notifier)
+                              .addCard(
+                                UserCard(
+                                  cardholder: cardHolderController.text,
+                                  cardnumber: cardNumberController.text,
+                                  expiredate: expiryController.text,
+                                  cvv: cvvController.text,
+                                ),
+                              );
+                          context.pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Color(0xFF9775FA),
+                        ),
+                        child: Text('Save', style: TextStyle(fontSize: 15.sp)),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
+            ),
+          );
+        },
+      );
+    },
+  );
+}
 
-              Padding(
-                padding: EdgeInsets.only(left: 20.w, top: 10.h),
-                child: Text(
-                  'Card Number',
-                  style: TextStyle(fontSize: 15.sp, color: Colors.black),
-                ),
+void _showBottomGcash(BuildContext context, WidgetRef ref) {
+  final TextEditingController cardHolderController = TextEditingController();
+  final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController expiryController = TextEditingController();
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    builder: (context) {
+      return Consumer(
+        builder: (context, ref, child) {
+          return Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: 450.h,
+              width: 350.w,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 3,
+                    spreadRadius: 1,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10.r),
+                color: Colors.white,
               ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 90.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF8FAFF),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.r),
+                        topRight: Radius.circular(10.r),
+                      ),
+                    ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
-                child: TextField(
-                  controller: cardNumberController,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Add Card',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 22.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: Text(
+                      'Card Holder',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 5.h,
+                    ),
+                    child: TextField(
+                      controller: cardHolderController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 16.w,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        hintText: 'Required',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 10.h),
+                    child: Text(
+                      'Card Number',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
+                      vertical: 5.h,
+                    ),
+                    child: TextField(
+                      controller: cardNumberController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 16.w,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        hintText: 'Required',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 10.w, top: 10.h),
+                                child: Text(
+                                  'Valid',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+
+                              TextField(
+                                controller: expiryController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal: 16.w,
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFF),
+                                  hintText: 'Required',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.w,
                       vertical: 10.h,
-                      horizontal: 16.w,
                     ),
-                    filled: true,
-                    fillColor: const Color(0xFFF8FAFF),
-                    hintText: 'Required',
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(10.r),
+                    child: SizedBox(
+                      height: 45.h,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref
+                              .read(userCardProvider.notifier)
+                              .addCard(
+                                UserCard(
+                                  cardholder: cardHolderController.text,
+                                  cardnumber: cardNumberController.text,
+                                  expiredate: expiryController.text,
+                                ),
+                              );
+                          context.pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Color(0xFF9775FA),
+                        ),
+                        child: Text('Save', style: TextStyle(fontSize: 15.sp)),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                            child: Text(
-                              'Valid',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          TextField(
-                            controller: expiryController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.h,
-                                horizontal: 16.w,
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xFFF8FAFF),
-                              hintText: 'Required',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(width: 10.w),
-
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                            child: Text(
-                              'CVV',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          TextField(
-                            controller: cvvController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.h,
-                                horizontal: 16.w,
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xFFF8FAFF),
-                              hintText: 'Required',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 20.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-                child: SizedBox(
-                  height: 45.h,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      ref
-                          .read(userCardProvider.notifier)
-                          .addCard(
-                            UserCard(
-                              cardholder: cardHolderController.text,
-                              cardnumber: cardNumberController.text,
-                              expiredate: expiryController.text,
-                              cvv: cvvController.text,
-                            ),
-                          );
-                      context.pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      foregroundColor: Colors.white,
-                      backgroundColor: Color(0xFF9775FA),
-                    ),
-                    child: Text('Save', style: TextStyle(fontSize: 15.sp)),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       );
     },
   );

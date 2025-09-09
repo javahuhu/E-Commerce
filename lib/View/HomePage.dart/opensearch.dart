@@ -978,6 +978,12 @@ Widget _buildShowCategories(BuildContext context, WidgetRef ref) {
   );
 }
 
+final selectSize = StateProvider<int?>((ref) => null);
+final selectCorS = StateProvider<int>((ref) => 0);
+final selectCircleImg = StateProvider<Set<int>>((ref) => {});
+final selectcolor = StateProvider<int?>((ref) => null);
+final selectedchip = StateProvider<int>((ref) => 0);
+final priceRange = StateProvider<RangeValues>((ref) => RangeValues(20, 60));
 Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
   final List<Map<String, dynamic>> circleimg = [
     {
@@ -1001,9 +1007,33 @@ Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
     {"img": 'assets/sampleitem5.jpg', "details": 'jacket', "Price": '\$125,00'},
   ];
 
-  final size = ["XS", "XS", "XS", "XS", "XS", "XS"];
+  final size = ["XS", "S", "M", "L", "XL", "2XL"];
+  final List<String> choicechip = [
+    "Popular",
+    "Newest",
+    "Price High to Low",
+    "Price Low to High",
+  ];
+  final colors = {
+    "Red": Colors.red,
+    "Green": Colors.green,
+    "Blue": Colors.blue,
+    "Orange": Colors.orange,
+    "Purple": Colors.purple,
+    "Teal": Colors.teal,
+    "Amber": Colors.amber,
+    "Pink": Colors.pink,
+    "Cyan": Colors.cyan,
+    "Indigo": Colors.indigo,
+  };
+
   return Consumer(
     builder: (context, ref, child) {
+      final selectedSize = ref.watch(selectSize);
+      final selectedCS = ref.watch(selectCorS);
+      final selectedColor = ref.watch(selectcolor);
+      final thechip = ref.watch(selectedchip);
+      final rangeprice = ref.watch(priceRange);
       return Container(
         width: double.infinity,
         decoration: BoxDecoration(color: Colors.white),
@@ -1056,6 +1086,9 @@ Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
                 ),
                 itemBuilder: (context, index) {
                   final featurelist = circleimg[index];
+                  final selectedcircleimg = ref
+                      .watch(selectCircleImg)
+                      .contains(index);
                   return Column(
                     children: [
                       Shimmer(
@@ -1068,54 +1101,70 @@ Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
-                            Container(
-                              height: 50.w,
-                              width: 50.w,
-                              padding: EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 2,
-                                  ),
-                                ],
-                              ),
+                            GestureDetector(
+                              onTap: () {
+                                final controller = ref.read(
+                                  selectCircleImg.notifier,
+                                );
+                                final selected = controller.state;
 
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(500.r),
-                                child: Image.asset(
-                                  featurelist['img'],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-
-                            Positioned(
-                              top: -5.h,
-                              right: 0,
+                                if (selected.contains(index)) {
+                                  controller.state = {...selected}
+                                    ..remove(index);
+                                } else {
+                                  controller.state = {...selected, index};
+                                }
+                              },
                               child: Container(
-                                padding: EdgeInsets.all(1.0),
+                                height: 50.w,
+                                width: 50.w,
+                                padding: EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 3,
-                                      spreadRadius: 1,
+                                      color: Colors.black26,
+                                      blurRadius: 2,
                                     ),
                                   ],
                                 ),
 
-                                child: Icon(
-                                  Icons.check_circle,
-                                  color: Colors.blueAccent,
-                                  size: 20.sp,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(500.r),
+                                  child: Image.asset(
+                                    featurelist['img'],
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
+
+                            if (selectedcircleimg)
+                              Positioned(
+                                top: -5.h,
+                                right: 0,
+                                child: Container(
+                                  padding: EdgeInsets.all(1.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        blurRadius: 3,
+                                        spreadRadius: 1,
+                                      ),
+                                    ],
+                                  ),
+
+                                  child: Icon(
+                                    Icons.check_circle,
+                                    color: Colors.blueAccent,
+                                    size: 20.sp,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),
@@ -1162,39 +1211,61 @@ Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
                     ),
                   ),
 
-                  Container(
-                    height: 30.h,
-                    width: 70.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 241, 193, 193),
-                      borderRadius: BorderRadius.circular(3.r),
-                    ),
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(selectCorS.notifier).state = 0;
+                    },
+                    child: Container(
+                      height: 30.h,
+                      width: 70.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 241, 193, 193),
+                        borderRadius: BorderRadius.circular(3.r),
+                        border: Border.all(
+                          color: selectedCS == 0
+                              ? Colors.blueAccent
+                              : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
 
-                    child: Text(
-                      'Clothes',
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: const Color.fromARGB(255, 0, 0, 0),
+                      child: Text(
+                        'Clothes',
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                        ),
                       ),
                     ),
                   ),
 
                   SizedBox(width: 15.w),
-                  Container(
-                    height: 30.h,
-                    width: 70.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 241, 193, 193),
-                      borderRadius: BorderRadius.circular(3.r),
-                    ),
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(selectCorS.notifier).state = 1;
+                    },
+                    child: Container(
+                      height: 30.h,
+                      width: 70.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 241, 193, 193),
+                        borderRadius: BorderRadius.circular(3.r),
+                        border: Border.all(
+                          color: selectedCS == 1
+                              ? Colors.blueAccent
+                              : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
 
-                    child: Text(
-                      'Shoes',
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: const Color.fromARGB(255, 0, 0, 0),
+                      child: Text(
+                        'Shoes',
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                        ),
                       ),
                     ),
                   ),
@@ -1203,27 +1274,340 @@ Widget _buildGeneralFilter(BuildContext context, WidgetRef ref) {
             ),
 
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-              child: Container(
-                padding: EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 189, 227, 245),
-                  borderRadius: BorderRadius.circular(50.r),
+              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: 30.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 244, 246, 254),
+                      borderRadius: BorderRadius.circular(50.r),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: -7,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: size.asMap().entries.map((s) {
+                        final index = s.key;
+                        final value = s.value;
+                        final isSelected = selectedSize == index;
+                        return GestureDetector(
+                          onTap: () {
+                            ref.read(selectSize.notifier).state = index;
+                          },
+                          child: Center(
+                            child: Container(
+                              height: 45.w,
+                              width: 45.w,
+                              alignment: Alignment.center,
+                              decoration: isSelected
+                                  ? BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.lightBlue.shade100,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 3,
+                                          spreadRadius: 1,
+                                        ),
+                                      ],
+                                    )
+                                  : BoxDecoration(),
+
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  fontSize: isSelected ? 18.sp : 15.sp,
+                                  color: isSelected
+                                      ? Colors.blueAccent
+                                      : Color.fromARGB(255, 170, 195, 255),
+                                  fontFamily: isSelected
+                                      ? 'Raleway'
+                                      : 'RalewayRegular',
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Color',
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontSize: 20.sp,
+                    color: Colors.black,
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: size
-                      .map(
-                        (s) => Text(
-                          s,
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            color: const Color.fromARGB(255, 145, 210, 240),
+              ),
+            ),
+
+            SizedBox(
+              height: 70.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                separatorBuilder: (_, _) => SizedBox(width: 10.w),
+                itemCount: colors.length,
+                itemBuilder: (context, index) {
+                  final mycolor = colors.keys.toList();
+                  final name = mycolor[index];
+                  final color = colors[name];
+                  final isSelectedColor = selectedColor == index;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          ref.read(selectcolor.notifier).state = index;
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 2.h),
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isSelectedColor
+                                  ? Colors.blueAccent
+                                  : Colors.transparent,
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 3,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+
+                          child: CircleAvatar(
+                            backgroundColor: color,
+                            radius: 15,
                           ),
                         ),
-                      )
-                      .toList(),
+                      ),
+
+                      if (isSelectedColor)
+                        Positioned(
+                          top: -5.h,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(1.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 3,
+                                  spreadRadius: 1,
+                                ),
+                              ],
+                            ),
+
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.blueAccent,
+                              size: 20.sp,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Price',
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontSize: 20.sp,
+                    color: Colors.black,
+                  ),
                 ),
+              ),
+            ),
+
+            Center(
+              child: SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  activeTrackColor: Colors.blue,
+                  inactiveTrackColor: Colors.grey[300],
+                  trackHeight: 3.h,
+                  thumbColor: Colors.blueAccent,
+                  overlayColor: Colors.blue.withValues(alpha: 0.2),
+                  valueIndicatorColor: Colors.blue,
+                  rangeThumbShape: RoundRangeSliderThumbShape(
+                    enabledThumbRadius: 20.r,
+                  ),
+                  rangeTrackShape: RectangularRangeSliderTrackShape(),
+                  rangeValueIndicatorShape:
+                      RectangularRangeSliderValueIndicatorShape(),
+                ),
+                child: RangeSlider(
+                  values: rangeprice,
+                  max: 100,
+                  divisions: 100,
+                  labels: RangeLabels(
+                    rangeprice.start.round().toString(),
+                    rangeprice.end.round().toString(),
+                  ),
+                  onChanged: (RangeValues value) {
+                    ref.read(priceRange.notifier).state = value;
+                  },
+                ),
+              ),
+            ),
+
+            SizedBox(height: 15.h,),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: choicechip.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 5,
+                ),
+                itemBuilder: (context, index) {
+                  final item = choicechip[index];
+                  final isSelectedchip = thechip == index;
+                  return GestureDetector(
+                    onTap: () {
+                      ref.read(selectedchip.notifier).state = index;
+                    },
+                    child: Container(
+                      height: 50.h,
+                      width: 50.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 2),
+                        ],
+                      ),
+
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+                            left: 8.w,
+                            child: AnimatedOpacity(
+                              opacity: isSelectedchip ? 1.0 : 0.0,
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                              child: Container(
+                                padding: EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 5,
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+
+                                child: Icon(
+                                  Icons.check_circle,
+                                  color: Colors.blueAccent,
+                                  size: 20.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Text(
+                            item,
+                            style: TextStyle(
+                              fontFamily: 'RalewayRegular',
+                              fontSize: 12.sp,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            SizedBox(height: 35.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(15.r),
+                        side: BorderSide(color: Colors.blueAccent),
+                      ),
+                      minimumSize: Size(50.w, 50.h),
+                    ),
+                    child: Text(
+                      'Clear',
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      elevation: 5,
+                      backgroundColor: Colors.blueAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(15.r),
+                      ),
+                      minimumSize: Size(250.w, 50.h),
+                    ),
+                    child: Text(
+                      'Apply',
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

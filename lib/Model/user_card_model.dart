@@ -2,13 +2,13 @@ class UserCard {
   final String cardholder;
   final String cardnumber;
   final String expiredate;
-  final String cvv;
+  final String? cvv;
 
   UserCard({
     required this.cardholder,
     required this.cardnumber,
     required this.expiredate,
-    required this.cvv,
+     this.cvv,
   });
 
   UserCard copyWith({

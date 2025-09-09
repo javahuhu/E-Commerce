@@ -334,7 +334,9 @@ class CartScreen extends ConsumerWidget {
                                 ),
 
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _showAddressBottomModal(context);
+                                  },
                                   icon: Icon(
                                     Icons.edit,
                                     size: 15.sp,
@@ -1120,6 +1122,203 @@ class CartScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+
+
+
+
+void _showAddressBottomModal(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return Container(
+        height: 505.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.r),
+            topRight: Radius.circular(10.r),
+          ),
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 90.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFF),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.r),
+                  topRight: Radius.circular(10.r),
+                ),
+              ),
+
+              child: Padding(
+                padding: EdgeInsets.only(left: 15.w),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Shipping Address',
+                    style: TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 22.sp,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 10.h),
+              child: Text(
+                'Address',
+                style: TextStyle(fontSize: 15.sp, color: Colors.black),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8FAFF),
+                    hintText:
+                        'Magadi Main Rd, next to Prasanna Theatre, Cholourpalya, Bengaluru, Karnataka 560023',
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 10.h),
+              child: Text(
+                'Town / City',
+                style: TextStyle(fontSize: 15.sp, color: Colors.black),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8FAFF),
+                    hintText: 'Bengaluru, Karnataka 560023',
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 10.h),
+              child: Text(
+                'Post Code',
+                style: TextStyle(fontSize: 15.sp, color: Colors.black),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                width: double.infinity,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8FAFF),
+                    hintText: '8080808',
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 25.h),
+              child: Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 50.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      backgroundColor: Color(0xFF9775FA),
+                    ),
+                    child: Text(
+                      'Save Changes',
+                      style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 double _responsivesize(BuildContext context) {
