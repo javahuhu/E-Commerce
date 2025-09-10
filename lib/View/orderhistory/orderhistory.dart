@@ -1,6 +1,8 @@
+import 'package:e_commercehybrid/ViewModel/review_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
 class OrderHistory extends ConsumerWidget {
   OrderHistory({super.key});
@@ -232,7 +234,7 @@ class OrderHistory extends ConsumerWidget {
 
                                 ElevatedButton(
                                   onPressed: () {
-                                    _showReviewBottomModal(context);
+                                    _showReviewBottomModal(context, '1');
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
@@ -268,153 +270,197 @@ class OrderHistory extends ConsumerWidget {
   }
 }
 
-void _showReviewBottomModal(BuildContext context) {
+
+void _showReviewBottomModal(BuildContext context, String id) {
+  final TextEditingController commentReview = TextEditingController();
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (context) {
-      return Container(
-        height: 460.h,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.r),
-            topRight: Radius.circular(10.r),
-          ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: 90.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFF),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.r),
-                  topRight: Radius.circular(10.r),
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 15.w),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Review',
-                    style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 22.sp,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+      return Consumer(
+        builder: (context, ref, child) {
+          final review = ref.watch(reviewProvider)[id];
+          commentReview.text = review?.comment ?? '';
+          final currentRating = review?.rates ?? 0;
+          return Container(
+            height: 460.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.r),
+                topRight: Radius.circular(10.r),
               ),
             ),
-
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100.r),
-                    child: Image.asset(
-                      'assets/sampleitem.jpeg',
-                      fit: BoxFit.cover,
-                      height: 50.w,
-                      width: 50.w,
+            child: Column(
+              children: [
+                Container(
+                  height: 90.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8FAFF),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.r),
+                      topRight: Radius.circular(10.r),
                     ),
                   ),
-
-                  SizedBox(width: 10.w),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Lorem ipsum dolor sit amet consectetur.',
-                        style: TextStyle(fontSize: 12.sp, color: Colors.black),
-                      ),
-                      Text(
-                        'Order #92287157',
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 15.w),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Review',
                         style: TextStyle(
                           fontFamily: 'Raleway',
-                          fontSize: 14.sp,
+                          fontSize: 22.sp,
                           color: Colors.black,
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(left: 15.w),
-              child: Row(
-                children: List.generate(
-                  5,
-                  (index) => IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.star_border_sharp,
-                      color: Colors.amber,
-                      size: 45.sp,
                     ),
                   ),
                 ),
-              ),
-            ),
 
-            Container(
-              height: 150.h,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-                child: TextField(
-                  scrollPhysics: AlwaysScrollableScrollPhysics(),
-                  maxLines: null,
-                  expands: true,
-                  textAlignVertical: TextAlignVertical.top,
-                  decoration: InputDecoration(
-                    hintText: 'Comment',
-                    filled: true,
-                    fillColor: Color(0xFFF1F4FE),
-                    contentPadding: EdgeInsets.symmetric(
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 15.h,
+                    horizontal: 15.w,
+                  ),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: Image.asset(
+                          'assets/sampleitem.jpeg',
+                          fit: BoxFit.cover,
+                          height: 50.w,
+                          width: 50.w,
+                        ),
+                      ),
+
+                      SizedBox(width: 10.w),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Lorem ipsum dolor sit amet consectetur.',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'Order #92287157',
+                            style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: RatingStars(
+                      value: currentRating,
+                      maxValue: 5,
+                      starSpacing: 10,
+                      starSize: 30.sp,
+                      maxValueVisibility: true,
+                      valueLabelVisibility: true,
+                      animationDuration: Duration(milliseconds: 1000),
+                      valueLabelColor: const Color.fromARGB(255, 0, 0, 0),
+                      valueLabelTextStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 15.sp,
+                      ),
+                      valueLabelRadius: 10,
+                      valueLabelMargin: EdgeInsets.only(right: 15.w),
+                      valueLabelPadding: EdgeInsets.symmetric(
+                        vertical: 1,
+                        horizontal: 8,
+                      ),
+                      starOffColor: const Color(0xffe7e8ea),
+                      starColor: Colors.yellow,
+                      onValueChanged: (value) {
+                        ref.read(reviewProvider.notifier).updateRating(id, value);
+                      },
+                    ),
+                  ),
+                ),
+
+                Container(
+                  height: 150.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
                       vertical: 10.h,
                       horizontal: 15.w,
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide.none,
+                    child: TextField(
+                      controller: commentReview,
+                      scrollPhysics: AlwaysScrollableScrollPhysics(),
+                      maxLines: null,
+                      expands: true,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: InputDecoration(
+                        hintText: 'Comment',
+                        filled: true,
+                        fillColor: Color(0xFFF1F4FE),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                          horizontal: 15.w,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 10.h),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF9775FA),
-                  minimumSize: Size(double.infinity, 50.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r)
-                  )
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.w,
+                    vertical: 10.h,
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref
+                          .read(reviewProvider.notifier)
+                          .updateComment(
+                            id,
+                            commentReview.text,
+                          );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF9775FA),
+                      minimumSize: Size(double.infinity, 50.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Say it!',
+                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    ),
+                  ),
                 ),
-                child: Text(
-                  'Say it!',
-                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       );
     },
   );

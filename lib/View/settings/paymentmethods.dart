@@ -433,6 +433,7 @@ Widget _showChoosePayment(BuildContext context, WidgetRef ref) {
                 },
               ),
 
+              Spacer(),
               if (selectedpayment != null)
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -569,14 +570,17 @@ void _showBottomCard(BuildContext context, WidgetRef ref) {
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
+    enableDrag: true,
     builder: (context) {
       return Consumer(
         builder: (context, ref, child) {
-          return Align(
-            alignment: Alignment.center,
+          final keyboardheight = MediaQuery.of(context).viewInsets.bottom;
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: keyboardheight > 0 ? keyboardheight * 0.84 : 0,
+            ),
             child: Container(
-              height: 450.h,
-              width: 350.w,
+              height: 430.h,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -585,10 +589,14 @@ void _showBottomCard(BuildContext context, WidgetRef ref) {
                     spreadRadius: 1,
                   ),
                 ],
-                borderRadius: BorderRadius.circular(10.r),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.r),
+                  topRight: Radius.circular(10.r),
+                ),
                 color: Colors.white,
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
@@ -761,7 +769,7 @@ void _showBottomCard(BuildContext context, WidgetRef ref) {
                     ),
                   ),
 
-                  SizedBox(height: 20.h),
+                  Spacer(),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 15.w,
@@ -813,14 +821,17 @@ void _showBottomGcash(BuildContext context, WidgetRef ref) {
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
+    enableDrag: true,
     builder: (context) {
       return Consumer(
         builder: (context, ref, child) {
-          return Align(
-            alignment: Alignment.center,
+          final keyboardheight = MediaQuery.of(context).viewInsets.bottom;
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: keyboardheight > 0 ? keyboardheight * 0.84 : 0,
+            ),
             child: Container(
-              height: 450.h,
-              width: 350.w,
+              height: 430.h,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -829,10 +840,14 @@ void _showBottomGcash(BuildContext context, WidgetRef ref) {
                     spreadRadius: 1,
                   ),
                 ],
-                borderRadius: BorderRadius.circular(10.r),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.r),
+                  topRight: Radius.circular(10.r),
+                ),
                 color: Colors.white,
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
@@ -967,7 +982,7 @@ void _showBottomGcash(BuildContext context, WidgetRef ref) {
                     ),
                   ),
 
-                  SizedBox(height: 20.h),
+                  Spacer(),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 15.w,
@@ -1010,7 +1025,6 @@ void _showBottomGcash(BuildContext context, WidgetRef ref) {
   );
 }
 
-
 void _showBottomAddAnotherChoosePayment(BuildContext context, WidgetRef ref) {
   final List<Map<String, dynamic>> cards = [
     {"img": 'assets/gcash.png', "card": 'Gcash'},
@@ -1024,7 +1038,6 @@ void _showBottomAddAnotherChoosePayment(BuildContext context, WidgetRef ref) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    enableDrag: true,
     backgroundColor: Colors.transparent,
     builder: (context) {
       return Consumer(
@@ -1147,6 +1160,7 @@ void _showBottomAddAnotherChoosePayment(BuildContext context, WidgetRef ref) {
                     },
                   ),
 
+                  Spacer(),
                   if (selectedpayment != null)
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -1285,7 +1299,6 @@ void _showBottomAddAnotherChoosePayment(BuildContext context, WidgetRef ref) {
     },
   );
 }
-
 
 void _showBottomEditCard(BuildContext context, WidgetRef ref, int index) {
   final TextEditingController editcardHolderController =
@@ -1519,7 +1532,7 @@ void _showBottomEditCard(BuildContext context, WidgetRef ref, int index) {
                     ),
                   ),
 
-                  SizedBox(height: 10.h),
+                  Spacer(),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 15.w,

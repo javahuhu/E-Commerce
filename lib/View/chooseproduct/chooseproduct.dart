@@ -3,6 +3,7 @@ import 'package:e_commercehybrid/Model/selectproduct_model.dart';
 import 'package:e_commercehybrid/ViewModel/addtocart_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/countitem_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/product_view_model.dart';
+import 'package:e_commercehybrid/ViewModel/review_view_model.dart';
 import 'package:e_commercehybrid/ViewModel/wishlist_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -366,7 +367,7 @@ Widget _buildProductDetails(
   final popularproduct = ref.watch(popularItemsProvider);
   final youmightlike = ref.watch(youmightlikeProvider);
   final expand = ref.watch(allreviews);
-
+  final review = ref.watch(reviewProvider);
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -859,167 +860,120 @@ Widget _buildProductDetails(
         decoration: BoxDecoration(color: Colors.white),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 0.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 50.w,
-                      width: 50.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 3.w),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black38, blurRadius: 8),
-                        ],
-                      ),
+            SizedBox(
+              height: 150.h,
+              child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 10.h),
+                separatorBuilder: (_, _) => SizedBox(height: 10.h),
+                itemCount: review.length,
+                itemBuilder: (context, index) {
+                  final entry = review.entries.elementAt(index);
+                  final reviews= entry.value;
+                  return Consumer(
+                    builder: (context, ref, child) {
+                      return Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 22.w,
+                            vertical: 0.h,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 50.w,
+                                width: 50.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3.w,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black38,
+                                      blurRadius: 8,
+                                    ),
+                                  ],
+                                ),
 
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.r),
-                        child: Image.asset(
-                          'assets/testprofile.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 17.w),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Veronica',
-                              style: TextStyle(
-                                fontFamily: 'RalewayRegular',
-                                fontSize: 18.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: List.generate(5, (index) {
-                                return Padding(
-                                  padding: EdgeInsets.only(right: 0.w),
-                                  child: Icon(Icons.star),
-                                );
-                              }),
-                            ),
-
-                            SizedBox(height: 5.h),
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 3.w),
-                              child: SizedBox(
-                                width: 245.w,
-                                child: Text(
-                                  'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: Colors.black,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: Image.asset(
+                                    'assets/testprofile.jpg',
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
 
-            if (expand)
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 22.w,
-                    vertical: 10.h,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 50.w,
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3.w),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black38, blurRadius: 8),
-                          ],
-                        ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 17.w),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Veronica',
+                                        style: TextStyle(
+                                          fontFamily: 'RalewayRegular',
+                                          fontSize: 18.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
 
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.r),
-                          child: Image.asset(
-                            'assets/testprofile.jpg',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: List.generate(5, (index) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                              right: 0.w,
+                                            ),
+                                            child: Icon(
+                                              Icons.star,
+                                              color: index < reviews.rates
+                                                  ? Colors.amber
+                                                  : Colors.black,
+                                            ),
+                                          );
+                                        }),
+                                      ),
 
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 17.w),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Veronica',
-                                style: TextStyle(
-                                  fontFamily: 'RalewayRegular',
-                                  fontSize: 18.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                                      SizedBox(height: 5.h),
 
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: List.generate(5, (index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(right: 0.w),
-                                    child: Icon(Icons.star),
-                                  );
-                                }),
-                              ),
-
-                              SizedBox(height: 5.h),
-
-                              Padding(
-                                padding: EdgeInsets.only(left: 3.w),
-                                child: SizedBox(
-                                  width: 245.w,
-                                  child: Text(
-                                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.black,
-                                    ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 3.w),
+                                        child: SizedBox(
+                                          width: 245.w,
+                                          child: Text(
+                                            reviews.comment,
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      );
+                    },
+                  );
+                },
               ),
+            ),
           ],
         ),
       ),
@@ -1783,7 +1737,7 @@ void _showBottomModal(
                                       ref
                                           .read(addtocartProvider.notifier)
                                           .addtoCart(currentcart);
-                                      
+
                                       _showAddedtoCart(context);
                                     },
                                     style: ElevatedButton.styleFrom(

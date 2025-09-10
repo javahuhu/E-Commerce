@@ -14,6 +14,7 @@ class ChatBot extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isopenissue = ref.watch(isOpen);
+
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       body: Stack(
@@ -26,9 +27,8 @@ class ChatBot extends ConsumerWidget {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      height: 111.h,
-                      width: 221.w,
-                      padding: EdgeInsets.all(5.0),
+                      width: 211.w,
+                      padding: EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
                         color: Color(0xFFE5EBFC),
                         borderRadius: BorderRadius.circular(5.r),
@@ -540,6 +540,7 @@ Widget _buildIssues(BuildContext context, WidgetRef ref) {
                           : SizedBox.shrink(),
                     ),
 
+                    Spacer(),
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 10.w,
