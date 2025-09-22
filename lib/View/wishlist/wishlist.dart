@@ -301,6 +301,7 @@ class WishlistScreen extends ConsumerWidget {
                                       material: recent.material,
                                       origin: recent.origin,
                                       size: recent.size,
+                                      selectedSize: recent.size[0],
                                       color: recent.color,
                                     );
                                     context.go('/chooseproduct');
@@ -409,6 +410,7 @@ class WishlistScreen extends ConsumerWidget {
                                           material: item.material,
                                           origin: item.origin,
                                           size: item.size,
+                                          selectedSize: item.size[0],
                                           color: item.color,
                                         );
                                         context.go('/chooseproduct');
@@ -530,7 +532,7 @@ class WishlistScreen extends ConsumerWidget {
                                           ),
 
                                           child: Text(
-                                            item.size[0],
+                                            item.selectedSize ?? item.size[0],
                                             style: TextStyle(
                                               fontSize: 15.sp,
                                               color: Colors.black,
@@ -761,6 +763,7 @@ class WishlistScreen extends ConsumerWidget {
                                   material: popular.material,
                                   origin: popular.origin,
                                   size: popular.size,
+                                  selectedSize: popular.size[0],
                                   color: popular.color,
                                 );
 

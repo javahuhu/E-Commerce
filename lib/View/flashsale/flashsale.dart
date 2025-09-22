@@ -316,6 +316,7 @@ class FlashSale extends ConsumerWidget {
                             material: sale.material,
                             origin: sale.origin,
                             size: sale.size,
+                            selectedSize: sale.size[0],
                             color: sale.color,
                           );
                           context.push('/chooseproduct');

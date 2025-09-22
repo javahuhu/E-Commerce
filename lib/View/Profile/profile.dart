@@ -238,6 +238,7 @@ class ProfileScreen extends ConsumerWidget {
                                   material: recent.material,
                                   origin: recent.origin,
                                   size: recent.size,
+                                  selectedSize: recent.size[0],
                                   color: recent.color,
                                 );
 
@@ -428,6 +429,7 @@ class ProfileScreen extends ConsumerWidget {
                             material: txt.material,
                             origin: txt.origin,
                             size: txt.size,
+                            selectedSize: txt.size[0],
                             color: txt.color,
                           );
 
@@ -568,6 +570,7 @@ class ProfileScreen extends ConsumerWidget {
                             material: popular.material,
                             origin: popular.origin,
                             size: popular.size,
+                            selectedSize: popular.size[0],
                             color: popular.color,
                           );
 

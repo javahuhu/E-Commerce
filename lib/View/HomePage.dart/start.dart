@@ -719,6 +719,7 @@ class StartScreen extends ConsumerWidget {
                             material: newProduct.material,
                             origin: newProduct.origin,
                             size: newProduct.size,
+                            selectedSize: newProduct.size[0],
                             color: newProduct.color,
                           );
 

@@ -644,6 +644,7 @@ Widget _buildShowsSearchProduct(BuildContext context, WidgetRef ref) {
                 material: product.material,
                 origin: product.origin,
                 size: product.size,
+                selectedSize: product.size[0],
                 color: product.color,
               );
 

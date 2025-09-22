@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
 class OrderHistory extends ConsumerWidget {
   OrderHistory({super.key});
@@ -270,6 +272,49 @@ class OrderHistory extends ConsumerWidget {
   }
 }
 
+Future<void> _addedtoReview(BuildContext context) async {
+  showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      backgroundColor: Colors.transparent,
+      child: Container(
+        height: 180.h,
+        width: 170.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Lottie.asset(
+              'assets/animation/Review.json',
+              height: 130.h,
+              width: 130.w,
+              fit: BoxFit.contain,
+            ),
+
+            Text(
+              "Thank you for your Feedback!",
+              style: TextStyle(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'RalewayRegular',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+
+  await Future.delayed(Duration(seconds: 4));
+  if (context.mounted) {
+    return context.pop();
+  }
+}
 
 void _showReviewBottomModal(BuildContext context, String id) {
   final TextEditingController commentReview = TextEditingController();
@@ -390,7 +435,9 @@ void _showReviewBottomModal(BuildContext context, String id) {
                       starOffColor: const Color(0xffe7e8ea),
                       starColor: Colors.yellow,
                       onValueChanged: (value) {
-                        ref.read(reviewProvider.notifier).updateRating(id, value);
+                        ref
+                            .read(reviewProvider.notifier)
+                            .updateRating(id, value);
                       },
                     ),
                   ),
@@ -436,13 +483,17 @@ void _showReviewBottomModal(BuildContext context, String id) {
                     vertical: 10.h,
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       ref
                           .read(reviewProvider.notifier)
-                          .updateComment(
-                            id,
-                            commentReview.text,
-                          );
+                          .updateComment(id, commentReview.text);
+
+                      _addedtoReview(context);
+
+                      await Future.delayed(Duration(seconds: 2));
+                      if (context.mounted) {
+                        context.pop();
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF9775FA),

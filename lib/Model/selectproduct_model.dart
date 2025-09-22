@@ -11,6 +11,7 @@ class SelectproductModel {
   final List<String> material;
   final String origin;
   final List<String> size;
+  final String selectedSize;
   final String color;
 
   SelectproductModel({
@@ -23,6 +24,7 @@ class SelectproductModel {
     required this.material,
     required this.origin,
     required this.size,
+    required this.selectedSize,
     required this.color,
   });
 
@@ -39,11 +41,12 @@ class SelectproductModel {
       material: material,
       origin: origin,
       size: size,
+      selectedSize: selectedSize,
       color: color,
     );
   }
 
-  SelectproductModel copyWith({String? mainimage}){
+  SelectproductModel copyWith({String? mainimage, String? selectedSize}){
     return SelectproductModel(
       id: id, 
       mainimage: mainimage ?? this.mainimage, 
@@ -52,8 +55,9 @@ class SelectproductModel {
       title: title, 
       price: price, 
       material: material, 
-      origin: origin, size: 
-      size, 
+      origin: origin, 
+      size: size,
+      selectedSize: selectedSize ?? this.selectedSize, 
       color: color);
   }
 }

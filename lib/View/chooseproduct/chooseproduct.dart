@@ -870,7 +870,7 @@ Widget _buildProductDetails(
                 itemCount: review.length,
                 itemBuilder: (context, index) {
                   final entry = review.entries.elementAt(index);
-                  final reviews= entry.value;
+                  final reviews = entry.value;
                   return Consumer(
                     builder: (context, ref, child) {
                       return Align(
@@ -1163,6 +1163,7 @@ Widget _buildProductDetails(
                   material: mightlike.material,
                   origin: mightlike.origin,
                   size: mightlike.size,
+                  selectedSize: mightlike.size[0],
                   color: mightlike.color,
                 );
                 context.push('/chooseproduct');
@@ -1226,8 +1227,6 @@ Widget _buildProductDetails(
     ],
   );
 }
-
-final selectIndex = StateProvider<int?>((ref) => null);
 
 Future<void> _showAddedtoWishlist(BuildContext context) async {
   showDialog(
@@ -1321,6 +1320,8 @@ Future<void> _showAddedtoCart(BuildContext context) async {
   }
 }
 
+final selectIndex = StateProvider<int?>((ref) => null);
+final selectSize = StateProvider<int?>((ref) => null);
 void _showBottomModal(
   SelectproductModel product,
   BuildContext context,
@@ -1335,6 +1336,7 @@ void _showBottomModal(
     builder: (BuildContext context) {
       return Consumer(
         builder: (context, ref, child) {
+          final selectedSize = ref.watch(selectSize);
           final selectedproduct = ref.watch(selectedproductProvider) ?? product;
           final finalvalue = ref.watch(
             quantityProvider.select((map) => map[product.id] ?? 1),
@@ -1430,7 +1432,7 @@ void _showBottomModal(
                                     ),
 
                                     child: Text(
-                                      'L',
+                                      selectedproduct.selectedSize,
                                       style: TextStyle(
                                         fontSize: 15.sp,
                                         color: Colors.black,
@@ -1573,21 +1575,56 @@ void _showBottomModal(
                         separatorBuilder: (_, _) => SizedBox(width: 15.w),
                         itemCount: product.size.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 15.w,
-                              vertical: 2.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFE5EBFC),
-                              borderRadius: BorderRadius.circular(3.r),
-                            ),
+                          final currentSize = selectedSize == index;
+                          return GestureDetector(
+                            onTap: () {
+                              ref.read(selectSize.notifier).state = index;
 
-                            child: Text(
-                              product.size[index],
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: Colors.black,
+                              final theselectedSize = ref
+                                  .read(selectSize.notifier)
+                                  .state;
+
+                              if (theselectedSize != null) {
+                                final selectedSize = theselectedSize;
+                                final selectedSubSize =
+                                    product.size[selectedSize];
+                                ref
+                                    .read(selectedproductProvider.notifier)
+                                    .state = ref
+                                    .read(selectedproductProvider)
+                                    ?.copyWith(
+                                      selectedSize: selectedSubSize,
+                                      mainimage:
+                                          ref
+                                              .read(selectedproductProvider)
+                                              ?.mainimage ??
+                                          product.image[0],
+                                    );
+                              }
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.w,
+                                vertical: 0.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFE5EBFC),
+                                borderRadius: BorderRadius.circular(3.r),
+                                border: Border.all(
+                                  color: currentSize
+                                      ? Colors.black
+                                      : Colors.transparent,
+                                  width: 2,
+                                ),
+                              ),
+
+                              child: Text(
+                                product.size[index],
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           );
@@ -1683,7 +1720,7 @@ void _showBottomModal(
                             width: 40.w,
                             child: ElevatedButton(
                               onPressed: () {
-                                final currentproduct = product.toProduct();
+                                final currentproduct = selectedproduct.toProduct();
                                 final wishlist = ref.read(
                                   wishlistProvider.notifier,
                                 );
@@ -1733,10 +1770,11 @@ void _showBottomModal(
                                   width: 130.w,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      final currentcart = product.toProduct();
                                       ref
                                           .read(addtocartProvider.notifier)
-                                          .addtoCart(currentcart);
+                                          .addtoCart(
+                                            selectedproduct.toProduct(),
+                                          );
 
                                       _showAddedtoCart(context);
                                     },

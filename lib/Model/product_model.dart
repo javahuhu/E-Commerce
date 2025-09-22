@@ -19,6 +19,7 @@ enum ProductModel {
             final String price;
             final String? discount;
             final List<String> size;
+            final String? selectedSize;
             final String color;
             final ProductModel? type;
             final int? likes;
@@ -26,6 +27,7 @@ enum ProductModel {
             final int? rating;
             final String? category;
             final int? noItems;
+            
          
 
             Product ({
@@ -39,6 +41,7 @@ enum ProductModel {
               required this.price,
               this.discount,
               required this.size,
+              this.selectedSize,
               required this.color,
               this.type,
               this.likes,

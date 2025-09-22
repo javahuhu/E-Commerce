@@ -355,7 +355,6 @@ class CartScreen extends ConsumerWidget {
                       ...addtocart.asMap().entries.map((entry) {
                         int index = entry.key;
                         var itemcart = entry.value;
-
                         final finalvalue = ref.watch(
                           quantityProvider.select(
                             (map) => map[itemcart.id] ?? 1,
@@ -442,6 +441,7 @@ class CartScreen extends ConsumerWidget {
                                           material: itemcart.material,
                                           origin: itemcart.origin,
                                           size: itemcart.size,
+                                          selectedSize: itemcart.size[0],
                                           color: itemcart.color,
                                         );
                                         context.go('/chooseproduct');
@@ -520,7 +520,8 @@ class CartScreen extends ConsumerWidget {
                                           SizedBox(width: 10.w),
 
                                           Text(
-                                            itemcart.size[0],
+                                            itemcart.selectedSize ??
+                                                itemcart.size[0],
                                             style: TextStyle(
                                               fontFamily: 'RalewayRegular',
                                               fontSize: 12.sp,
@@ -1123,10 +1124,6 @@ class CartScreen extends ConsumerWidget {
     );
   }
 }
-
-
-
-
 
 void _showAddressBottomModal(BuildContext context) {
   showModalBottomSheet(
